@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sign in</title>
+  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="/style/Sign in.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <div class="nav-left">
+            <button class="navigate_before" onclick="location.href='/page/Log in.html'">〈</button>
+          </div>
+          <h1 class="title">아무 말 대잔치</h1>
+          <div class="nav-right">
+              <a href="/login" class="login-icon">
+                  <img src="/image/profileImg.png" alt="Login">
+              </a>
+          </div>
+        </nav>
+      </header>
+<main>
+    <div class="signin-form">
+        <h2>회원가입</h2>
+        <div class="profile-upload">
+            <label class="profile-image" for="profile-input">
+                <img id="preview" src="/image/profile.png">
+                <input type="file" id="profile-input" accept="image/*">
+            </label>
+        </div>
+        <form>
+            <div class="input-group">
+                <label>이메일*</label>
+                <input type="email" placeholder="이메일을 입력하세요" required>
+                <p class="helper-text">* helper text</p>
+            </div>
+            <div class="input-group">
+                <label>비밀번호*</label>
+                <input type="password" placeholder="비밀번호를 입력하세요" required>
+                <p class="helper-text">* helper text</p>
+            </div>
+            <div class="input-group">
+                <label>비밀번호 확인*</label>
+                <input type="password" placeholder="비밀번호를 한번 더 입력하세요" required>
+                <p class="helper-text">* helper text</p>
+            </div>
+            <div class="input-group">
+                <label>닉네임*</label>
+                <input type="text" placeholder="닉네임을 입력하세요" required>
+                <p class="helper-text">* helper text</p>
+            </div>
+            <button type="submit" class="signup-button">회원가입</button>
+        </form>
+        <a href="/page/Log in.html" class="login-link">로그인하러 가기</a>
+    </div>
+</main>
+</body>
+</html>
