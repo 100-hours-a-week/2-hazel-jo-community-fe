@@ -1,0 +1,90 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>edit profile</title>
+  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="/style/edit profile.css">
+  <link rel="stylesheet" href="/style/modal.css">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <h1 class="title">아무 말 대잔치</h1>
+        <div class="nav-right">
+            <div class="dropdown">
+                <a href="#" class="login-icon">
+                    <img src="/image/profileImg.png" alt="Login">
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" onclick="location.href='/page/edit-profile.html'">회원정보수정</a>
+                    <a class="dropdown-item" onclick="location.href='/page/edit-password.html'">비밀번호수정</a>
+                    <a class="dropdown-item" href="/logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="edit-profile-container">
+        <h2>회원 정보 수정</h2>
+        <p class="guide-text">프로필 사진*</p>
+        <form>
+            <div class="profile-upload">
+                <div class="profile-image">
+                    <img src="/image/profile.png">
+                    <label for="profile-input" class="change-text">변경</label>
+                    <input type="file" id="profile-input" accept="image/*">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>이메일</label>
+                <input type="email" value="example@email.com" class="email">
+            </div>
+            <div class="input-group">
+                <label>닉네임</label>
+                <input type="text" placeholder="닉네임을 입력해주세요">
+                <p class="helper-text">*helper text</p>
+            </div>
+            <div class="button-group">
+                <button type="button" class="edit-btn">수정하기</button>
+                <button type="button" class="withdraw-btn" id="withdrawBtn">회원 탈퇴</button>
+                <div class="modal-overlay" id="modalOverlay">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h2>회원탈퇴 하시겠습니까?</h2>
+                            <p>적성된 게시글과 댓글은 삭제됩니다.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="cancel-btn" id="cancelBtn">취소</button>
+                            <button class="confirm-btn" id="confirmBtn">확인</button>   
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">수정완료</button>
+            </div>
+        </form>
+    </div>
+</main>
+<script>
+  const withdrawBtn = document.querySelector('#withdrawBtn');
+  const modalOverlay = document.querySelector('#modalOverlay');
+  const cancelBtn = document.querySelector('#cancelBtn');
+  const confirmBtn = document.querySelector('#confirmBtn');
+
+  withdrawBtn.addEventListener('click', () => {
+    modalOverlay.style.display = 'flex';
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    modalOverlay.style.display = 'none';
+  });
+
+  confirmBtn.addEventListener('click', () => {
+    modalOverlay.style.display = 'none';
+  });
+
+
+  
+</script>
+</body>
+</html>
