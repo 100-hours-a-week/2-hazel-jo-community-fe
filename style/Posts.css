@@ -1,0 +1,129 @@
+
+/* 페이지 배경 */
+body {
+    background-color: #F4F5F7;
+    margin: 0;
+    padding: 0;
+}
+
+/* 게시판 섹션 전체 컨테이너 */
+.introSection {
+    max-width: 592px;
+    height: 169px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 게시판 소개말 */
+.content h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    line-height: 31.2px;
+}
+
+.content h3 b {
+    font-weight: 700;
+}
+
+/* 게시글 작성 버튼 */
+.newContent {
+    height: 40px;
+    width: 120px;
+    line-height: 25.04px;
+    margin-left: 500px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: transparent;
+    background-color: #ACA0EB;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.newContent:hover {
+    background-color: #7F6AEE;
+}
+
+/* 게시글 목록 */
+.box {
+    width: 100%;
+    min-height: 100px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+    padding: 20px;
+    cursor: pointer;
+}
+
+/*게시글 타이틀*/
+.box h4 {
+    height: 31px;
+    line-height: 31.2px;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: -5px;
+}
+
+/*게시글 정보(좋아요, 댓글, 조회수)*/
+.post-info {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.post-stats {
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.2px;
+}
+
+/*게시글 작성자*/
+.post-author {
+    display: flex;
+    align-items: center;
+}
+
+.box p {
+    margin-left: 10px;
+    padding: 5%;
+    font-size: 12px;
+}
+
+.post-author img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.post-author span {
+    font-size: 15px;
+    color: #000000;
+    font-weight: 700;
+    line-height: 19.5px;
+}
+
+/*게시글 작성 시간*/
+.post-date {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.2px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+/*구분선*/
+.horizontal-rule {
+    border: none;          
+    border-top: 2px solid lightgray;
+    margin-bottom: 15px;
+}
+
+
+
