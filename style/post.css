@@ -1,0 +1,366 @@
+/* 페이지 배경 */
+body {
+  background-color: #F4F5F7;
+  margin: 0;
+  padding: 0;
+}
+
+/* 프로필 이미지 */
+.user-profile img {
+    height: 36px;
+    width: 36px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+/* 게시판 섹션 전체 컨테이너 */
+.loginSection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 게시판 소개말 */
+.content h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    line-height: 31.2px;
+}
+
+.content h3 b {
+    font-weight: 700;
+}
+
+/* 게시글 목록 */
+.box {
+    width: 100%;
+    min-height: 100px;
+    border-radius: 5px;
+    background-color: white;
+    padding: 20px;
+    cursor: pointer;
+}
+
+/*게시글 타이틀*/
+.box h4 {
+    height: 31px;
+    line-height: 31.2px;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/*게시글 정보(좋아요, 댓글, 조회수)*/
+.post-info {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.post-stats {
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.2px;
+}
+
+/*게시글 작성자*/
+.post-author {
+    display: flex;
+    align-items: center;
+}
+
+.box p {
+    margin-left: 10px;
+    padding: 5%;
+    font-size: 12px;
+}
+
+.post-author img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.post-author span {
+    font-size: 15px;
+    color: #000000;
+    font-weight: 700;
+    line-height: 19.5px;
+}
+
+/*게시글 작성 시간*/
+.post-date {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.2px;
+    text-align: right;
+    margin-left: 20px;
+}
+
+/*구분선*/
+.horizontal-rule {
+    border: none;          
+    border-top: 2px solid lightgray;
+    margin-bottom: 15px;
+}
+
+/* 게시글 상세 페이지 스타일 */
+.post-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 게시글 컨테이너 */
+.post-container {
+  background: #F4F5F7;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* 게시글 */
+.post-header {
+  margin-bottom: 24px;
+  margin-left: 100px;
+}
+
+.post-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.post-text {
+    width: 544px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 21.15px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* 게시글 수정, 삭제 버튼 */
+.post-buttons {
+  display: flex;
+  gap: 1px;
+}
+
+.post-content {
+  margin: 24px 0;
+}
+
+/* 게시글 이미지 */ 
+.image-container {
+  width: 544px;
+  height: 306px;
+  background: #f5f5f5;
+  margin: 0 auto 24px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 게시글 좋아요, 조회수, 댓글 */
+.post-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 24px 0;
+  border-top: 1px solid #eee;
+}
+
+.stat-item {
+  width: 116px;
+  height: 77px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  gap: 8px;
+  background-color: #D9D9D9;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25.04px;
+}
+
+.count {
+  font-weight: 700;
+  color: #000000;
+  font-size: 20px;
+  line-height: 26px;
+  margin-top: 5px;
+}
+
+/* 댓글 */
+.comments-section {
+  width: 592px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+}
+
+.comment-input {
+  width: 100%;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.comment-input-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.comment-input textarea {
+  width: 100%;
+  height: 100px;
+  padding: 16px;
+  border: transparent;
+  resize: none;
+  margin-bottom: 12px;
+  color: #000000;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.comment-submit {
+  width: 138px;
+  height: 39px;
+  background: #ACA0EB;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 16px;
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25.04px;
+}
+
+.comment-submit:hover {
+  background-color: #7F6AEE;
+}
+
+.comment-item {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  width: 620px;
+  margin: 0 auto;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* 작성자 정보 */
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 수정 삭제 버튼 */
+.comment-buttons {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+
+/* 댓글 수정 버튼 */
+.comment-edit {
+  border: 1px solid #ACA0EB;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+}
+
+/* 댓글 삭제 버튼 */
+.comment-delete {
+  border: 1px solid #ACA0EB;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  margin-right: 100px;
+}
+
+.comment-date {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  line-height: 18.2px;
+}
+
+/* 댓글 작성자 프로필 이미지 */
+.comment-author img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* 게시글 수정 버튼 */
+.post-edit {
+  border: 1px solid #ACA0EB;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  margin-right: 5px;
+}
+
+/* 게시글 삭제 버튼 */
+.post-delete {
+    border: 1px solid #ACA0EB;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    margin-right: 100px;
+}
+
+/* 취소 버튼 */
+.cancel-btn {
+  width: 127px;
+  height: 44px;
+  background: #242424;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.87px;
+  cursor: pointer;
+}
+
+/* 확인 버튼 */
+.confirm-btn {
+  width: 127px;
+  height: 44px;
+  background: #C4A5FA;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23.87px;
+  cursor: pointer;
+}
