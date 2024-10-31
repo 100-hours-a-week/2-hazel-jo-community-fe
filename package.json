@@ -1,0 +1,27 @@
+{
+  "name": "hazel-jo-community-fe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "node express.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "author": "gelong25",
+  "license": "ISC",
+  "dependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "colors": "^1.4.0",
+    "connect-timeout": "^1.9.0",
+    "dotenv": "^16.4.5",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-prettier": "^5.2.1",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "prettier": "^3.3.3"
+  }
+}
