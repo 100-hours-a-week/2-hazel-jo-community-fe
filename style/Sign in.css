@@ -1,0 +1,98 @@
+/* 페이지 배경 */
+body {
+    background-color: #F4F5F7;
+    margin: 0;
+    padding: 0;
+}
+
+.signin-form {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.signin-form h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.profile-upload {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-image {
+    position: relative;
+    width: 149px;
+    height: 149px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.profile-image img {
+    width: 149px;
+    height: 149px; 
+}
+
+#profile-input {
+    display: none;
+}
+
+.helper-text {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 10px;
+    font-weight: 400;
+    line-height: 14.52px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 17.9px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+.signup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ACA0EB;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.signup-button:hover {
+    background-color: #9b8ed9;
+}
+
+.login-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-link:hover {
+    color: #131313;
+}
