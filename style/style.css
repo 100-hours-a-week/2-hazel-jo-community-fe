@@ -96,7 +96,7 @@
 
 .nav-right {
     position: absolute;
-    right: 400px;  
+    right: 460px;  
     display: flex;
     align-items: center;
     gap: 20px;
@@ -104,7 +104,7 @@
 
 .nav-left {
     position: absolute;
-    left: 400px;
+    left: 460px;
     display: flex;
     align-items: center;
     gap: 20px;
