@@ -1,16 +1,0 @@
-[?1049h[>4;2m[?1h=[?2004h[?1004h[1;14r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[14;1H"~/git/2-hazel-jo-community-fe/.git/COMMIT_EDITMSG" 22L, 702B[1;1H[106m[[mstyle[106m][m: 로그인 페이지 스타일 수정
-
-# Please enter the commit message for your changes. Lines starting
-# with '#' will be ignored, and an empty message aborts the commit.
-#
-# Author:    gelong25 <hayaon0603@naver.com>
-# Date:      Sat Nov 2 23:42:05 2024 +0900
-#
-# interactive rebase in progress; onto 6b92383
-# Last command done (1 command done):
-#    edit a6cdef5 [style]: 로그인 페이지 스타일 수정
-# Next command to do (1 remaining command):
-#    pick b5caa51 [style]: 스타일 코드 수정[1;1H[?25h[?4m[?25l[14;1H[1m-- VISUAL --[m[14;13H[K[1;1H[?25h[?25l[?25h[?25l[14;1H[K[14;1H:'<,'>[?25hㅈ[?25l[14;7H[K[14;7H[?25hssd[?25l[14;9H[K[14;9H[?25hfd[?25l[14;10H[K[14;10H[?25h[?25l[14;9H[K[14;9H[?25h[?25l[14;8H[K[14;8H[?25h:wq[?25l[97m[41mE486: Pattern not found: wq[1;1H[?25h[?25l[m[style][[?25h[?25l[14;1H[1m-- INSERT --[m[14;13H[K[1;3H[?25h[?25l[106m[[mtyle[106m][m: 로그인 페이지 스타일 수정 [1;2H[?25h[?25ltyle]: 로그인 페이지 스타일 수정 [?25h[14;1H[?1004l[?2004l[?1l>[?1049l[>4;mVim: Caught deadly signal HUP
-Vim: preserving files...
-Vim: Finished.
-[14;1H[23;2t[23;1t
