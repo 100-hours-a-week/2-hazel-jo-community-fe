@@ -17,7 +17,7 @@ const dummyPosts = [
         view: 0,
         date: "2021-01-01 00:00:00",
         author: "더미 작성자 2",
-        profileImg: "/image/profileImg.png"
+        profileImg: "/image/profileImg2.png"
     }
 ]; 
 
