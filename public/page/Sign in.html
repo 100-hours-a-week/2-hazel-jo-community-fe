@@ -4,6 +4,7 @@
   <title>Sign in</title>
   <link rel="stylesheet" href="/style/style.css">
   <link rel="stylesheet" href="/style/Sign in.css">
+  <script src="/js/Sign in.js"></script>
 </head>
 <body>
     <header>
@@ -22,32 +23,34 @@
 <main>
     <div class="signin-form">
         <h2>회원가입</h2>
+        <h3 class="profile-title" id="profileTitle">프로필 사진</h3>
+        <p class="helper-text" id="profileHelperTxt">* helper text</p>
         <div class="profile-upload">
             <label class="profile-image" for="profile-input">
-                <img id="preview" src="/image/profile.png">
+                <img id="preview" src="/image/profileImg.png">
                 <input type="file" id="profile-input" accept="image/*">
             </label>
         </div>
         <form>
             <div class="input-group">
                 <label>이메일*</label>
-                <input type="email" placeholder="이메일을 입력하세요" required>
-                <p class="helper-text">* helper text</p>
+                <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" oninput="emailCheck(this.value)">
+                <p class="helper-text" id="emailHelperTxt">* helper text</p>
             </div>
             <div class="input-group">
                 <label>비밀번호*</label>
                 <input type="password" placeholder="비밀번호를 입력하세요" required>
-                <p class="helper-text">* helper text</p>
+                <p class="helper-text" id="passwordHelperTxt">* helper text</p>
             </div>
             <div class="input-group">
                 <label>비밀번호 확인*</label>
                 <input type="password" placeholder="비밀번호를 한번 더 입력하세요" required>
-                <p class="helper-text">* helper text</p>
+                <p class="helper-text" id="passwordCheckHelperTxt">* helper text</p>
             </div>
             <div class="input-group">
                 <label>닉네임*</label>
-                <input type="text" placeholder="닉네임을 입력하세요" required>
-                <p class="helper-text">* helper text</p>
+                <input type="text" id="nickname" placeholder="닉네임을 입력하세요" required>
+                <p class="helper-text" id="nicknameHelperTxt">* helper text</p>
             </div>
             <button type="submit" class="signup-button">회원가입</button>
         </form>

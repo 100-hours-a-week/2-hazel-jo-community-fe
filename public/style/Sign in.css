@@ -32,17 +32,18 @@ body {
 
 .profile-image img {
     width: 149px;
-    height: 149px; 
+    height: 149px;
 }
 
 #profile-input {
     display: none;
 }
 
-.helper-text {
+.input-group .helper-text,
+.signin-form .helper-text {
     color: #ff0000;
     font-size: 12px;
-    margin-top: 10px;
+    margin-top: 4px;
     font-weight: 400;
     line-height: 14.52px;
 }
@@ -95,4 +96,11 @@ body {
 
 .login-link:hover {
     color: #131313;
+}
+
+.profile-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 17.9px;
+    margin-bottom: -2px;
 }

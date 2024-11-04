@@ -78,10 +78,6 @@ body {
     margin-top: 50px;
   }
   
-  .loginBtn:hover {
-    background-color: #c0b5f7;
-  }
-  
   /* 회원가입 링크 스타일 */
   .signup-link {
     margin-top: 20px;
