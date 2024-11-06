@@ -364,3 +364,10 @@ body {
   line-height: 23.87px;
   cursor: pointer;
 }
+
+.comment-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21.15px;
+  margin-left: 50px;
+}
