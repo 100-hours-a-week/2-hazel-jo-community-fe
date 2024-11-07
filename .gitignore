@@ -41,11 +41,3 @@ npm-debug.log
 
 # OSX hidden files
 .DS_Store
-
-# JPEG
-*.jpg
-*.jpeg
-*.jpe
-*.jif
-*.jfif
-*.jfi
