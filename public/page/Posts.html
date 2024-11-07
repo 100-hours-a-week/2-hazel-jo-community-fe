@@ -9,7 +9,11 @@
   <header>
     <nav class="navbar">
       <h1 class="title">아무 말 대잔치</h1>
-      <div class="nav-right">
+      <div class="nav-container">
+        <div class="nav-left">
+        </div>
+        <div class="nav-right">
+        </div>
         <div class="dropdown">
           <a href="#" class="login-icon">
               <img src="/image/profileImg.png" alt="Login">
@@ -29,11 +33,13 @@
     <button type="button" class="newContent" onClick="location.href='/page/make post.html'">게시글 작성</button>
     <!-- 게시글 목록이 들어갈 컨테이너 -->
     <div id="posts-container">
-    <!-- JavaScript로 게시글들이 동적으로 추가될 예정 -->
+    <!-- 게시글 동적으로 추가 -->
     </div>
+    <div class="list"></div>
+    <p id="sentinel"></p>
   </section>
   </main>
   <script src="/js/Posts.js"></script>
-  <script src="/js/common.js"></script>
+  <script src="/js/common.js"></script>  
 </body>
 </html>

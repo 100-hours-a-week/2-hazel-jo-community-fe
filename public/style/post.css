@@ -5,19 +5,13 @@ body {
   padding: 0;
 }
 
+
 /* 프로필 이미지 */
 .user-profile img {
     height: 36px;
     width: 36px;
     opacity: 0.7;
     transition: opacity 0.2s;
-}
-
-/* 게시판 섹션 전체 컨테이너 */
-.loginSection {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
 }
 
 /* 게시판 소개말 */
@@ -121,6 +115,7 @@ body {
   background: #F4F5F7;
   border-radius: 8px;
   padding: 24px;
+  margin: 0 auto;
 }
 
 /* 게시글 */
@@ -367,3 +362,4 @@ body {
   line-height: 21.15px;
   margin-left: 50px;
 }
+
