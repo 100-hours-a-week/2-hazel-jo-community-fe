@@ -28,6 +28,7 @@ body {
 .input-group label {
     display: block;
     margin-bottom: 20px;
+    margin-top: 12px;
     margin-left: 12px;
     font-size: 16px;
     font-weight: 700;
@@ -84,10 +85,6 @@ body {
     line-height: 16.71px;
 }
 
-.submit-btn:hover {
-    background-color: #7F6AEE;
-}
-
 .image-upload-container {
     display: flex;
     align-items: center;
@@ -104,5 +101,9 @@ body {
 .helper-text {
     color: #ff0000;
     font-size: 12px;
-    margin-top: -20px;
+   
+}
+
+.title-mark, .content-mark {
+    color: #ff0000;
 }

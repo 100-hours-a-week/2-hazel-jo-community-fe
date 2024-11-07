@@ -31,12 +31,12 @@
         <h2>게시글 작성</h2>
         <form>
             <div class="input-group">
-                <label>제목*</label>
-                <input type="text" placeholder="제목을 입력해주세요. (최대 26글자)" maxlength="26">
+                <label>제목<span class="title-mark">*</span></label>
+                <input class="title-input" type="text" placeholder="제목을 입력해주세요. (최대 26글자)" maxlength="26">
             </div>
             <div class="input-group">
-                <label>내용*</label>
-                <textarea placeholder="내용을 입력해주세요."></textarea>
+                <label>내용<span class="content-mark">*</span></label>
+                <textarea class="content-input" placeholder="내용을 입력해주세요."></textarea>
             </div>
             <p class="helper-text">*helper text</p>
             <div class="input-group">
@@ -50,5 +50,6 @@
     </div>
 </main>
 <script src="/js/common.js"></script>
+<script src="/js/make post.js"></script> 
 </body>
 </html>
