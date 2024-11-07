@@ -245,7 +245,7 @@ body {
 .comment-submit {
   width: 138px;
   height: 39px;
-  background: #ACA0EB;
+  background: #7F6AEE;
   color: white;
   border: none;
   padding: 8px 24px;
@@ -257,10 +257,6 @@ body {
   font-size: 16px;
   font-weight: 700;
   line-height: 25.04px;
-}
-
-.comment-submit:hover {
-  background-color: #7F6AEE;
 }
 
 .comment-item {

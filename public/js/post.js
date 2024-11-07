@@ -4,39 +4,68 @@ window.onload = function() {
     postDetailSection.insertAdjacentHTML('afterbegin', renderPost(dummyPost));
     
     const commentSection = document.querySelector('.comment-list');
-    // 댓글 배열을 순회하며 렌더링
     const commentsHTML = dummyComment.map(comment => renderComment(comment)).join('');
     commentSection.insertAdjacentHTML('afterbegin', commentsHTML);
     
-    // 이벤트 리스너 바인딩
-    const deleteBtn = document.querySelector('#deletePostBtn');
-    const postModalOverlay = document.querySelector('#postModalOverlay');
-    const cancelPostBtn = document.querySelector('#cancelPostBtn');
-    const confirmPostBtn = document.querySelector('#confirmPostBtn');
-    
-    const commentModalOverlay = document.querySelector('#commentModalOverlay');
-    const deleteCommentBtn = document.querySelector('#deleteCommentBtn');
-    const cancelCommentBtn = document.querySelector('#cancelCommentBtn');
-    const confirmCommentBtn = document.querySelector('#confirmCommentBtn');
+    // 이벤트 리스너 바인딩 -> 이벤트 위임 방식으로 수정 
+    document.addEventListener('click', (e) => {
+        // 게시글 삭제 버튼
+        if (e.target.id === 'deletePostBtn') {
+            modalOpen(postModalOverlay);
+        }
+        // 게시글 삭제 모달창 취소 버튼 
+        if (e.target.id === 'cancelPostBtn') {
+            modalClose(postModalOverlay);
+        }
+        // 게시글 삭제 모달창 확인 버튼 
+        if (e.target.id === 'confirmPostBtn') {
+            modalClose(postModalOverlay);
+        }
+        // 댓글 삭제 버튼
+        if (e.target.classList.contains('comment-delete')) {
+            modalOpen(commentModalOverlay);
+        }
+
+        // 댓글 삭제 모달창 취소 버튼
+        if (e.target.id === 'cancelCommentBtn') {
+            modalClose(commentModalOverlay);
+        }
+        // 댓글 삭제 모달창 확인 버튼
+        if (e.target.id === 'confirmCommentBtn') {
+            modalClose(commentModalOverlay);
+        }
+    });
 
     // 댓글 작성 폼 및 버튼 요소 가져오기
     const commentForm = document.querySelector('#commentForm');
     const commentTextarea = commentForm.querySelector('textarea');
     const commentSubmitBtn = commentForm.querySelector('.comment-submit');
     
+    // 댓글 작성 버튼 기본 배경 색깔 
+    commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+
+    // 댓글 입력 시 : 댓글 등록 버튼 활성화
+    commentTextarea.addEventListener('input', () => {
+        if(commentTextarea.value.trim() !== '') {
+            commentSubmitBtn.style.backgroundColor = '#7F6AEE';  
+        } else {
+            commentSubmitBtn.style.backgroundColor = '#ACA0EB';  
+        }
+    });
+
     // 댓글 등록 함수
     const handleCommentSubmit = () => {
         const commentText = commentTextarea.value.trim();
         
         if (commentText === '') {
-            alert('댓글을 입력해주세요.');
             return;
         }
         
         // 새로운 댓글 객체 생성
+        // *추후 로그인 구현 시 작성자 및 프로필 이미지 수정 필요 
         const newComment = {
-            image: `${dummyPost.profileImg}`, 
-            author: `${dummyPost.author}`, 
+            image: '/image/profileImg.png', 
+            author: '작성자', 
             date: new Date().toLocaleString(),
             content: commentText
         };
@@ -45,8 +74,9 @@ window.onload = function() {
         const commentList = document.querySelector('.comment-list');
         commentList.insertAdjacentHTML('afterbegin', renderComment(newComment));
         
-        // 입력창 초기화
+        // 입력창 초기화 및 댓글 등록 버튼 배경 색깔 초기화 
         commentTextarea.value = '';
+        commentSubmitBtn.style.backgroundColor = '#ACA0EB';
     };
     
     // 댓글 등록 버튼 클릭 이벤트
@@ -54,8 +84,10 @@ window.onload = function() {
 
     writeCommentBtn.addEventListener('click', inputComment);
 
-    // 이벤트 리스너 설정
-    deleteBtn.addEventListener('click', () => {
+    
+
+    // 모달창 이벤트 리스너 설정
+    deletePostBtn.addEventListener('click', () => {
         modalOpen(postModalOverlay);
     });
 
@@ -197,7 +229,7 @@ const dummyPost =
             </div>
             <div class="comment-buttons">
                 <button class="comment-edit">수정</button>
-                <button class="comment-delete" id="deleteCommentBtn">삭제</button>
+                <button class="comment-delete">삭제</button>
             </div>
         </div>
         <p class="comment-text">${comment.content}</p>
