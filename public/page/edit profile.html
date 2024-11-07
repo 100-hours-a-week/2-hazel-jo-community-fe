@@ -27,13 +27,12 @@
 <main>
     <div class="edit-profile-container">
         <h2>회원 정보 수정</h2>
-        <p class="guide-text">프로필 사진*</p>
+        <p class="guide-text">프로필 사진<span class="profile-mark">*</span></p>
         <form>
             <div class="profile-upload">
                 <div class="profile-image">
-                    <img src="/image/profile.png">
                     <label for="profile-input" class="change-text">변경</label>
-                    <input type="file" id="profile-input" accept="image/*">
+                    <input type="file" id="profile-input" accept="image/png, image/jpeg, image/jpg">
                 </div>
             </div>
             <div class="input-group">
@@ -42,7 +41,7 @@
             </div>
             <div class="input-group">
                 <label>닉네임</label>
-                <input type="text" placeholder="닉네임을 입력해주세요">
+                <input type="text" class="nickname-input" placeholder="닉네임을 입력해주세요">
                 <p class="helper-text">*helper text</p>
             </div>
             <div class="button-group">
@@ -60,32 +59,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn">수정완료</button>
+                <div class="toast-message">수정완료</div>
             </div>
         </form>
     </div>
 </main>
-<script>
-  const withdrawBtn = document.querySelector('#withdrawBtn');
-  const modalOverlay = document.querySelector('#modalOverlay');
-  const cancelBtn = document.querySelector('#cancelBtn');
-  const confirmBtn = document.querySelector('#confirmBtn');
-
-  withdrawBtn.addEventListener('click', () => {
-    modalOverlay.style.display = 'flex';
-  });
-
-  cancelBtn.addEventListener('click', () => {
-    modalOverlay.style.display = 'none';
-  });
-
-  confirmBtn.addEventListener('click', () => {
-    modalOverlay.style.display = 'none';
-  });
-
-
-  
-</script>
 <script src="/js/common.js"></script>
+<script src="/js/edit profile.js"></script>
 </body>
 </html>

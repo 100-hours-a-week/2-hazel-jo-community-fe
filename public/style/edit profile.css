@@ -58,6 +58,10 @@ body {
     text-align: center;
     cursor: pointer;
     line-height: 25px;
+    /* 텍스트 가운데 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #profile-input {
@@ -116,16 +120,17 @@ body {
     line-height: 16.71px;
     text-align: center;
     cursor: pointer;
+    /* 텍스트 가운데 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 수정완료 버튼 */
-.submit-btn {
+/* 수정완료 토스트 메시지 */
+.toast-message {
     width: fit-content;
     height: fit-content;
-    min-height: 46px;
-    min-width: 102px;
-    margin-top: 35px;
-    padding: 12px;
+    padding: 12px 24px;
     background-color: #ACA0EB;
     color: white;
     border: none;
@@ -134,12 +139,13 @@ body {
     font-weight: 400;
     line-height: 21.6px;
     letter-spacing: -0.01em;
-    text-align: center;
-    cursor: pointer;
-}
-
-.edit-btn:hover, .submit-btn:hover {
-    background-color: #9b8ed9;
+    cursor: default;
+    visibility: hidden;
+    /* 텍스트 가운데 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 .withdraw-btn {
@@ -170,5 +176,11 @@ body {
     line-height: 17.9px;
     margin-bottom: 10px;
     font-weight: 700;
+    margin-left: 20px;
+}
+
+.profile-mark {
+    color: #ff0000;
+    font-size: 15px;
 }
 
