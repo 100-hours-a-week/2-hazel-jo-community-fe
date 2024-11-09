@@ -90,10 +90,6 @@ body {
     line-height: 16.71px;
 }
 
-.submit-btn:hover {
-    background-color: #ACA0EB;
-}
-
 .image-upload-container {
     display: flex;
     align-items: center;
@@ -106,6 +102,10 @@ body {
     font-size: 14px;
     font-weight: 400;
     line-height: 16.71px;
+}
+
+.title-mark, .content-mark {
+    color: #FF0000;
 }
 
 
