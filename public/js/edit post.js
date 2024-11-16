@@ -1,39 +1,33 @@
+import { fetchPosts } from "../api/posts-api.js";
 
-// 게시글 더미 데이터 
-const dummyPost = 
-  {
-    title: '제목 1',
-    content: 
-    `무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 
-우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 
-그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 
-사랑과 지지를 받습니다. 그래서 우리의 삶은 소중하고 의미가 있습니다.
+window.onload = function() {
+    // 해당 페이지 id에 맞는 게시글 데이터 가져와서 페이지 렌더링 
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = parseInt(urlParams.get('post_id'));
 
-자연도 아름다운 이야기입니다. 우리 주변의 자연은 끝없는 아름다움과 신비로움을 담고 있습니다. 
-산, 바다, 숲, 하늘 등 모든 것이 우리를 놀라게 만들고 감동시킵니다. 
-자연은 우리의 생명과 안정을 지키며 우리에게 힘을 주는 곳입니다.
+    fetchPosts().then(posts => {
+        const post = posts.find(p => p.post_id === postId);
 
-마지막으로, 지식을 향한 탐구는 항상 흥미로운 여정입니다. 우리는 끝없는 지식의 바다에서 
-배우고 발견할 수 있으며, 이것이 우리를 더 깊이 이해하고 세상을 더 넓게 보게 해줍니다. 
-그런 의미에서, 삶은 놀라움과 경이로움으로 가득 차 있습니다. 
-새로운 경험을 즐기고 항상 앞으로 나아가는 것이 중요하다고 생각합니다.`,
-    
-  };
+        if(post && post.post_id === postId) {
+            renderPost(post);
+        } else {
+            console.error('해당 게시글을 찾을 수 없습니다.');
+        }
+    });
 
-  // localstorage에 게시글 데이터 저장 
-  if(localStorage.getItem('post') === null){
-    localStorage.setItem('post', JSON.stringify(dummyPost));
-  }
+    // 뒤로가기 버튼 : 해당 id의 게시글로 이동 
+    const navigateBefore = document.querySelector('.navigate_before');
+    if(navigateBefore) {
+        navigateBefore.addEventListener('click', () => {
+            window.location.href = `/page/post.html?post_id=${postId}`;
+        });
+    };
 
-  // localstorage에 저장된 게시글 데이터 불러오기 
-  function getPost() {
-    const post = localStorage.getItem('post');
-    return JSON.parse(post);
-  }
+};
+
 
   function renderPost(post) {
     const main = document.querySelector('main');
-    const truncatedTitle = post.title.slice(0, 26); // 제목 글자수 26자로 제한 
 
     main.innerHTML =
     `
@@ -42,7 +36,7 @@ const dummyPost =
         <form id="edit-post-form">
             <div class="input-group">
                 <label>제목<span class="title-mark">*</span></label>
-                <input type="text" name="title" value="${truncatedTitle}" maxlength="26">
+                <input type="text" name="title" value="${post.title}" maxlength="26">
             </div>
             <div class="input-group">
                 <label>내용<span class="content-mark">*</span></label>
@@ -71,8 +65,13 @@ const dummyPost =
     
     const submitBtn = document.querySelector('.submit-btn');
     
-    // 입력 유무 체크 
-    const checkValidity = () => {
+
+    // 이벤트 리스너 
+    title.addEventListener('input', checkValidity);
+    content.addEventListener('input', checkValidity);
+
+    // 입력 유무 체크 함수
+    function checkValidity() {
         // 제목 입력 여부 체크 
         if(title.value.length > 0) {
             titleMark.style.display = 'none';
@@ -93,35 +92,28 @@ const dummyPost =
         } else {
             submitBtn.style.backgroundColor = '#7F6AEE';
         }
-    };
+    }
 
-    // 이벤트 리스너 
-    title.addEventListener('input', checkValidity);
-    content.addEventListener('input', checkValidity);
-
+    // 초기 유효성 검사 호출
     checkValidity(); 
 
-    const editPostForm = document.getElementById('edit-post-form');
-    editPostForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    // 수정하기 버튼 : 수정 후 게시글로 이동 
+    const editPostBtn = document.getElementById('edit-post-form');
+    if(editPostBtn) {
+        editPostBtn.addEventListener('submit', (e) => {
+            // form submit 방지  
+            e.preventDefault();
+            
+            // 수정된 데이터로 post 객체 업데이트 
+            const formData = {
+                title: title.value,
+                content: content.value,
+            };
 
-        const formData = {
-            ...getPost(),
-            title: e.target.title.value,
-            content: e.target.content.value,
-        };
+            // 수정된 데이터 처리하는 로직 추가 예정 
 
-        localStorage.setItem('post', JSON.stringify(formData));
-
-        window.location.href = `/page/post.html`;
-
-    });
+            // 수정 후 게시글 페이지로 이동 
+            window.location.href = `/page/post.html?post_id=${post.post_id}`;
+        });
+    }
 }
-
-// 게시글 렌더링 
-document.addEventListener('DOMContentLoaded', () => {
-    const post = getPost();
-    renderPost(post);
-});
-
-
