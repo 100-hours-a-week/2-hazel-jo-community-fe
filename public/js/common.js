@@ -14,6 +14,32 @@ function dropdownMenu() {
     });
 }
 
+function setProfileImage() {
+    const profileImage = document.querySelector('.login-icon img');
+    let userProfileImage = localStorage.getItem('profileImage');
+
+    console.log('저장된 프로필 이미지 URL:', userProfileImage);
+
+    if(userProfileImage && userProfileImage !== 'null') {
+        // localhost:3000을 localhost:5000으로 변경
+        userProfileImage = userProfileImage.replace('http://localhost:3000', 'http://localhost:5000');
+        
+        profileImage.onerror = function() {
+            console.error('이미지 로드 실패:', userProfileImage);
+            profileImage.src = '/image/basic.png';
+        };
+        
+        profileImage.onload = function() {
+            console.log('이미지 로드 성공');
+        };
+        
+        profileImage.src = userProfileImage;
+    } else {
+        profileImage.src = '/image/basic.png';
+    }
+}
+
 dropdownMenu();
+setProfileImage();
 
 
