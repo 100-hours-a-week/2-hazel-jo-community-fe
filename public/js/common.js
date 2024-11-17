@@ -10,7 +10,7 @@ function dropdownMenu() {
         location.href = '/page/edit password.html';
     });
     optionLogout.addEventListener('click', () => {
-        location.href = '/logout';
+        location.href = '/page/Log in.html';
     });
 }
 
