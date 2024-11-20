@@ -14,14 +14,14 @@
 <main class="content">
   <section class="loginSection">
     <h3>로그인</h3>
-    <form class="login-form">
+    <form class="login-form" onsubmit="login(event)">
       <div class="form-group">
         <label for="email">이메일</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="이메일을 입력하세요" onblur="emailCheck(this.value)">
+        <input type="text" id="email" name="email" class="form-control" placeholder="이메일을 입력하세요">
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="passwd" class="form-control" placeholder="비밀번호를 입력하세요" oninput="passwordCheck(this.value)">
+        <input type="password" id="password" name="passwd" class="form-control" placeholder="비밀번호를 입력하세요">
         <p id="helperTxt" class="helptxt">* helper text</p>
       </div>
       <button type="button" class="loginBtn" id="loginBtn">로그인</button>
@@ -31,6 +31,6 @@
     </div>
   </section>
 </main>
-<script src="/js/Log in.js"></script>
+<script type="module" src="/js/Log in.js"></script>
 </body>
 </html>

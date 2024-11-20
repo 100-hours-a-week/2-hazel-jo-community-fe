@@ -1,3 +1,6 @@
+//로그인
+import { loginUser } from '../api/auth-api.js';
+
 // 로그인 버튼 클릭 시
 document.getElementById("loginBtn").addEventListener("click", function() {
     const email = document.getElementById("email").value;
@@ -5,7 +8,7 @@ document.getElementById("loginBtn").addEventListener("click", function() {
 
     if (emailCheck(email) && passwordCheck(password)) {
         this.style.backgroundColor = "#7F6AEE";
-        window.location.href = "/public/page/posts";
+        //window.location.href = "/public/page/posts";
     }
 });
 
@@ -72,3 +75,51 @@ function validateInputs() {
         loginBtn.style.backgroundColor = "#ACA0EB";
     }
 }
+
+// 로그인 버튼 클릭 시 login 함수 호출
+document.getElementById("loginBtn").addEventListener("click", login);
+
+// axios를 사용한 백엔드 api 요청 
+async function login(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    
+    if(emailCheck(email) && passwordCheck(password)) {
+        try {
+            const response = await loginUser(email, password);
+            console.log('전체 로그인 응답:', response);
+            
+            if (response) {
+                const userData = response.user;
+                const BACKEND_URL = 'http://localhost:5000';
+                
+                // userId 저장
+                localStorage.setItem('userId', String(userData.userId));
+                localStorage.setItem('email', userData.email);
+                localStorage.setItem('nickname', userData.nickname);
+                
+                // 프로필 이미지 URL 처리
+                if (userData.profileImage) {
+                    // 파일명에서 공백과 특수문자 처리
+                    const fileName = userData.profileImage.split('/uploads/')[1];
+                    const encodedFileName = encodeURIComponent(fileName);
+                    const imageUrl = `${BACKEND_URL}/uploads/${encodedFileName}`;
+                    console.log('최종 이미지 URL:', imageUrl);
+                    
+                    localStorage.setItem('profileImage', imageUrl);
+                } else {
+                    localStorage.setItem('profileImage', null);
+                }
+                
+                alert('로그인에 성공했습니다.');
+                window.location.href = '/public/page/Posts.html';
+            }
+        } catch (error) {
+            console.error('로그인 오류:', error);
+            alert('아이디 또는 비밀번호를 확인해주세요.');
+        }
+    }
+}
+
