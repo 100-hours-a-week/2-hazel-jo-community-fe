@@ -15,7 +15,7 @@
         </div>
             <div class="dropdown">
                 <a href="#" class="login-icon">
-                    <img src="/image/profileImg.png" alt="Login">
+                    <img src="/image/basic.png" alt="Login">
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" id="editProfile">회원정보수정</a>
@@ -33,13 +33,14 @@
         <form>
             <div class="profile-upload">
                 <div class="profile-image">
+                    <img src="/image/basic.png" alt="프로필 이미지" id="preview-image">
                     <label for="profile-input" class="change-text">변경</label>
                     <input type="file" id="profile-input" accept="image/png, image/jpeg, image/jpg">
                 </div>
             </div>
             <div class="input-group">
                 <label>이메일</label>
-                <input type="email" value="example@email.com" class="email">
+                <input type="email" id="userEmail" value="example@email.com" class="email">
             </div>
             <div class="input-group">
                 <label>닉네임</label>
@@ -66,7 +67,7 @@
         </form>
     </div>
 </main>
-<script src="/js/common.js"></script>
-<script src="/js/edit profile.js"></script>
+<script type="module" src="/js/common.js"></script>
+<script type="module" src="/js/edit profile.js"></script>
 </body>
 </html>
