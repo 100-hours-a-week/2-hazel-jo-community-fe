@@ -1,14 +1,45 @@
-window.onload = function() {
-    // HTML 렌더링
-    const postDetailSection = document.querySelector('.post-detail');
-    postDetailSection.insertAdjacentHTML('afterbegin', renderPost(dummyPost));
+import { loadPost } from "../api/posts-api.js";
+import { loadUserInfo } from "../api/user-api.js";
+import { deletePost } from "../api/posts-api.js";
+
+const baseUrl = 'http://localhost:5000';
+
+
+window.onload = async function() {
+
+    // URL에서 게시글 아이디 가져오기 
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = parseInt(urlParams.get('post_id'));
+
+    // postId가 유효한 숫자인지 확인하는 로직 추가
+    if (!postId || isNaN(postId)) {
+        console.error('유효하지 않은 게시글 ID');
+        return;
+    }
     
-    const commentSection = document.querySelector('.comment-list');
-    const commentsHTML = dummyComment.map(comment => renderComment(comment)).join('');
-    commentSection.insertAdjacentHTML('afterbegin', commentsHTML);
+    // 게시글 데이터 가져오기
+    const post = await loadPost(postId);
+    const userInfo = await loadUserInfo(post.user_id);
+
+    if(post) {
+        const postDetailSection = document.querySelector('.post-detail');
+        postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, userInfo));
+    }
     
-    // 이벤트 리스너 바인딩 -> 이벤트 위임 방식으로 수정 
-    document.addEventListener('click', (e) => {
+    /* 댓글 관련 코드 주석 처리
+    loadComments().then(comments => {
+        const commentSection = document.querySelector('.comment-list');
+        const filterComments = comments.filter(c => c.post_id === postId);
+        if(filterComments.length > 0) {
+          filterComments.forEach(comment => {
+                commentSection.insertAdjacentHTML('beforeend', renderComment(comment));
+            });
+        }
+    });
+    */
+
+    // * 이벤트 리스너 바인딩 -> 이벤트 위임 방식으로 수정 예정 
+    document.addEventListener('click', async (e) => {
         // 게시글 삭제 버튼
         if (e.target.id === 'deletePostBtn') {
             modalOpen(postModalOverlay);
@@ -19,7 +50,15 @@ window.onload = function() {
         }
         // 게시글 삭제 모달창 확인 버튼 
         if (e.target.id === 'confirmPostBtn') {
-            modalClose(postModalOverlay);
+            
+            const userId = await loadUserInfo(post.user_id);
+            
+            deletePost(postId, userId).then(() => {
+                modalClose(postModalOverlay);
+                window.location.href = `${baseUrl}/posts`;
+            }).catch(error => {
+                console.error('게시글 삭제 오류:', error);
+            });
         }
         // 댓글 삭제 버튼
         if (e.target.classList.contains('comment-delete')) {
@@ -82,34 +121,6 @@ window.onload = function() {
     // 댓글 등록 버튼 클릭 이벤트
     commentSubmitBtn.addEventListener('click', handleCommentSubmit);
 
-    writeCommentBtn.addEventListener('click', inputComment);
-
-    
-
-    // 모달창 이벤트 리스너 설정
-    deletePostBtn.addEventListener('click', () => {
-        modalOpen(postModalOverlay);
-    });
-
-    cancelPostBtn.addEventListener('click', () => {
-        modalClose(postModalOverlay);
-    });
-
-    confirmPostBtn.addEventListener('click', () => {
-        modalClose(postModalOverlay);
-    });
-
-    deleteCommentBtn.addEventListener('click', () => {
-        modalOpen(commentModalOverlay); 
-    });
-
-    cancelCommentBtn.addEventListener('click', () => {
-        modalClose(commentModalOverlay);
-    });
-
-    confirmCommentBtn.addEventListener('click', () => {
-        modalClose(commentModalOverlay);
-    });
 };
 
 // 모달 창 열 때 배경 스크롤 방지 
@@ -123,50 +134,6 @@ function modalClose(ModalOverlay) {
   document.body.style.overflow = 'auto'; 
 }
 
-// 게시글 더미 데이터 
-const dummyPost = 
-  {
-    title: '제목 1',
-    author: '더미 작성자1',
-    date: '2021-01-01 00:00:00',
-    image: '/image/contentImg.jpg',
-    profileImg: '/image/profileImg.png',
-    content: `무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 
-    우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 
-    그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 
-    사랑과 지지를 받습니다. 그래서 우리의 삶은 소중하고 의미가 있습니다.</br>
-    
-    자연도 아름다운 이야기입니다. 우리 주변의 자연은 끝없는 아름다움과 신비로움을 담고 있습니다. 
-    산, 바다, 숲, 하늘 등 모든 것이 우리를 놀라게 만들고 감동시킵니다. 
-    자연은 우리의 생명과 안정을 지키며 우리에게 힘을 주는 곳입니다.</br>
-    
-    마지막으로, 지식을 향한 탐구는 항상 흥미로운 여정입니다. 우리는 끝없는 지식의 바다에서 
-    배우고 발견할 수 있으며, 이것이 우리를 더 깊이 이해하고 세상을 더 넓게 보게 해줍니다. 
-    그런 의미에서, 삶은 놀라움과 경이로움으로 가득 차 있습니다. 
-    새로운 경험을 즐기고 항상 앞으로 나아가는 것이 중요하다고 생각합니다.`,
-    like: 123,
-    view: 202333,
-    comment: 13203
-  };
-
-  // 댓글 더미 데이터 
-  const dummyComment = [
-    {
-      image: '/image/profileImg.png',
-      author: '더미 작성자1',
-      date: '2021-01-01 00:00:00',
-      content: '댓글 내용'
-    },
-    {
-      image: '/image/profileImg2.png',
-      author: '더미 작성자2',
-      date: '2021-01-01 00:00:00',
-      content: '댓글 내용' 
-    }
-  ];
-
-
-
   // 숫자 단위 k로 변경
   function convertK(num) {
     if(num >= 1000) {
@@ -175,19 +142,41 @@ const dummyPost =
     return num.toString();
   }
   
-  function renderPost(post) {
+  function renderPost(post, userInfo) {
+    const getImage = (imagePath, isProfile = false) => {
+        // 프로필 이미지인 경우
+        if (isProfile) {
+            if (!imagePath) {
+                return '/public/image/basic.png';
+            }
+            if (imagePath.startsWith('/uploads/profiles/')) {
+                return `${baseUrl}${imagePath}`;
+            }
+            return imagePath;
+        }
+        
+        // 게시글 이미지인 경우
+        if (!imagePath || imagePath === 'null' || imagePath === '') {
+            return '/image/default.jpeg';
+        }
+        if (imagePath.startsWith('/uploads/')) {
+            return `${baseUrl}${imagePath}`;
+        }
+        return imagePath;
+    };
+
     return `
     <article class="post-container">
       <div class="post-header">
         <h1 class="post-title">${post.title}</h1>
         <div class="post-meta">
           <div class="post-author">
-            <img src="${post.profileImg}" alt="프로필">
-            <span>${post.author}</span>
+            <img src="${getImage(userInfo.profileImage)}" alt="프로필">
+            <span>${userInfo.nickname}</span>
             <span class="post-date">${post.date}</span>
           </div>
           <div class="post-buttons">
-            <button class="post-edit" onclick="location.href='/page/edit post.html'">수정</button>
+            <button class="post-edit" id="editPostBtn" onclick="location.href='/page/edit/${post.post_id}'">수정</button>
             <button class="post-delete" id="deletePostBtn">삭제</button>
           </div>
         </div>
@@ -195,8 +184,8 @@ const dummyPost =
       <!-- 모달 영역 --> 
       <div class="post-content">
         <div class="image-container">
-          <!-- 게시글 이미지 영역 -->
-          <img src="${post.image}" alt="image">
+          ${post.image ? `<img src="${getImage(post.image, false)}" alt="게시글 이미지">` 
+            : `<img src="/image/default.jpeg" alt="기본 이미지">`}
         </div>
         <p class="post-text">${post.content}</p>
       </div>
@@ -223,13 +212,13 @@ const dummyPost =
     <div class="comment-item">
         <div class="comment-author">
             <div class="author-info">
-                <img src="${comment.image}" alt="프로필">
-                <span>${comment.author}</span>
+                <img src="${comment.profileImg}" alt="프로필">
+                <span>${comment.nickname}</span>
                 <span class="comment-date">${comment.date}</span>
             </div>
             <div class="comment-buttons">
-                <button class="comment-edit">수정</button>
-                <button class="comment-delete">삭제</button>
+                <button class="comment-edit" id="editCommentBtn">수정</button>
+                <button class="comment-delete" id="deleteCommentBtn">삭제</button>
             </div>
         </div>
         <p class="comment-text">${comment.content}</p>
