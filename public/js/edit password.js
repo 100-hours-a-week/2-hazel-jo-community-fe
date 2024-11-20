@@ -1,3 +1,5 @@
+import { editPassword } from '../api/user-api.js';
+
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("password-check");
 
@@ -54,18 +56,27 @@ function passWordValid() {
     // 5초 후 토스트 메시지 사라지게 하기 
     setTimeout(() => {
         toastMessage.style.visibility = 'hidden';
+        window.location.href = '/page/Log in.html';
     }, 5000);
 }
 
 // 수정완료 버튼 클릭 이벤트 리스너
-changeBtn.addEventListener('click', function(e) {
-    e.preventDefault(); // 일단 폼 제출 방지
+changeBtn.addEventListener('click', async function(e) {
+    e.preventDefault();
     
     if(passwordCheck(password.value) && confirmPasswordCheck()) {
-        // 백엔드 API 호출 코드 추가 예정
-       
-        
-        passWordValid(); // 토스트 메시지 표시
+        try {
+            await editPassword(password.value);
+            
+            passWordValid();
+            
+            password.value = '';
+            confirmPassword.value = '';
+            
+        } catch (error) {
+            alert(error.message || '비밀번호 변경에 실패했습니다.');
+            console.error('비밀번호 변경 에러:', error);
+        }
     }
 });
 
