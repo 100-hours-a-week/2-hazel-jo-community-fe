@@ -1,3 +1,5 @@
+import { signupUser } from "../api/auth-api.js"; 
+
 const password = document.querySelector(".password");
 const confirmPassword = document.querySelector(".password-check");
 const signupButton = document.querySelector(".signup-button"); 
@@ -14,11 +16,13 @@ const emailMark = document.querySelector('.email-mark');
 const passwordMark = document.querySelector('.password-mark');
 const confirmPasswordMark = document.querySelector('.password-check-mark');
 const nicknameMark = document.querySelector('.nickname-mark');
+const profileMark = document.querySelector('.profile-mark');
 
 // 프로필 이미지 
 const profileBtn = document.querySelector('.profile-image');
 const profileInput = document.querySelector('#profile-input');
-const profileMark = document.querySelector('.profile-mark');
+
+
 
 // 이메일 유효성 검사 
 function emailCheck(email) {
@@ -29,12 +33,15 @@ function emailCheck(email) {
     
     if (email === "") {
         emailHelperText.textContent = "*이메일을 입력해주세요.";
+        return false; 
     } else if (email.length < 5 || !emailRegex.test(email)) {
         emailFormatCheck();
+        return false; 
     } else{
         // 이메일 중복 체크 API 호출 추가 예정 
         checkEmail(email);
         correctFormat("emailHelperTxt");
+        return true; 
     }
 }
 
@@ -53,12 +60,15 @@ function passwordCheck(passWord) {
     // 비밀번호가 유효하지 않음 
     if(passWord === '') {
         pwHelperText.textContent = "*비밀번호를 입력해주세요";
+        return false; 
     } else if(!passwordRegex.test(passWord)) {
         passwordFormatCheck(); 
+        return false; 
     } else {
         correctFormat("passwordHelperTxt");
         if(confirmPassword.value !== '') {
             confirmPasswordCheck(confirmPassword.value);
+            return true; 
         }
     }
 }
@@ -67,10 +77,13 @@ function passwordCheck(passWord) {
 function confirmPasswordCheck(confirmPw) {
     if(confirmPw === '') {
         confirmPwHelperText.textContent = "*비밀번호를 한번더 입력해주세요";
+        return false; 
     } else if(confirmPw !== password.value.trim()) {
         confirmPwHelperText.textContent = "*비밀번호가 다릅니다."
+        return false; 
     } else {
         correctFormat("confirmPasswordHelperTxt");
+        return true; 
     }
 }
 
@@ -81,14 +94,18 @@ function nicknameCheck(nickname) {
 
     if (nickname === "") {
         nicknameHelperText.textContent = "*닉네임을 입력해주세요.";
+        return false; 
     } else if (nickname.includes(" ")) {
         nicknameHelperText.textContent = "*띄어쓰기를 없애주세요.";
+        return false; 
     } else if (nickname.length > 10) {
         nicknameHelperText.textContent = "*닉네임은 최대 10자까지 작성 가능합니다.";
+        return false; 
     } else {
         // 닉네임 중복 체크 API 호출 추가 예정 
         checkNickname(nickname);
         correctFormat("nicknameHelperTxt");
+        return true; 
     }
 }
 
@@ -126,17 +143,18 @@ profileInput.addEventListener("change", async (e) => {
         profileBtn.style.backgroundImage = ''; 
         // input값 초기화
         profileInput.value = '';
-        return;
+    } else {
+        try {
+            const resizedImageUrl = await resizeImage(file);
+            profileBtn.style.backgroundImage = `url(${resizedImageUrl})`;
+            profileHelperText.textContent = "";
+            
+        } catch (error) {
+            console.error('이미지 리사이징 오류', error);
+        }
     }
-
-    try {
-        const resizedImageUrl = await resizeImage(file);
-        profileBtn.style.backgroundImage = `url(${resizedImageUrl})`;
-        profileHelperText.textContent = "";
-        updateButtonState();
-    } catch (error) {
-        console.error('이미지 리사이징 오류', error);
-    }
+    markCheck(); // 파일 변경 시 마크 체크
+    updateButtonState();
 });
 
 // 이미지 리사이징 함수 
@@ -185,14 +203,59 @@ function updateButtonState() {
     if(profileHelperText.textContent.trim() === "" && 
        emailHelperText.textContent.trim() === "" && 
        pwHelperText.textContent.trim() === "" && 
-       confirmPwHelperText.textContent.trim() === "" ) 
-       //nicknameHelperText.textContent.trim() === "" 
-       {
+       confirmPwHelperText.textContent.trim() === "" && 
+       nicknameHelperText.textContent.trim() === "" ) {
         signupButton.style.backgroundColor = "#7F6AEE";
     } else {
         signupButton.style.backgroundColor = "#ACA0EB";
     }
 }
+
+// 버튼 클릭시 회원가입 요청 
+signupButton.addEventListener("click", async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const nickname = document.getElementById('nickname').value;
+    const passwordValue = password.value; 
+    const profileImage = profileInput.files[0];
+
+    if(emailCheck(email) && passwordCheck(passwordValue) && confirmPasswordCheck(confirmPassword.value) && nicknameCheck(nickname)) {
+        try {
+            const result = await signupUser(email, nickname, passwordValue, profileImage);
+            console.log('회원가입 전체 응답:', result);
+
+            if (result && result.user) {
+                console.log('회원가입 사용자 정보:', result.user);
+                
+                // userId로 체크 변경
+                if (result.user.userId) {
+                    localStorage.setItem('userId', String(result.user.userId));
+                    localStorage.setItem('email', result.user.email);
+                    localStorage.setItem('nickname', result.user.nickname);
+                    
+                    if (result.user.profileImage) {
+                        const BACKEND_URL = 'http://localhost:5000';
+                        const imageUrl = `${BACKEND_URL}${result.user.profileImage}`;
+                        localStorage.setItem('profileImage', imageUrl);
+                    }
+
+                    alert('회원가입이 완료되었습니다.');
+                    window.location.href = '/public/page/login';
+                } else {
+                    console.error('사용자 ID 없음:', result.user);
+                    throw new Error('사용자 ID가 없습니다.');
+                }
+            } else {
+                console.error('사용자 정보 없음:', result);
+                throw new Error('서버 응답에 사용자 정보가 없습니다.');
+            }
+        } catch (error) {
+            console.error('회원가입 처리 중 오류:', error);
+            alert(error.message || '회원가입 중 오류가 발생했습니다.');
+        }
+    }
+});
 
 // input 유무 체크 마크 
 function markCheck() {
@@ -218,6 +281,12 @@ function markCheck() {
         nicknameMark.style.display = 'none';
     } else {
         nicknameMark.style.display = 'inline'; 
+    }
+
+    if(profileInput.files[0]) {
+        profileMark.style.display = 'none';
+    } else {
+        profileMark.style.display = 'inline';
     }
 }
 
@@ -251,3 +320,8 @@ confirmPassword.addEventListener("input", function() {
     confirmPasswordCheck(this.value);
     updateButtonState(); 
 });
+
+window.emailCheck = emailCheck;
+
+
+
