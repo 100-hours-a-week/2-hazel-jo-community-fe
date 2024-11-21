@@ -6,7 +6,7 @@ export async function signupUser(email, nickname, password, profileImage) {
     formData.append('email', email);
     formData.append('nickname', nickname);
     formData.append('password', password);
-    // 프로필 이미지 첨부 
+    // 프로필 이미지 첨부
     if (profileImage) {
         formData.append('profileImage', profileImage);
     }
@@ -42,14 +42,12 @@ export async function signupUser(email, nickname, password, profileImage) {
 // 로그인 
 export async function loginUser(email, password) {
     try {
-        console.log('로그인 시도:', { email, password }); 
-
-        // 로그인 요청 
         const response = await fetch(`${authUrl}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
                 email: email,
                 password: password
@@ -57,14 +55,12 @@ export async function loginUser(email, password) {
         });
 
         const data = await response.json();
-        console.log('서버 응답:', data);
-
+        
         if (!response.ok) {
             throw new Error(data.message || '로그인 실패');
         }
 
         return data;
-
     } catch (error) {
         console.error('로그인 에러:', error);
         throw error;
