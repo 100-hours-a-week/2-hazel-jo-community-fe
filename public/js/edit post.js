@@ -1,32 +1,49 @@
-import { fetchPosts } from "../api/posts-api.js";
+import { editPost, loadPost } from "../api/posts-api.js";
 
 window.onload = function() {
-    // 해당 페이지 id에 맞는 게시글 데이터 가져와서 페이지 렌더링 
+    // URL에서 post_id 파라미터 가져오기
     const urlParams = new URLSearchParams(window.location.search);
-    const postId = parseInt(urlParams.get('post_id'));
+    const postId = urlParams.get('post_id');
+    const userId = localStorage.getItem('userId');
 
-    fetchPosts().then(posts => {
-        const post = posts.find(p => p.post_id === postId);
+    console.log('클라이언트 userId:', userId);
 
-        if(post && post.post_id === postId) {
+    if (!postId) {
+        console.error('postId가 설정되지 않았습니다.');
+        window.location.href = '/page/posts.html'; 
+        return;
+    }
+
+    // 게시글 불러오기 로직 수정
+    loadPost(postId).then(post => {
+        if (post) {
+            console.log('게시글 정보:', post);
+            console.log('게시글 작성자 ID:', post.user_id);
+            console.log('현재 로그인한 사용자 ID:', Number(userId));
+
+            if (Number(post.user_id) !== Number(userId)) {
+                alert('게시글 수정 권한이 없습니다.');
+                window.location.href = `/page/post.html?post_id=${postId}`;
+                return;
+            }
             renderPost(post);
         } else {
             console.error('해당 게시글을 찾을 수 없습니다.');
         }
+    }).catch(error => {
+        console.error('게시글 로딩 중 오류 발생:', error);
     });
 
-    // 뒤로가기 버튼 : 해당 id의 게시글로 이동 
+    // 뒤로가기 버튼 설정
     const navigateBefore = document.querySelector('.navigate_before');
-    if(navigateBefore) {
+    if (navigateBefore) {
         navigateBefore.addEventListener('click', () => {
             window.location.href = `/page/post.html?post_id=${postId}`;
         });
-    };
-
+    }
 };
 
-
-  function renderPost(post) {
+function renderPost(post) {
     const main = document.querySelector('main');
 
     main.innerHTML =
@@ -100,20 +117,33 @@ window.onload = function() {
     // 수정하기 버튼 : 수정 후 게시글로 이동 
     const editPostBtn = document.getElementById('edit-post-form');
     if(editPostBtn) {
-        editPostBtn.addEventListener('submit', (e) => {
-            // form submit 방지  
+        editPostBtn.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             // 수정된 데이터로 post 객체 업데이트 
             const formData = {
                 title: title.value,
                 content: content.value,
+                userId: Number(localStorage.getItem('userId'))
             };
 
-            // 수정된 데이터 처리하는 로직 추가 예정 
+            console.log('수정 요청 데이터:', formData);
 
-            // 수정 후 게시글 페이지로 이동 
-            window.location.href = `/page/post.html?post_id=${post.post_id}`;
+            try {
+                // editPost 함수 불러와 게시글 수정
+                await editPost(post.post_id, formData);
+                // 수정 성공 시 게시글 상세 페이지로 이동
+                window.location.href = `/page/post.html?post_id=${post.post_id}`;
+            } catch (error) {
+                console.error('게시글 수정 중 오류 발생:', error);
+                console.log('에러 메시지:', error.message);
+                if (error.message.includes('권한이 없습니다')) {
+                    alert('게시글 수정 권한이 없습니다.');
+                    window.location.href = `/page/post.html?post_id=${post.post_id}`;
+                } else {
+                    alert('게시글 수정에 실패했습니다.');
+                }
+            }
         });
     }
 }
