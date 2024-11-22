@@ -1,17 +1,18 @@
 import { loadPost } from "../api/posts-api.js";
 import { loadUserInfo } from "../api/user-api.js";
 import { deletePost } from "../api/posts-api.js";
+import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
+import { getCurrentUser } from "../api/auth-api.js";
 
 const baseUrl = 'http://localhost:5000';
 
-
 window.onload = async function() {
 
-    // URL에서 게시글 아이디 가져오기 
+    // URL에서 게시글 아이디 가져오기  
     const urlParams = new URLSearchParams(window.location.search);
     const postId = parseInt(urlParams.get('post_id'));
 
-    // postId가 유효한 숫자인지 확인하는 로직 추가
+    // postId가 유효한 숫자인지 확인
     if (!postId || isNaN(postId)) {
         console.error('유효하지 않은 게시글 ID');
         return;
@@ -21,22 +22,32 @@ window.onload = async function() {
     const post = await loadPost(postId);
     const userInfo = await loadUserInfo(post.user_id);
 
+    // 현재 로그인한 사용자 정보 가져오기
+    let currentUserInfo;
+    try {
+        currentUserInfo = await getCurrentUser();
+    } catch (error) {
+        console.error('현재 사용자 정보 로드 실패:', error);
+        currentUserInfo = null;
+    }
+
     if(post) {
         const postDetailSection = document.querySelector('.post-detail');
         postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, userInfo));
     }
-    
-    /* 댓글 관련 코드 주석 처리
-    loadComments().then(comments => {
+
+    // 댓글 데이터 불러오기 
+    loadComments(postId).then(comments => {
         const commentSection = document.querySelector('.comment-list');
-        const filterComments = comments.filter(c => c.post_id === postId);
-        if(filterComments.length > 0) {
-          filterComments.forEach(comment => {
-                commentSection.insertAdjacentHTML('beforeend', renderComment(comment));
-            });
+        if(comments && comments.length > 0) {
+          comments.forEach(comment => {
+            commentSection.insertAdjacentHTML('beforeend', renderComment(comment));
+          });
         }
     });
-    */
+
+    // 선택된 댓글 아이디 변수 초기화
+    let selectedCommentId = null;
 
     // * 이벤트 리스너 바인딩 -> 이벤트 위임 방식으로 수정 예정 
     document.addEventListener('click', async (e) => {
@@ -50,28 +61,95 @@ window.onload = async function() {
         }
         // 게시글 삭제 모달창 확인 버튼 
         if (e.target.id === 'confirmPostBtn') {
-            
-            const userId = await loadUserInfo(post.user_id);
-            
-            deletePost(postId, userId).then(() => {
+            try {
+                await deletePost(postId);
                 modalClose(postModalOverlay);
-                window.location.href = `${baseUrl}/posts`;
-            }).catch(error => {
+                window.location.href = '/page/Posts.html';
+            } catch (error) {
                 console.error('게시글 삭제 오류:', error);
-            });
+                if (error.message.includes('권한이 없습니다')) {
+                    alert('게시글 작성자만 삭제할 수 있습니다.');
+                } else {
+                    alert('게시글 삭제에 실패했습니다.');
+                }
+            }
         }
         // 댓글 삭제 버튼
         if (e.target.classList.contains('comment-delete')) {
+            // 클릭된 삭제 버튼의 댓글 아이디 불러옴 
+            selectedCommentId = e.target.closest('.comment-item').dataset.commentId;
+            const commentModalOverlay = document.getElementById('commentModalOverlay');
             modalOpen(commentModalOverlay);
         }
 
         // 댓글 삭제 모달창 취소 버튼
         if (e.target.id === 'cancelCommentBtn') {
+            const commentModalOverlay = document.getElementById('commentModalOverlay');
             modalClose(commentModalOverlay);
         }
         // 댓글 삭제 모달창 확인 버튼
         if (e.target.id === 'confirmCommentBtn') {
-            modalClose(commentModalOverlay);
+            try {
+              await deleteComment(selectedCommentId);
+              const commentModalOverlay = document.getElementById('commentModalOverlay');
+              modalClose(commentModalOverlay);
+              window.location.reload();
+            } catch (error) {
+              console.error('댓글 삭제 오류: ', error);
+              if (error.message.includes('권한이 없습니다')) {
+                alert('댓글 작성자만 삭제할 수 있습니다.');
+              } else {
+                alert('댓글 삭제에 실패했습니다.');
+              }
+            }
+        }
+
+        // 댓글 수정 버튼 클릭 시
+        if(e.target.classList.contains('comment-edit')) {
+            const commentItem = e.target.closest('.comment-item');
+            const commentId = commentItem.dataset.commentId;
+            const commentText = commentItem.querySelector('.comment-text').textContent;
+            
+            // 댓글 입력창에 기존 내용 표시
+            commentTextarea.value = commentText;
+            
+            // 댓글 등록 버튼 숨기고 수정 버튼 표시
+            commentSubmitBtn.style.display = 'none';
+            document.querySelector('.comment-edit-submit').style.display = 'block';
+            
+            // 수정 중인 댓글 ID 저장
+            selectedCommentId = commentId;
+        }
+
+        // 댓글 수정 완료 버튼 클릭 시
+        if(e.target.classList.contains('comment-edit-submit')) {
+            try {
+                const updatedContent = commentTextarea.value.trim();
+                
+                if(!updatedContent) {
+                    alert('댓글 내용을 입력해주세요.');
+                    return;
+                }
+                
+                await updateComment(selectedCommentId, { content: updatedContent });
+                
+                // UI 초기화
+                commentTextarea.value = '';
+                commentSubmitBtn.style.display = 'block';
+                document.querySelector('.comment-edit-submit').style.display = 'none';
+                selectedCommentId = null;
+                
+                // 페이지 새로고침
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('댓글 수정 오류:', error);
+                if (error.message.includes('권한이 없습니다')) {
+                    alert('댓글 작성자만 수정할 수 있습니다.');
+                } else {
+                    alert('댓글 수정에 실패했습니다.');
+                }
+            }
         }
     });
 
@@ -93,33 +171,58 @@ window.onload = async function() {
     });
 
     // 댓글 등록 함수
-    const handleCommentSubmit = () => {
-        const commentText = commentTextarea.value.trim();
+    const handleCommentSubmit = async (formData) => {
+        const commentText = formData.content.trim();
         
         if (commentText === '') {
             return;
         }
         
-        // 새로운 댓글 객체 생성
-        // *추후 로그인 구현 시 작성자 및 프로필 이미지 수정 필요 
-        const newComment = {
-            image: '/image/profileImg.png', 
-            author: '작성자', 
-            date: new Date().toLocaleString(),
-            content: commentText
-        };
-        
-        // 댓글 렌더링
-        const commentList = document.querySelector('.comment-list');
-        commentList.insertAdjacentHTML('afterbegin', renderComment(newComment));
-        
-        // 입력창 초기화 및 댓글 등록 버튼 배경 색깔 초기화 
-        commentTextarea.value = '';
-        commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+        try {
+            // 현재 로그인 한 사용자 정보가 없으면 에러 처리
+            if (!currentUserInfo) {
+                throw new Error('로그인이 필요합니다.');
+            }
+
+            // 새로운 댓글 객체 생성 
+            const newComment = {
+                content: commentText,
+                //post_id: postId,
+                //user_id: currentUserInfo.userId, // userInfo.user_id 대신 currentUserInfo.userId 사용
+                //user_nickname: currentUserInfo.nickname,
+                //profile_image: currentUserInfo.profileImage
+            };
+
+            const savedComment = await createComment(postId, newComment);
+            const commentList = document.querySelector('.comment-list');
+            
+            // 서버에서 반환된 댓글 데이터로 렌더링
+            if (savedComment && savedComment.comment) {
+                commentList.insertAdjacentHTML('afterbegin', renderComment(savedComment.comment));
+                
+                // 입력창 초기화
+                commentTextarea.value = '';
+                commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+            } else {
+                throw new Error('댓글 데이터가 올바르지 않습니다.');
+            }
+        } catch (error) {
+            console.error('댓글 저장 오류:', error);
+            if (error.message.includes('로그인')) {
+                alert('댓글을 작성하려면 로그인이 필요합니다.');
+            } else {
+                alert('댓글 저장에 실패했습니다.');
+            }
+        }
     };
     
     // 댓글 등록 버튼 클릭 이벤트
-    commentSubmitBtn.addEventListener('click', handleCommentSubmit);
+    commentSubmitBtn.addEventListener('click', () => {
+        const formData = {
+            content: commentTextarea.value
+        };
+        handleCommentSubmit(formData);
+    });
 
 };
 
@@ -146,7 +249,8 @@ function modalClose(ModalOverlay) {
     const getImage = (imagePath, isProfile = false) => {
         // 프로필 이미지인 경우
         if (isProfile) {
-            if (!imagePath) {
+            if (!imagePath || imagePath === '') {
+                //* 이미지 깨져 보임 -> 추후 해결 예정 
                 return '/public/image/basic.png';
             }
             if (imagePath.startsWith('/uploads/profiles/')) {
@@ -157,6 +261,7 @@ function modalClose(ModalOverlay) {
         
         // 게시글 이미지인 경우
         if (!imagePath || imagePath === 'null' || imagePath === '') {
+            //* 이미지 깨져 보임 -> 추후 해결 예정 
             return '/image/default.jpeg';
         }
         if (imagePath.startsWith('/uploads/')) {
@@ -176,7 +281,7 @@ function modalClose(ModalOverlay) {
             <span class="post-date">${post.date}</span>
           </div>
           <div class="post-buttons">
-            <button class="post-edit" id="editPostBtn" onclick="location.href='/page/edit/${post.post_id}'">수정</button>
+            <button class="post-edit" id="editPostBtn" onclick="location.href='/page/edit post.html?post_id=${post.post_id}'">수정</button>
             <button class="post-delete" id="deletePostBtn">삭제</button>
           </div>
         </div>
@@ -208,12 +313,21 @@ function modalClose(ModalOverlay) {
   }
 
   function renderComment(comment) {
+      
+    // 프로필 이미지 경로 처리
+    const getProfileImage = (imagePath) => {
+      if (!imagePath || imagePath === 'null') {
+          return '/image/basic.png'; 
+      }
+      return imagePath.startsWith('/uploads/profiles/') ? `${baseUrl}${imagePath}` : imagePath;
+    };
+
     return `
-    <div class="comment-item">
+    <div class="comment-item" data-comment-id="${comment.comment_id}">
         <div class="comment-author">
             <div class="author-info">
-                <img src="${comment.profileImg}" alt="프로필">
-                <span>${comment.nickname}</span>
+                <img src="${getProfileImage(comment.profile_image)}" alt="프로필">
+                <span>${comment.user_nickname}</span>
                 <span class="comment-date">${comment.date}</span>
             </div>
             <div class="comment-buttons">
@@ -224,4 +338,4 @@ function modalClose(ModalOverlay) {
         <p class="comment-text">${comment.content}</p>
     </div>
     `;
-  }
+}
