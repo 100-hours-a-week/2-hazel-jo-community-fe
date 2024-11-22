@@ -304,3 +304,21 @@ body {
   margin-left: 70px;
 }
 
+/* 댓글 수정 버튼 */
+.comment-edit-submit {
+    width: 138px;
+    height: 39px;
+    background: #7F6AEE;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 16px;
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 25.04px;
+}
+
