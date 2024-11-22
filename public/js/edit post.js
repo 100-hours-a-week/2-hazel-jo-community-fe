@@ -46,6 +46,9 @@ window.onload = function() {
 function renderPost(post) {
     const main = document.querySelector('main');
 
+    // 이미지 경로에서 파일명 추출
+    const contentImage = post.image ? post.image.split('/').pop() : '기존 파일 명';
+
     main.innerHTML =
     `
     <div class="post-form">
@@ -64,7 +67,7 @@ function renderPost(post) {
                 <div class="image-upload-container">
                     <button type="button" class="image-upload" onclick="document.getElementById('image-upload').click();">파일 선택</button>
                     <input type="file" id="image-upload" accept="image/*" style="display: none;">
-                    <span class="upload-guide">기존 파일 명</span>
+                    <span class="upload-guide">${contentImage}</span>
                 </div>
             </div>
             <button type="submit" class="submit-btn">수정하기</button>
@@ -120,12 +123,17 @@ function renderPost(post) {
         editPostBtn.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // 수정된 데이터로 post 객체 업데이트 
-            const formData = {
-                title: title.value,
-                content: content.value,
-                userId: Number(localStorage.getItem('userId'))
-            };
+            // FormData 객체 생성
+            const formData = new FormData();
+            formData.append('title', title.value);
+            formData.append('content', content.value);
+            formData.append('userId', Number(localStorage.getItem('userId')));
+
+            // 이미지 파일 추가
+            const imageFile = document.getElementById('image-upload').files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
 
             console.log('수정 요청 데이터:', formData);
 
@@ -146,4 +154,13 @@ function renderPost(post) {
             }
         });
     }
+
+    // 이미지 선택 시 파일명 표시
+    const imageUpload = document.getElementById('image-upload');
+    const uploadGuide = document.querySelector('.upload-guide');
+
+    imageUpload.addEventListener('change', () => {
+        const fileName = imageUpload.files[0] ? imageUpload.files[0].name : '기존 파일 명';
+        uploadGuide.textContent = fileName;
+    });
 }

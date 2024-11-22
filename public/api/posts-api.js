@@ -1,9 +1,11 @@
-const baseUrl = 'http://localhost:5000/posts';
+const postsUrl = 'http://localhost:5000/posts';
+const baseUrl = 'http://localhost:5000';
+
 
 // 게시글 목록 불러오기 
 export async function loadPosts() {
     try {
-        const response = await fetch(`${baseUrl}`, {
+        const response = await fetch(`${postsUrl}`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -25,7 +27,7 @@ export async function loadPosts() {
 // 게시글 생성 
 export async function createPost(formData) {
     try {
-        const response = await fetch(`${baseUrl}`, {
+        const response = await fetch(`${postsUrl}`, {
             method: 'POST',
             credentials: 'include',
             body: formData
@@ -47,7 +49,7 @@ export async function createPost(formData) {
 // 게시글 상세 불러오기 
 export async function loadPost(postId) {
     try {
-        const response = await fetch(`${baseUrl}/${postId}`, {
+        const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -68,7 +70,7 @@ export async function loadPost(postId) {
 // 게시글 삭제 
 export async function deletePost(postId) {
     try {
-        const response = await fetch(`${baseUrl}/${postId}`, {
+        const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,13 +96,10 @@ export async function editPost(postId, formData) {
         // 세션 쿠키가 있는지 확인
         console.log('쿠키:', document.cookie);
         
-        const response = await fetch(`${baseUrl}/${postId}`, {
+        const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             credentials: 'include', 
-            body: JSON.stringify(formData)
+            body: formData 
         });
 
         if(!response.ok) {
@@ -108,7 +107,7 @@ export async function editPost(postId, formData) {
             // 세션 만료 시 로그인 페이지로 리다이렉트
             if(response.status === 401) {
                 alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-                window.location.href = '/page/login.html';
+                window.location.href = `${baseUrl}/login`;
                 return;
             }
             throw new Error(errorData.message || '게시글 수정 실패')
