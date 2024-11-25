@@ -3,6 +3,7 @@ import { loadUserInfo } from "../api/user-api.js";
 import { deletePost } from "../api/posts-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
+import { likePost, getLikeCount } from "../api/posts-api.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -187,10 +188,7 @@ window.onload = async function() {
             // 새로운 댓글 객체 생성 
             const newComment = {
                 content: commentText,
-                //post_id: postId,
-                //user_id: currentUserInfo.userId, // userInfo.user_id 대신 currentUserInfo.userId 사용
-                //user_nickname: currentUserInfo.nickname,
-                //profile_image: currentUserInfo.profileImage
+                profile_image: currentUserInfo.profileImage 
             };
 
             const savedComment = await createComment(postId, newComment);
@@ -270,6 +268,42 @@ function modalClose(ModalOverlay) {
         return imagePath;
     };
 
+    // 좋아요 수 업데이트 함수
+    async function handleLikeClick(e) {
+        const likeCount = await getLikeCount(post.post_id);
+        // console.log('getLikeCount 좋아요 수 : ', likeCount);
+
+        if(e.target.closest('.like-post')) {
+            try {
+                const likeButton = e.target.closest('.like-post');
+                const postId = likeButton.dataset.postId;
+
+                const response = await likePost(postId);
+                // console.log('likePost 좋아요 수 : ', response);
+
+                const updatedLikeCount = response.likeCount;
+                // console.log('updatedLikeCount : ', updatedLikeCount);
+                
+                const countElement = likeButton.querySelector('.count');
+                if(countElement) {
+                    countElement.textContent = convertK(updatedLikeCount);
+                    countElement.dataset.likeCount = updatedLikeCount;
+                }
+            } catch (error) {
+                console.error('좋아요 업데이트 실패:', error);
+                if (error.message.includes('로그인')) {
+                    alert('좋아요를 누르려면 로그인이 필요합니다.');
+                } else {
+                    alert('좋아요 업데이트에 실패했습니다.');
+                }
+            }
+        }
+    }
+
+    // 좋아요 버튼 이벤트 리스너 
+    document.removeEventListener('click', handleLikeClick);
+    document.addEventListener('click', handleLikeClick);
+
     return `
     <article class="post-container">
       <div class="post-header">
@@ -296,8 +330,10 @@ function modalClose(ModalOverlay) {
       </div>
       <div class="post-stats">
         <div class="stat-item">
-          <span class="count">${convertK(post.like)}</span>
-          <span>좋아요수</span>
+          <button class="like-post" data-post-id="${post.post_id}">
+            <span class="count" data-like-count="${post.post_id}">${convertK(post.like)}</span>
+            <span>좋아요</span>
+          </button>
         </div>
         <div class="stat-item">
           <span class="count">${convertK(post.view)}</span>
