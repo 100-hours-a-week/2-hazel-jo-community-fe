@@ -26,7 +26,10 @@ const profileInput = document.querySelector('#profile-input');
 
 // 이메일 유효성 검사 
 function emailCheck(email) {
-    const emailRegex = /^[a-zA-Z._-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
+    // 숫자 없는 이메일 형식 
+    // const emailRegex = /^[a-zA-Z._-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
+    // 숫자 포함 이메일 형식
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     // 입력 받은 이메일 앞 뒤 공백 제거 
     email = email.trim(); 
