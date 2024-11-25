@@ -1,0 +1,28 @@
+{
+   "comments": [
+    {
+        "comment_id": 1,
+        "post_id": 1,
+        "user_id": "더미 작성자1",
+        "content": "댓글 내용",
+        "image": "/image/profileImg.png",
+        "date": "2024-01-01 00:00:00"
+    },
+    {
+        "comment_id": 2,
+        "post_id": 1,
+        "user_id": "더미 작성자2",
+        "content": "댓글 내용",
+        "image": "/image/profileImg2.png",
+        "date": "2024-01-01 00:00:00"
+    },
+    {
+        "comment_id": 1,
+        "post_id": 2,
+        "user_id": "더미 작성자3",
+        "content": "댓글 내용",
+        "image": "/image/profileImg.png",
+        "date": "2024-01-01 00:00:00"
+    }
+   ]
+}

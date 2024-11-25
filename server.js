@@ -1,5 +1,9 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
@@ -37,12 +41,16 @@ app.get('/public/page/post', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'page', 'post.html'));
 });
 
-app.get('/public/page/posts', (req, res) => {
+app.get('/public/page/Posts.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'page', 'Posts.html'));
 });
 
-app.get('/public/page/signin', (req, res) => {
+app.get('/public/page/Sign in.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'page', 'Sign in.html'));
+});
+
+app.get('/public/page/Log in.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'page', 'Log in.html'));
 });
 
 // 서버 시작

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch JSON Example</title>
+  </head>
+  <body>
+    <h1>Fetch JSON Data</h1>
+    <script>
+      // Fetch JSON 파일
+      fetch('./data/data.json')
+        .then((response) => {
+          // 응답을 JSON으로 파싱
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // 데이터 처리
+          console.log(data);
+        })
+        .catch((error) => {
+          // 에러 처리
+          console.error(
+            'There was a problem with your fetch operation:',
+            error
+          );
+        });
+    </script>
+  </body>
+</html>

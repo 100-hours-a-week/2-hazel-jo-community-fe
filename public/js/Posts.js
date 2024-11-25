@@ -9,7 +9,6 @@ window.onload = async function() {
     
     try {
         const response = await loadPosts();
-        console.log('서버 응답 데이터:', response);
         
         const posts = response.posts || response;
         

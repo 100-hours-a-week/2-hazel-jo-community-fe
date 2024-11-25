@@ -8,7 +8,6 @@ document.getElementById("loginBtn").addEventListener("click", function() {
 
     if (emailCheck(email) && passwordCheck(password)) {
         this.style.backgroundColor = "#7F6AEE";
-        //window.location.href = "/public/page/posts";
     }
 });
 
@@ -96,7 +95,7 @@ async function login(e) {
                 const BACKEND_URL = 'http://localhost:5000';
                 
                 // userId 저장
-                localStorage.setItem('userId', String(userData.userId));
+                localStorage.setItem('userId', Number(userData.userId));
                 localStorage.setItem('email', userData.email);
                 localStorage.setItem('nickname', userData.nickname);
                 

@@ -66,3 +66,27 @@ export async function loginUser(email, password) {
         throw error;
     }
 }
+
+// 현재 로그인한 사용자 정보 가져오기
+export async function getCurrentUser() {
+    try {
+        const response = await fetch(`${authUrl}/current`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || '사용자 정보 조회 실패');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('현재 사용자 정보 조회 오류:', error);
+        throw error;
+    }
+}
