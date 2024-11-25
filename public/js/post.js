@@ -3,7 +3,7 @@ import { loadUserInfo } from "../api/user-api.js";
 import { deletePost } from "../api/posts-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
-import { likePost, getLikeCount } from "../api/posts-api.js";
+import { likePost, getLikeCount, getPostViews } from "../api/posts-api.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -268,6 +268,9 @@ function modalClose(ModalOverlay) {
         return imagePath;
     };
 
+    // 게시글 상세 조회 페이지 진입 시 조회수 업데이트
+    getPostViews(post.post_id);
+
     // 좋아요 수 업데이트 함수
     async function handleLikeClick(e) {
         const likeCount = await getLikeCount(post.post_id);
@@ -336,7 +339,7 @@ function modalClose(ModalOverlay) {
           </button>
         </div>
         <div class="stat-item">
-          <span class="count">${convertK(post.view)}</span>
+          <span class="count" data-view-count="${post.post_id}">${convertK(post.view)}</span>
           <span>조회수</span>
         </div>
         <div class="stat-item">          

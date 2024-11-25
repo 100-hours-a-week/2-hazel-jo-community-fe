@@ -193,7 +193,7 @@ export async function getCommentCount(postId) {
 // 게시글 조회수 
 export async function getPostViews(postId) {
     try {
-        const response = await fetch(`${postsUrl}/${postId}/views`, {
+        const response = await fetch(`${postsUrl}/${postId}/view`, {
             method: 'GET',
             credentials: 'include',
         });

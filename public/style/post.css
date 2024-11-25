@@ -323,7 +323,7 @@ body {
 }
 
 /* 좋아요 버튼 */
-.like-post {
+.like-post, .view-post {
   width: 116px;
   height: 77px;
   display: flex;
@@ -334,5 +334,9 @@ body {
   background-color: transparent;
   border: none;
   text-align: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25.04px;
 }
 
