@@ -34,7 +34,9 @@ window.onload = async function() {
         }));
 
         postsWithUserInfo.forEach(post => {
-            postsContainer.innerHTML += renderPosts(post);
+            // 최신 게시글이 위로 가도록 수정 
+            //postsContainer.innerHTML += renderPosts(post);
+            postsContainer.insertAdjacentHTML('afterbegin', renderPosts(post));
         });
     } catch (error) {
         console.error('게시글 목록 불러오기 오류:', error);
