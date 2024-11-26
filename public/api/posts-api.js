@@ -135,7 +135,7 @@ export async function likePost(postId) {
         }
 
         const data = await response.json();
-        // console.log('likePost 좋아요 수 : ', data);
+        
         return data;
     } catch (error) {
         console.error('게시글 좋아요 오류: ', error);
@@ -159,7 +159,7 @@ export async function  getLikeCount(postId) {
         }
 
         const data = await response.json();
-        // console.log('getLikeCount 좋아요 수 : ', data.like);
+        
         return data.like;
     } catch (error) {
         console.error('게시글 좋아요 수 오류: ', error);
