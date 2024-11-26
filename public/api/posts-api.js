@@ -168,11 +168,10 @@ export async function  getLikeCount(postId) {
 }
 
 
-
-// 게시글 댓글 수 
+// 게시글 댓글 수 불러오기 
 export async function getCommentCount(postId) {
     try {
-        const response = await fetch(`${postsUrl}/${postId}/comment-count`, {
+        const response = await fetch(`${postsUrl}/${postId}/comment`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -189,6 +188,33 @@ export async function getCommentCount(postId) {
         throw error;
     }   
 }
+
+
+// 게시글 댓글 수 증가/감소 
+export async function updateCommentCount(postId, action) {
+    try {
+        const response = await fetch(`${postsUrl}/${postId}/comment`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || '댓글 추가/삭제 실패');
+        }
+
+        const result = await response.json();
+        return result.commentCount; 
+    } catch (error) {
+        console.error('댓글 추가/삭제 오류: ', error);
+        throw error;
+    }
+}
+
 
 // 게시글 조회수 
 export async function getPostViews(postId) {

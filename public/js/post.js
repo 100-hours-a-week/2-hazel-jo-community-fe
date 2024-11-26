@@ -3,9 +3,22 @@ import { loadUserInfo } from "../api/user-api.js";
 import { deletePost } from "../api/posts-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
-import { likePost, getLikeCount, getPostViews } from "../api/posts-api.js";
+import { likePost, getLikeCount, getPostViews, getCommentCount, updateCommentCount} from "../api/posts-api.js";
 
 const baseUrl = 'http://localhost:5000';
+
+// 게시글 댓글 수 로드 함수 
+async function loadCommentCount(postId) {
+    try {
+        const { commentCount } = await getCommentCount(postId);
+        return commentCount;    
+    } catch (error) {
+        console.error('댓글 개수 로드 오류:', error);
+        return null;
+    }
+}
+
+
 
 window.onload = async function() {
 
@@ -22,6 +35,9 @@ window.onload = async function() {
     // 게시글 데이터 가져오기
     const post = await loadPost(postId);
     const userInfo = await loadUserInfo(post.user_id);
+
+    // 댓글 수 업데이트 함수 호출
+    loadCommentCount(postId);
 
     // 현재 로그인한 사용자 정보 가져오기
     let currentUserInfo;
@@ -94,6 +110,7 @@ window.onload = async function() {
               await deleteComment(selectedCommentId);
               const commentModalOverlay = document.getElementById('commentModalOverlay');
               modalClose(commentModalOverlay);
+              updateCommentCount(postId, 'delete');
               window.location.reload();
             } catch (error) {
               console.error('댓글 삭제 오류: ', error);
@@ -201,6 +218,9 @@ window.onload = async function() {
                 // 입력창 초기화
                 commentTextarea.value = '';
                 commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+
+                // 댓글 수 업데이트 함수 호출
+                updateCommentCount(postId, 'add');
             } else {
                 throw new Error('댓글 데이터가 올바르지 않습니다.');
             }
@@ -248,7 +268,6 @@ function modalClose(ModalOverlay) {
         // 프로필 이미지인 경우
         if (isProfile) {
             if (!imagePath || imagePath === '') {
-                //* 이미지 깨져 보임 -> 추후 해결 예정 
                 return '/public/image/basic.png';
             }
             if (imagePath.startsWith('/uploads/profiles/')) {
@@ -258,8 +277,7 @@ function modalClose(ModalOverlay) {
         }
         
         // 게시글 이미지인 경우
-        if (!imagePath || imagePath === 'null' || imagePath === '') {
-            //* 이미지 깨져 보임 -> 추후 해결 예정 
+        if (!imagePath || imagePath === 'null' || imagePath === '') {            
             return '/image/default.jpeg';
         }
         if (imagePath.startsWith('/uploads/')) {
@@ -343,7 +361,7 @@ function modalClose(ModalOverlay) {
           <span>조회수</span>
         </div>
         <div class="stat-item">          
-          <span class="count">${convertK(post.comment)}</span>
+          <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(post.comment)}</span>
           <span>댓글</span>
         </div>
       </div>
@@ -352,7 +370,7 @@ function modalClose(ModalOverlay) {
   }
 
   function renderComment(comment) {
-      
+
     // 프로필 이미지 경로 처리
     const getProfileImage = (imagePath) => {
       if (!imagePath || imagePath === 'null') {
