@@ -305,25 +305,20 @@ function modalClose(ModalOverlay) {
 
     // 좋아요 수 업데이트 함수
     async function handleLikeClick(e) {
-        const likeCount = await getLikeCount(post.post_id);
-        // console.log('getLikeCount 좋아요 수 : ', likeCount);
-
         if(e.target.closest('.like-post')) {
             try {
                 const likeButton = e.target.closest('.like-post');
                 const postId = likeButton.dataset.postId;
 
                 const response = await likePost(postId);
-                // console.log('likePost 좋아요 수 : ', response);
-
-                const updatedLikeCount = response.likeCount;
-                // console.log('updatedLikeCount : ', updatedLikeCount);
                 
+                // 좋아요 버튼 상태 업데이트
                 const countElement = likeButton.querySelector('.count');
                 if(countElement) {
-                    countElement.textContent = convertK(updatedLikeCount);
-                    countElement.dataset.likeCount = updatedLikeCount;
+                    countElement.textContent = convertK(response.likeCount);
+                    countElement.dataset.likeCount = response.likeCount;
                 }
+
             } catch (error) {
                 console.error('좋아요 업데이트 실패:', error);
                 if (error.message.includes('로그인')) {
