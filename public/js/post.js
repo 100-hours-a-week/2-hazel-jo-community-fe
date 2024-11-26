@@ -58,7 +58,7 @@ window.onload = async function() {
         const commentSection = document.querySelector('.comment-list');
         if(comments && comments.length > 0) {
           comments.forEach(comment => {
-            commentSection.insertAdjacentHTML('beforeend', renderComment(comment));
+            commentSection.insertAdjacentHTML('afterbegin', renderComment(comment));
           });
         }
     });
