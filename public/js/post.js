@@ -18,6 +18,20 @@ async function loadCommentCount(postId) {
     }
 }
 
+async function handleCommentAction(postId, action) {
+    try {
+        const updatedCommentCount = await updateCommentCount(postId, action);
+
+        // DOM 조작을 통한 댓글 수 업데이트 
+        const commentCountElement = document.getElementById('commentCount');
+        if(commentCountElement) {
+            commentCountElement.textContent = updatedCommentCount;
+        }
+    } catch (error) {
+        console.error('댓글 수 업데이트 오류:', error);
+    }
+}
+
 
 
 window.onload = async function() {
@@ -110,7 +124,7 @@ window.onload = async function() {
               await deleteComment(selectedCommentId);
               const commentModalOverlay = document.getElementById('commentModalOverlay');
               modalClose(commentModalOverlay);
-              updateCommentCount(postId, 'delete');
+              handleCommentAction(postId, 'delete');
               window.location.reload();
             } catch (error) {
               console.error('댓글 삭제 오류: ', error);
@@ -220,7 +234,7 @@ window.onload = async function() {
                 commentSubmitBtn.style.backgroundColor = '#ACA0EB';
 
                 // 댓글 수 업데이트 함수 호출
-                updateCommentCount(postId, 'add');
+                handleCommentAction(postId, 'add');
             } else {
                 throw new Error('댓글 데이터가 올바르지 않습니다.');
             }
