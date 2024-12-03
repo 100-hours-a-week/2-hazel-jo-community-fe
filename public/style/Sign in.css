@@ -51,6 +51,9 @@ body {
     background-color: #c4c4c4;     
     border-radius: 50%;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .profile-image img {
