@@ -116,6 +116,8 @@ profileInput.addEventListener('change', async (e) => {
         isValid.image = true;
         check_all();
     }
+    profileMarkCheck(); 
+
 });
 
 // 닉네임 유효성 검사 
@@ -209,6 +211,11 @@ const successWithdraw = async () => {
         console.error('회원 탈퇴 실패:', error);
         alert('회원 탈퇴에 실패했습니다.');
     }
+}
+
+// 프로필 업로드 시 마크 제거 
+const profileMarkCheck = () => {
+    profileMark.style.display = profileInput.files[0] ? 'none' : 'inline';
 }
 
 // 회원 탈퇴 버튼 이벤트
