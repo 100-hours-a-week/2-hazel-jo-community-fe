@@ -2,17 +2,19 @@
 import { loginUser } from '../api/auth-api.js';
 
 // 로그인 버튼 클릭 시
-document.getElementById("loginBtn").addEventListener("click", function() {
+document.getElementById("loginBtn").addEventListener("click", (e) => {
+    e.preventDefault();
+    
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     if (emailCheck(email) && passwordCheck(password)) {
-        this.style.backgroundColor = "#7F6AEE";
+        e.target.style.backgroundColor = "#7F6AEE";
     }
 });
 
 // 이메일 유효성 검사
-function emailCheck(email) {
+const emailCheck = (email) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     email = email.trim();
     if (email.length < 5 || !emailRegex.test(email) || email === "") {
@@ -24,7 +26,7 @@ function emailCheck(email) {
 }
 
 // 비밀번호 유효성 검사
-function passwordCheck(password) {
+const passwordCheck = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,20}$/;
     password = password.trim();
     if (!passwordRegex.test(password)) {
@@ -36,34 +38,34 @@ function passwordCheck(password) {
 }
 
 // 이메일 유효성 검사 통과 못할 시 오류 메시지
-function emailFormatCheck() {
+const emailFormatCheck = () => {
     let helperTxt = document.getElementById("helperTxt");
     helperTxt.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
 }
 
 // 비밀번호 유효성 검사 통과 못할 시 오류 메시지
-function passwordFormatCheck() {
+const passwordFormatCheck = () => {
     let helperTxt = document.getElementById("helperTxt");
     helperTxt.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.";
 }
 
 // 유효성 검사 통과 시 헬퍼 텍스트 제거
-function correctFormat() {
+const correctFormat = () => {
     let helperTxt = document.getElementById("helperTxt");
     helperTxt.textContent = "";
 }
 
 // input 이벤트 리스너 추가
-document.getElementById("email").addEventListener("input", function() {
+document.getElementById("email").addEventListener("input", () => {
     validateInputs();
 });
 
-document.getElementById("password").addEventListener("input", function() {
+document.getElementById("password").addEventListener("input", () => {
     validateInputs();
 });
 
 // 입력값 검증 및 버튼 색상 변경 함수
-function validateInputs() {
+const validateInputs = () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const loginBtn = document.getElementById("loginBtn");
@@ -75,11 +77,8 @@ function validateInputs() {
     }
 }
 
-// 로그인 버튼 클릭 시 login 함수 호출
-document.getElementById("loginBtn").addEventListener("click", login);
-
 // axios를 사용한 백엔드 api 요청 
-async function login(e) {
+const login = async (e) => {
     e.preventDefault();
     
     const email = document.getElementById("email").value;
@@ -121,4 +120,7 @@ async function login(e) {
         }
     }
 }
+
+// 로그인 버튼 클릭 시 login 함수 호출
+document.getElementById("loginBtn").addEventListener("click", login);
 

@@ -24,14 +24,14 @@ let isValid = {
 };
 
 // 모든 유효성 검사 통과 여부 확인
-function check_all() {
+const check_all = () => {
     const isAllValid = Object.values(isValid).every(value => value);
     editBtn.disabled = !isAllValid;
     return isAllValid;
 }
 
 // 프로필 이미지 리사이징 
-function resizeImage(file) {
+const resizeImage = (file) => {
     return new Promise((resolve) => {
         const maxSize = 149;
         const reader = new FileReader();
@@ -134,20 +134,19 @@ nicknameInput.addEventListener('input', () => {
 });
 
 // 닉네임 유효성 검사 성공 시 토스트 메시지 표시
-function nicknameValid() {
+const nicknameValid = () => {
     toastMessage.style.visibility = 'visible';
-    // 5초 후 토스트 메시지 숨기기
+    // 1초 후 토스트 메시지 숨기고 게시글 목록 페이지로 이동
     setTimeout(() => {
         toastMessage.style.visibility = 'hidden';
-    }, 5000);
+        window.location.href = '/page/Posts.html';
+    }, 1000);
 }
-
-editBtn.addEventListener('click', handleEditProfile);
 
 // 프로필 수정 
 let changeImage = false; 
 let currentImage = profileBtn.style.backgroundImage;
-async function handleEditProfile() {
+const handleEditProfile = async () => {
     try {
         const email = document.querySelector('#userEmail').value;
         const nickname = nicknameInput.value;
@@ -191,8 +190,10 @@ async function handleEditProfile() {
     }
 }
 
+editBtn.addEventListener('click', handleEditProfile);
+
 // 회원 탈퇴 처리
-async function successWithdraw() {   
+const successWithdraw = async () => {   
     try {
         
         // API 호출이 완료될 때까지 대기
@@ -224,7 +225,7 @@ cancelBtn.addEventListener('click', () => {
 });
 
 // 페이지 로드 시 사용자 정보 가져오기
-async function loadUserInfo() {
+const loadUserInfo = async () => {
     try {
         const userEmail = localStorage.getItem('email');
         const userId = localStorage.getItem('userId');

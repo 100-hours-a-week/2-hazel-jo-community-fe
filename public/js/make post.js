@@ -14,7 +14,7 @@ const uploadGuide = document.querySelector('.upload-guide');
 
 
 // 게시글 제목, 내용의 입력을 실시간으로 감지하여 버튼 색상 변경
-function updateSubmitBtn() {
+const updateSubmitBtn = () => {
     
     // 제목 input 여부에 따른 타이틀 마크 표시 유무 
     if(title.value.length > 0) {
@@ -46,7 +46,7 @@ content.addEventListener('input', updateSubmitBtn);
 
 
 // 폼 제출 시 제목, 내용이 비어있으면 헬퍼 텍스트로 표시 
-submitForm.addEventListener('submit', async function(e) {
+submitForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // 로컬 스토리지에서 사용자 정보 가져오기 
@@ -101,7 +101,7 @@ submitForm.addEventListener('submit', async function(e) {
 });
 
 // 이미지 선택 시 파일명 표시
-imageInput.addEventListener('change', function() {
+imageInput.addEventListener('change', (e) => {
     if (this.files[0]) {
         uploadGuide.textContent = this.files[0].name;
     } else {

@@ -4,7 +4,7 @@ import { loadUserInfo } from "../api/user-api.js";
 const baseUrl = 'http://localhost:5000';
 
 // 페이지 로드 시 게시글 목록 표시 
-window.onload = async function() {
+window.onload = async () => {
     const postsContainer = document.getElementById('posts-container');
     
     try {
@@ -44,7 +44,7 @@ window.onload = async function() {
 };
 
 // 숫자 단위 k로 변경
-function convertK(num) {
+const convertK = (num) => {
     if(num >= 1000) {
       return (num / 1000).toFixed(0) + 'k';
     }
@@ -52,7 +52,7 @@ function convertK(num) {
 }
 
 // 게시글 컨테이너 함수 
-function renderPosts(post) {
+const renderPosts = (post) => {
     const truncatedTitle = post.title.slice(0, 26);
     const defaultProfileImage = `${baseUrl}/uploads/profiles/default.png`;
 

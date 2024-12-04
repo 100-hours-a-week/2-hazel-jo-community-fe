@@ -25,7 +25,7 @@ const profileInput = document.querySelector('#profile-input');
 
 
 // 이메일 유효성 검사 
-function emailCheck(email) {
+const emailCheck = (email) => {
     // 숫자 없는 이메일 형식 
     // const emailRegex = /^[a-zA-Z._-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
     // 숫자 포함 이메일 형식
@@ -49,12 +49,12 @@ function emailCheck(email) {
 }
 
 // 이메일 중복 체크 함수
-function checkEmail(email) {
+const checkEmail = (email) => {
     // 이메일 중복 체크 API 호출 추가 예정 
 }
 
 // 비밀번호 유효성 검사
-function passwordCheck(passWord) {
+const passwordCheck = (passWord) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
 
     // 입력 받은 비밀번호 앞 뒤 공백 제거
@@ -77,7 +77,7 @@ function passwordCheck(passWord) {
 }
 
 // 비밀번호 확인 유효성 검사
-function confirmPasswordCheck(confirmPw) {
+const confirmPasswordCheck = (confirmPw) => {
     if(confirmPw === '') {
         confirmPwHelperText.textContent = "*비밀번호를 한번더 입력해주세요";
         return false; 
@@ -91,7 +91,7 @@ function confirmPasswordCheck(confirmPw) {
 }
 
 // 닉네임 유효성 검사
-function nicknameCheck(nickname) {
+const nicknameCheck = (nickname) => {
     // 입력 받은 닉네임 앞 뒤 공백 제거
     nickname = nickname.trim();
 
@@ -112,27 +112,27 @@ function nicknameCheck(nickname) {
     }
 }
 
-function checkNickname(nickname) {
+const checkNickname = (nickname) => {
     // 닉네임 중복 체크 API 호출 추가 예정 
 }
 
 // 이메일 유효성 검사 통과 못할 시 오류 메시지
-function emailFormatCheck() {
+const emailFormatCheck = () => {
     emailHelperText.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
 }
 
 // 비밀번호 유효성 검사 통과 못할 시 오류 메시지
-function passwordFormatCheck() {
+const passwordFormatCheck = () => {
     pwHelperText.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.";
 }
 
 // 닉네임 유효성 검사 통과 못할 시 오류 메시지
-function nicknameFormatCheck() {
+const nicknameFormatCheck = () => {
     nicknameHelperText.textContent = "*닉네임은 2자 이상, 10자 이하의 영문자와 숫자만 가능합니다.";
 }
 
 // 유효성 검사 통과 시 헬퍼 텍스트 제거 
-function correctFormat(elementId) {
+const correctFormat = (elementId) => {
     document.getElementById(elementId).textContent = "";
 }
 
@@ -161,7 +161,7 @@ profileInput.addEventListener("change", async (e) => {
 });
 
 // 이미지 리사이징 함수 
-function resizeImage(file) {
+const resizeImage = (file) => {
     return new Promise((resolve) => {
         const maxSize = 149;
         const reader = new FileReader();
@@ -201,7 +201,7 @@ function resizeImage(file) {
 
 
 // 버튼 상태 업데이트 
-function updateButtonState() {
+const updateButtonState = () => {
     
     if(profileHelperText.textContent.trim() === "" && 
        emailHelperText.textContent.trim() === "" && 
@@ -215,7 +215,7 @@ function updateButtonState() {
 }
 
 // 버튼 클릭시 회원가입 요청 
-signupButton.addEventListener("click", async function(e) {
+signupButton.addEventListener("click", async (e) => {
     e.preventDefault();
     
     const email = document.getElementById('email').value;
@@ -261,7 +261,7 @@ signupButton.addEventListener("click", async function(e) {
 });
 
 // input 유무 체크 마크 
-function markCheck() {
+const markCheck = () => {
     if(email.value.length > 0) {
         emailMark.style.display = 'none';
     } else {
@@ -294,21 +294,21 @@ function markCheck() {
 }
 
 // 이메일 이벤트 리스너
-document.getElementById('email').addEventListener("input", function() {
+document.getElementById('email').addEventListener("input", () => {
     markCheck();
     emailCheck(this.value);
     updateButtonState();
 });
 
 // 닉네임 이벤트 리스너 
-document.getElementById('nickname').addEventListener("input", function() {
+document.getElementById('nickname').addEventListener("input", () => {
     markCheck();
     nicknameCheck(this.value);
     updateButtonState();
 });
 
 // 비밀번호 이벤트 리스너 
-password.addEventListener("input", function() {
+password.addEventListener("input", () => {
     markCheck();
     passwordCheck(this.value);
     if(confirmPassword.value !== '') {
@@ -318,7 +318,7 @@ password.addEventListener("input", function() {
 });
  
 // 비밀번호 확인 이벤트 리스너 
-confirmPassword.addEventListener("input", function() {
+confirmPassword.addEventListener("input", () => {
     markCheck();
     confirmPasswordCheck(this.value);
     updateButtonState(); 

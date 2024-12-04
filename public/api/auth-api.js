@@ -1,7 +1,7 @@
 const authUrl = 'http://localhost:5000/auth';
 
 // 회원가입 
-export async function signupUser(email, nickname, password, profileImage) {
+export const signupUser = async (email, nickname, password, profileImage) => {
     const formData = new FormData();  
     formData.append('email', email);
     formData.append('nickname', nickname);
@@ -40,7 +40,7 @@ export async function signupUser(email, nickname, password, profileImage) {
 }
 
 // 로그인 
-export async function loginUser(email, password) {
+export const loginUser = async (email, password) => {
     try {
         const response = await fetch(`${authUrl}/login`, {
             method: 'POST',
@@ -68,7 +68,7 @@ export async function loginUser(email, password) {
 }
 
 // 현재 로그인한 사용자 정보 가져오기
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
     try {
         const response = await fetch(`${authUrl}/current`, {
             method: 'GET',

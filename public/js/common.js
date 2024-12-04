@@ -5,7 +5,7 @@ const optionEditPassword = document.querySelector('#editPassword');
 const optionLogout = document.querySelector('#logout');
 
 // 드롭다운 메뉴 선택 시 이동
-function dropdownMenu() {
+const dropdownMenu = () => {
     optionEditProfile.addEventListener('click', () => {
         location.href = '/page/edit profile.html';
     });
@@ -21,7 +21,7 @@ function dropdownMenu() {
 }
 
 // 프로필 이미지 설정
-export function setProfileImage() {
+export const setProfileImage = () => {
     const profileImage = document.querySelector('.login-icon img');
     let userProfileImage = localStorage.getItem('profileImage');
 
@@ -31,12 +31,12 @@ export function setProfileImage() {
         // localhost:3000을 localhost:5000으로 변경
         userProfileImage = userProfileImage.replace('http://localhost:3000', 'http://localhost:5000');
         
-        profileImage.onerror = function() {
+        profileImage.onerror = () => {
             console.error('이미지 로드 실패:', userProfileImage);
             profileImage.src = '/image/basic.png';
         };
         
-        profileImage.onload = function() {
+        profileImage.onload = () => {
             console.log('이미지 로드 성공');
         };
         
@@ -47,7 +47,7 @@ export function setProfileImage() {
 }
 
 // 로그아웃 시 로컬 스토리지 초기화
-export function clearLocalStorage() {
+export const clearLocalStorage = () => {
     localStorage.clear();
 }
 

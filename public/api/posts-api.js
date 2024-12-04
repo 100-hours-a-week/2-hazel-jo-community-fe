@@ -3,7 +3,7 @@ const baseUrl = 'http://localhost:5000';
 
 
 // 게시글 목록 불러오기 
-export async function loadPosts() {
+export const loadPosts = async () => {
     try {
         const response = await fetch(`${postsUrl}`, {
             method: 'GET',
@@ -25,7 +25,7 @@ export async function loadPosts() {
 }
 
 // 게시글 생성 
-export async function createPost(formData) {
+export const createPost = async (formData) => {
     try {
         const response = await fetch(`${postsUrl}`, {
             method: 'POST',
@@ -47,7 +47,7 @@ export async function createPost(formData) {
 }
 
 // 게시글 상세 불러오기 
-export async function loadPost(postId) {
+export const loadPost = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'GET',
@@ -68,7 +68,7 @@ export async function loadPost(postId) {
 }
 
 // 게시글 삭제 
-export async function deletePost(postId) {
+export const deletePost = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'DELETE',
@@ -91,7 +91,7 @@ export async function deletePost(postId) {
 }
 
 // 게시글 수정 
-export async function editPost(postId, formData) {
+export const editPost = async (postId, formData) => {
     try {
         // 세션 쿠키가 있는지 확인
         console.log('쿠키:', document.cookie);
@@ -122,7 +122,7 @@ export async function editPost(postId, formData) {
 }
 
 // 게시글 좋아요 
-export async function likePost(postId) {
+export const likePost = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}/like`, {
             method: 'POST',
@@ -146,7 +146,7 @@ export async function likePost(postId) {
 
 
 // 게시글 좋아요 수 
-export async function  getLikeCount(postId) {
+export const getLikeCount = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}/like`, {
             method: 'GET',
@@ -169,7 +169,7 @@ export async function  getLikeCount(postId) {
 
 
 // 게시글 댓글 수 불러오기 
-export async function getCommentCount(postId) {
+export const getCommentCount = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}/comment`, {
             method: 'GET',
@@ -191,7 +191,7 @@ export async function getCommentCount(postId) {
 
 
 // 게시글 댓글 수 증가/감소 
-export async function updateCommentCount(postId, action) {
+export const updateCommentCount = async (postId, action) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}/comment`, {
             method: 'POST',
@@ -217,7 +217,7 @@ export async function updateCommentCount(postId, action) {
 
 
 // 게시글 조회수 
-export async function getPostViews(postId) {
+export const getPostViews = async (postId) => {
     try {
         const response = await fetch(`${postsUrl}/${postId}/view`, {
             method: 'GET',

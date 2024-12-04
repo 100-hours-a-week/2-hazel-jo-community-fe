@@ -1,6 +1,6 @@
 import { editPost, loadPost } from "../api/posts-api.js";
 
-window.onload = function() {
+window.onload = () => {
     // URL에서 post_id 파라미터 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('post_id');
@@ -43,7 +43,7 @@ window.onload = function() {
     }
 };
 
-function renderPost(post) {
+const renderPost = (post) => {
     const main = document.querySelector('main');
 
     // 이미지 경로에서 파일명 추출
@@ -86,12 +86,9 @@ function renderPost(post) {
     const submitBtn = document.querySelector('.submit-btn');
     
 
-    // 이벤트 리스너 
-    title.addEventListener('input', checkValidity);
-    content.addEventListener('input', checkValidity);
 
     // 입력 유무 체크 함수
-    function checkValidity() {
+    const checkValidity = () => {
         // 제목 입력 여부 체크 
         if(title.value.length > 0) {
             titleMark.style.display = 'none';
@@ -113,6 +110,10 @@ function renderPost(post) {
             submitBtn.style.backgroundColor = '#7F6AEE';
         }
     }
+
+    // 이벤트 리스너 
+    title.addEventListener('input', checkValidity);
+    content.addEventListener('input', checkValidity);
 
     // 초기 유효성 검사 호출
     checkValidity(); 

@@ -1,7 +1,7 @@
 const baseUrl = 'http://localhost:5000/comments';
 
 // 댓글 불러오기 
-export async function loadComments(postId) {
+export const loadComments = async (postId) => {
   try {
         const response = await fetch(`${baseUrl}/${postId}`, {
             method: 'GET',
@@ -28,7 +28,7 @@ export async function loadComments(postId) {
   }
 
 // 댓글 생성 
-export async function createComment(postId, commentData) {
+export const createComment = async (postId, commentData) => {
     try {
         const response = await fetch(`${baseUrl}/${postId}`, {
             method: 'POST',
@@ -54,7 +54,7 @@ export async function createComment(postId, commentData) {
 }
 
 // 댓글 삭제 
-export async function deleteComment(commentId) {
+export const deleteComment = async (commentId) => {
     try {
         const response = await fetch(`${baseUrl}/${commentId}`, {
             method: 'DELETE',
@@ -78,7 +78,7 @@ export async function deleteComment(commentId) {
 }
 
 // 댓글 수정 
-export async function updateComment(commentId, commentData) {
+export const updateComment = async (commentId, commentData) => {
     try {
         const response = await fetch(`${baseUrl}/${commentId}`, {
             method: 'PATCH',

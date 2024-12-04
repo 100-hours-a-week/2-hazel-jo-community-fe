@@ -1,6 +1,6 @@
 
 // intersectionObserver API 
-const intersectionObserver = new IntersectionObserver(function(entries) {
+const intersectionObserver = new IntersectionObserver((entries) => {
     //intersectiononRatio가 0이면 target이 화면에 보이지 않는 것 
     if(entries[0].intersectionRatio <= 0) {
         return; 
@@ -40,13 +40,13 @@ $.ajax({
     data: AudioParam,
     method: "GET",
     dataType: "json",
-    success: function(result) {
+    success: (result) => {
         console.log(result);
     },
-    error: function(err) {
+    error: (err) => {
         console.log(err);
     },
-    beforeSend: function() {
+    beforeSend: () => {
         _scrollchk = true;
 
         document.getElementById('list').appendChild(skeleton.show());
@@ -54,7 +54,7 @@ $.ajax({
         $(".loading").show();
     },
 
-    complete: function() {
+    complete: () => {
         _scrollchk = false;
 
         $(".loading").hide();

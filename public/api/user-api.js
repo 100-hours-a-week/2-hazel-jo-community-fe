@@ -1,7 +1,7 @@
 const userUrl = 'http://localhost:5000/users'; 
 
 // 프로필 수정
-export async function editProfile(formData) {
+export const editProfile = async (formData) => {
     try {
         const userId = localStorage.getItem('userId');
 
@@ -31,7 +31,7 @@ export async function editProfile(formData) {
 
 
 // 비밀번호 수정
-export async function editPassword(newPassword) {
+export const editPassword = async (newPassword) => {
     try {
         const userId = localStorage.getItem('userId');
         const response = await fetch(`${userUrl}/password/${userId}`, {
@@ -57,7 +57,7 @@ export async function editPassword(newPassword) {
 }
 
 // 로그아웃
-export async function logoutUser() {
+export const logoutUser = async () => {
     try {
         const userId = localStorage.getItem('userId');
         const response = await fetch(`${userUrl}/${userId}`, {
@@ -73,7 +73,7 @@ export async function logoutUser() {
 }
 
 // 회원 탈퇴 
-export async function withdrawUser() {
+export const withdrawUser = async () => {
     try {
         const userId = localStorage.getItem('userId');
         const response = await fetch(`${userUrl}/${userId}`, {
@@ -97,7 +97,7 @@ export async function withdrawUser() {
 }
 
 // 사용자 정보 불러오기 
-export async function loadUserInfo(userId) {
+export const loadUserInfo = async (userId) => {
     try {
         const response = await fetch(`${userUrl}/profile/${userId}`, {
             method: 'GET',

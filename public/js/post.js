@@ -8,7 +8,7 @@ import { likePost, getLikeCount, getPostViews, getCommentCount, updateCommentCou
 const baseUrl = 'http://localhost:5000';
 
 // 게시글 댓글 수 로드 함수 
-async function loadCommentCount(postId) {
+const loadCommentCount = async (postId) => {
     try {
         const { commentCount } = await getCommentCount(postId);
         return commentCount;    
@@ -18,7 +18,7 @@ async function loadCommentCount(postId) {
     }
 }
 
-async function handleCommentAction(postId, action) {
+const handleCommentAction = async (postId, action) => {
     try {
         const updatedCommentCount = await updateCommentCount(postId, action);
 
@@ -34,7 +34,7 @@ async function handleCommentAction(postId, action) {
 
 
 
-window.onload = async function() {
+window.onload = async () => {
 
     // URL에서 게시글 아이디 가져오기  
     const urlParams = new URLSearchParams(window.location.search);
@@ -259,25 +259,25 @@ window.onload = async function() {
 };
 
 // 모달 창 열 때 배경 스크롤 방지 
-function modalOpen(ModalOverlay) {
+const modalOpen = (ModalOverlay) => {
     ModalOverlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
 
-function modalClose(ModalOverlay) {
+const modalClose = (ModalOverlay) => {
   ModalOverlay.style.display = 'none';
   document.body.style.overflow = 'auto'; 
 }
 
   // 숫자 단위 k로 변경
-  function convertK(num) {
+  const convertK = (num) => {
     if(num >= 1000) {
       return (num / 1000).toFixed(0) + 'k';
     }
     return num.toString();
   }
   
-  function renderPost(post, userInfo) {
+  const renderPost = (post, userInfo) => {
     const getImage = (imagePath, isProfile = false) => {
         // 프로필 이미지인 경우
         if (isProfile) {
@@ -304,7 +304,7 @@ function modalClose(ModalOverlay) {
     getPostViews(post.post_id);
 
     // 좋아요 수 업데이트 함수
-    async function handleLikeClick(e) {
+    const handleLikeClick = async (e) => {
         if(e.target.closest('.like-post')) {
             try {
                 const likeButton = e.target.closest('.like-post');
@@ -378,7 +378,7 @@ function modalClose(ModalOverlay) {
     `;
   }
 
-  function renderComment(comment) {
+  const renderComment = (comment) => {
 
     // 프로필 이미지 경로 처리
     const getProfileImage = (imagePath) => {

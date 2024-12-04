@@ -11,7 +11,7 @@ const changeBtn = document.getElementById("change-button");
 
 
 // 비밀번호 유효성 검사 함수
-function passwordCheck(password) {
+const passwordCheck = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,20}$/;
     password = password.trim();
     
@@ -35,7 +35,7 @@ function passwordCheck(password) {
 }
 
 // 비밀번호 확인 검사 함수
-function confirmPasswordCheck() {
+const confirmPasswordCheck = () => {
     if(confirmPassword.value === '') {
         confirmHelperText.textContent = "*비밀번호를 한번 더 입력해주세요";
         return false;
@@ -51,17 +51,17 @@ function confirmPasswordCheck() {
 }
 
 // 수정 완료 토스트 메시지 
-function passWordValid() {
+const passWordValid = () => {
     toastMessage.style.visibility = 'visible';
-    // 5초 후 토스트 메시지 사라지게 하기 
+    // 1초 후 토스트 메시지 사라지게 하기 
     setTimeout(() => {
         toastMessage.style.visibility = 'hidden';
         window.location.href = '/page/Log in.html';
-    }, 5000);
+    }, 1000);
 }
 
 // 수정완료 버튼 클릭 이벤트 리스너
-changeBtn.addEventListener('click', async function(e) {
+changeBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     
     if(passwordCheck(password.value) && confirmPasswordCheck()) {
@@ -81,7 +81,7 @@ changeBtn.addEventListener('click', async function(e) {
 });
 
 // 버튼 상태 업데이트 함수
-function updateButtonState() {
+const updateButtonState = () => {
     if(passwordCheck(password.value) && confirmPasswordCheck()) {
         changeBtn.style.backgroundColor = '#7F6AEE';
     } else {
@@ -90,8 +90,8 @@ function updateButtonState() {
 }
 
 // 패스워드 입력 이벤트 리스너
-password.addEventListener("input", function() {
-    passwordCheck(this.value);
+password.addEventListener("input", (event) => {
+    passwordCheck(event.target.value);
     if(confirmPassword.value !== '') {
         confirmPasswordCheck();
     }
@@ -99,7 +99,7 @@ password.addEventListener("input", function() {
 });
 
 // 패스워드 확인 입력 이벤트 리스너
-confirmPassword.addEventListener("input", function() {
+confirmPassword.addEventListener("input", (event) => {
     confirmPasswordCheck();
     updateButtonState(); 
 });
