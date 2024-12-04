@@ -3,12 +3,11 @@ const authUrl = 'http://localhost:5000/auth';
 // 회원가입 
 export const signupUser = async (email, nickname, password, profileImage) => {
     const formData = new FormData();  
-    formData.append('email', email);
-    formData.append('nickname', nickname);
-    formData.append('password', password);
-    // 프로필 이미지 첨부
-    if (profileImage) {
-        formData.append('profileImage', profileImage);
+    const fields = { email, nickname, password, profileImage };
+    for (const [key, value] of Object.entries(fields)) {
+        if (value) {
+            formData.append(key, value);
+        }
     }
 
     try {
