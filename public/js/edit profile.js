@@ -139,7 +139,7 @@ const nicknameValid = () => {
     // 1초 후 토스트 메시지 숨기고 게시글 목록 페이지로 이동
     setTimeout(() => {
         toastMessage.style.visibility = 'hidden';
-        window.location.href = '/page/Posts.html';
+        window.location.href = '/page/Posts.html?refresh=true';
     }, 1000);
 }
 
