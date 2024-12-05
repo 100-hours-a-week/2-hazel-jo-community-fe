@@ -1,21 +1,22 @@
 import { editProfile } from '../api/user-api.js';
 import { withdrawUser } from '../api/user-api.js';
 import { setProfileImage } from './common.js';
+import { resizeImage, centerImage } from '../utils/imageUtils.js';
 
-const profileBtn = document.querySelector('.profile-image');
-const profileInput = document.querySelector('#profile-input');
-const imgTag = document.querySelector('.profile-image img');
-const profileMark = document.querySelector('.profile-mark');
-
-const editBtn = document.querySelector('.edit-btn');
-const nicknameInput = document.querySelector('.nickname-input'); 
-const helperText = document.querySelector('.helper-text');
-const toastMessage = document.querySelector('.toast-message'); 
-
-const confirmBtn = document.querySelector('#confirmBtn'); 
-const withdrawBtn = document.querySelector('#withdrawBtn');
-const modalOverlay = document.querySelector('#modalOverlay');
-const cancelBtn = document.querySelector('#cancelBtn');
+const { profileBtn, profileInput, imgTag, profileMark, editBtn, nicknameInput, helperText, toastMessage, confirmBtn, withdrawBtn, modalOverlay, cancelBtn } = {
+    profileBtn: document.querySelector('.profile-image'),
+    profileInput: document.querySelector('#profile-input'),
+    imgTag: document.querySelector('.profile-image img'),
+    profileMark: document.querySelector('.profile-mark'), 
+    editBtn: document.querySelector('.edit-btn'),
+    nicknameInput: document.querySelector('.nickname-input'),
+    helperText: document.querySelector('.helper-text'),
+    toastMessage: document.querySelector('.toast-message'),
+    confirmBtn: document.querySelector('#confirmBtn'),
+    withdrawBtn: document.querySelector('#withdrawBtn'),
+    modalOverlay: document.querySelector('#modalOverlay'),
+    cancelBtn: document.querySelector('#cancelBtn'),
+}
 
 // 유효성 검사 여부 확인
 let isValid = {
@@ -28,46 +29,6 @@ const check_all = () => {
     const isAllValid = Object.values(isValid).every(value => value);
     editBtn.disabled = !isAllValid;
     return isAllValid;
-}
-
-// 프로필 이미지 리사이징 
-const resizeImage = (file) => {
-    return new Promise((resolve) => {
-        const maxSize = 149;
-        const reader = new FileReader();
-        const image = new Image();
-        const canvas = document.createElement('canvas');
-
-        reader.onload = (e) => {
-            image.onload = () => {
-                let width = image.width;
-                let height = image.height;
-
-                // 비율 유지하면서 리사이징
-                if (width > height) {
-                    if (width > maxSize) {
-                        height *= maxSize / width;
-                        width = maxSize;
-                    }
-                } else {
-                    if (height > maxSize) {
-                        width *= maxSize / height;
-                        height = maxSize;
-                    }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(image, 0, 0, width, height);
-
-                const resizedImageUrl = canvas.toDataURL('image/jpeg', 0.8);
-                resolve(resizedImageUrl);
-            };
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
 }
 
 profileInput.addEventListener('change', async (e) => {
@@ -97,11 +58,7 @@ profileInput.addEventListener('change', async (e) => {
         
         // 이미지 가운데 정렬
         const img = new Image();
-        img.onload = () => {
-            const widthDiff = (img.width - imgTag.offsetWidth) / 2;
-            const heightDiff = (img.height - imgTag.offsetHeight) / 2;
-            img.style.transform = `translate(-${widthDiff}px, -${heightDiff}px)`;
-        };
+        centerImage(img, imgTag);
         img.src = resizedImageUrl;
         
         changeImage = true;

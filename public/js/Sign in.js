@@ -1,34 +1,35 @@
 import { signupUser } from "../api/auth-api.js"; 
+import { resizeImage } from "../utils/imageUtils.js";
 
-const password = document.querySelector(".password");
-const confirmPassword = document.querySelector(".password-check");
-const signupButton = document.querySelector(".signup-button"); 
+// DOM 요소 선택 함수 
+const selectDom = (selector) => document.querySelector(selector);
+
+const password = selectDom(".password");
+const confirmPassword = selectDom(".password-check");
+const signupButton = selectDom(".signup-button"); 
 
 // 헬퍼 텍스트 
-const profileHelperText = document.querySelector("#profileHelperTxt");
-const emailHelperText = document.querySelector("#emailHelperTxt");
-const pwHelperText = document.querySelector("#passwordHelperTxt");
-const confirmPwHelperText = document.querySelector("#confirmPasswordHelperTxt");
-const nicknameHelperText = document.querySelector("#nicknameHelperTxt");
+const profileHelperText = selectDom("#profileHelperTxt");
+const emailHelperText = selectDom("#emailHelperTxt");
+const pwHelperText = selectDom("#passwordHelperTxt");
+const confirmPwHelperText = selectDom("#confirmPasswordHelperTxt");
+const nicknameHelperText = selectDom("#nicknameHelperTxt");
 
 // input 입력 유무 표시 마크 
-const emailMark = document.querySelector('.email-mark');
-const passwordMark = document.querySelector('.password-mark');
-const confirmPasswordMark = document.querySelector('.password-check-mark');
-const nicknameMark = document.querySelector('.nickname-mark');
-const profileMark = document.querySelector('.profile-mark');
+const emailMark = selectDom('.email-mark');
+const passwordMark = selectDom('.password-mark');
+const confirmPasswordMark = selectDom('.password-check-mark');
+const nicknameMark = selectDom('.nickname-mark');
+const profileMark = selectDom('.profile-mark');
 
 // 프로필 이미지 
-const profileBtn = document.querySelector('.profile-image');
-const profileInput = document.querySelector('#profile-input');
+const profileBtn = selectDom('.profile-image');
+const profileInput = selectDom('#profile-input');
 
 
 
 // 이메일 유효성 검사 
 const emailCheck = (email) => {
-    // 숫자 없는 이메일 형식 
-    // const emailRegex = /^[a-zA-Z._-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
-    // 숫자 포함 이메일 형식
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     // 입력 받은 이메일 앞 뒤 공백 제거 
@@ -160,58 +161,12 @@ profileInput.addEventListener("change", async (e) => {
     updateButtonState();
 });
 
-// 이미지 리사이징 함수 
-const resizeImage = (file) => {
-    return new Promise((resolve) => {
-        const maxSize = 149;
-        const reader = new FileReader();
-        const image = new Image();
-        const canvas = document.createElement('canvas');
-
-        reader.onload = (e) => {
-            image.onload = () => {
-                let width = image.width;
-                let height = image.height;
-
-                if (width > height) {
-                    if (width > maxSize) {
-                        height *= maxSize / width;
-                        width = maxSize;
-                    }
-                } else {
-                    if (height > maxSize) {
-                        width *= maxSize / height;
-                        height = maxSize;
-                    }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(image, 0, 0, width, height);
-
-                const resizedImageUrl = canvas.toDataURL('image/jpeg', 0.8);
-                resolve(resizedImageUrl);
-            };
-            image.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-
 // 버튼 상태 업데이트 
 const updateButtonState = () => {
-    
-    if(profileHelperText.textContent.trim() === "" && 
-       emailHelperText.textContent.trim() === "" && 
-       pwHelperText.textContent.trim() === "" && 
-       confirmPwHelperText.textContent.trim() === "" && 
-       nicknameHelperText.textContent.trim() === "" ) {
-        signupButton.style.backgroundColor = "#7F6AEE";
-    } else {
-        signupButton.style.backgroundColor = "#ACA0EB";
-    }
+    const helperValid = Object.values(elements.helperTexts).every(
+        (helperText) => helperText.textContent.trim() === ""
+    );
+    elements.signupButton.style.backgroundColor = helperValid ? "#7F6AEE" : "#ACA0EB";
 }
 
 // 버튼 클릭시 회원가입 요청 
@@ -294,23 +249,23 @@ const markCheck = () => {
 }
 
 // 이메일 이벤트 리스너
-document.getElementById('email').addEventListener("input", () => {
+document.getElementById('email').addEventListener("input", (e) => {
     markCheck();
-    emailCheck(this.value);
+    emailCheck(e.target.value);
     updateButtonState();
 });
 
 // 닉네임 이벤트 리스너 
-document.getElementById('nickname').addEventListener("input", () => {
+document.getElementById('nickname').addEventListener("input", (e) => {
     markCheck();
-    nicknameCheck(this.value);
+    nicknameCheck(e.target.value);
     updateButtonState();
 });
 
 // 비밀번호 이벤트 리스너 
-password.addEventListener("input", () => {
+password.addEventListener("input", (e) => {
     markCheck();
-    passwordCheck(this.value);
+    passwordCheck(e.target.value);
     if(confirmPassword.value !== '') {
         confirmPasswordCheck(confirmPassword.value);
     }
@@ -318,9 +273,9 @@ password.addEventListener("input", () => {
 });
  
 // 비밀번호 확인 이벤트 리스너 
-confirmPassword.addEventListener("input", () => {
+confirmPassword.addEventListener("input", (e) => {
     markCheck();
-    confirmPasswordCheck(this.value);
+    confirmPasswordCheck(e.target.value);
     updateButtonState(); 
 });
 

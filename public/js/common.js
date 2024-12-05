@@ -1,8 +1,10 @@
 import { logoutUser } from '../api/user-api.js';
 
-const optionEditProfile = document.querySelector('#editProfile');
-const optionEditPassword = document.querySelector('#editPassword');
-const optionLogout = document.querySelector('#logout');
+const { optionEditProfile, optionEditPassword, optionLogout } = {
+    optionEditProfile: document.querySelector('#editProfile'),
+    optionEditPassword: document.querySelector('#editPassword'),
+    optionLogout: document.querySelector('#logout'),
+};
 
 // 드롭다운 메뉴 선택 시 이동
 const dropdownMenu = () => {
@@ -28,7 +30,6 @@ export const setProfileImage = () => {
     console.log('저장된 프로필 이미지 URL:', userProfileImage);
 
     if(userProfileImage && userProfileImage !== 'null') {
-        // localhost:3000을 localhost:5000으로 변경
         userProfileImage = userProfileImage.replace('http://localhost:3000', 'http://localhost:5000');
         
         profileImage.onerror = () => {

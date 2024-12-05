@@ -14,7 +14,7 @@ window.onload = () => {
         return;
     }
 
-    // 게시글 불러오기 로직 수정
+    // 게시글 불러오기 로직 
     loadPost(postId).then(post => {
         if (post) {
             console.log('게시글 정보:', post);
@@ -74,16 +74,19 @@ const renderPost = (post) => {
         </form>
     </div>
     `;
+
+    // DOM 요소 선택 함수 
+    const selectDom = (selector) => document.querySelector(selector);
   
     // 제목, 내용 input 
-    const title = document.querySelector('input[name="title"]');
-    const content = document.querySelector('textarea[name="content"]');
+    const title = selectDom('input[name="title"]');
+    const content = selectDom('textarea[name="content"]');
     
     // input 유무 체크 마크 
-    const titleMark = document.querySelector('.title-mark');
-    const contentMark = document.querySelector('.content-mark');
+    const titleMark = selectDom('.title-mark');
+    const contentMark = selectDom('.content-mark');
     
-    const submitBtn = document.querySelector('.submit-btn');
+    const submitBtn = selectDom('.submit-btn');
     
 
 
@@ -126,9 +129,12 @@ const renderPost = (post) => {
             
             // FormData 객체 생성
             const formData = new FormData();
-            formData.append('title', title.value);
-            formData.append('content', content.value);
-            formData.append('userId', Number(localStorage.getItem('userId')));
+            const fromEntries = {
+                title: title.value,
+                content: content.value,
+                userId: Number(localStorage.getItem('userId')),
+            };
+            Object.entries(fromEntries).forEach(([key, value]) => formData.append(key, value));
 
             // 이미지 파일 추가
             const imageFile = document.getElementById('image-upload').files[0];

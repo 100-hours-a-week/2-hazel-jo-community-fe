@@ -1,16 +1,16 @@
 import { createPost } from '../api/posts-api.js';
 
-const title = document.querySelector('.title-input');
-const content = document.querySelector('.content-input');
-
-const submitBtn = document.querySelector('.submit-btn'); 
-const submitForm = document.querySelector('form');
-const imageInput = document.getElementById('image-upload');
-
-const helperText = document.querySelector('.helper-text');
-const titleMark = document.querySelector('.title-mark');
-const contentMark = document.querySelector('.content-mark');
-const uploadGuide = document.querySelector('.upload-guide');
+const { title, content, submitBtn, submitForm, imageInput, helperText, titleMark, contentMark, uploadGuide} = {
+    title: document.querySelector('.title-input'),
+    content: document.querySelector('.content-input'),
+    submitBtn: document.querySelector('.submit-btn'),
+    submitForm: document.querySelector('form'),
+    imageInput: document.getElementById('image-upload'),
+    helperText: document.querySelector('.helper-text'),
+    titleMark: document.querySelector('.title-mark'),
+    contentMark: document.querySelector('.content-mark'),
+    uploadGuide: document.querySelector('.upload-guide'),
+}
 
 
 // 게시글 제목, 내용의 입력을 실시간으로 감지하여 버튼 색상 변경
@@ -75,13 +75,16 @@ submitForm.addEventListener('submit', async (e) => {
         return;
     }
 
-    // 폼 데이터 객체 생성
+    // 폼 데이터 생성 
     const formData = new FormData();
-    formData.append('title', title.value);
-    formData.append('content', content.value);
-    formData.append('date', currentDate);
-    formData.append('user_id', userId);
-    formData.append('profileImg', profileImage);
+    const data = {
+        title: title.value,
+        content: content.value,
+        date: currentDate,
+        user_id: userId,
+        profileImg: profileImage,
+    };
+    Object.entries(data).forEach(([key, value]) => formData.append(key, value)); 
 
     // 게시글 이미지를 첨부한 경우만 이미지 파일 추가
     if (imageInput.files[0]) {
@@ -102,8 +105,8 @@ submitForm.addEventListener('submit', async (e) => {
 
 // 이미지 선택 시 파일명 표시
 imageInput.addEventListener('change', (e) => {
-    if (this.files[0]) {
-        uploadGuide.textContent = this.files[0].name;
+    if (e.target.files[0]) {
+        uploadGuide.textContent = e.target.files[0].name;
     } else {
         uploadGuide.textContent = '파일을 선택해주세요.';
     }

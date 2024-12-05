@@ -1,13 +1,13 @@
 import { editPassword } from '../api/user-api.js';
 
-const password = document.getElementById("password");
-const confirmPassword = document.getElementById("password-check");
-
-const helperText = document.getElementById("helperTxt");
-const toastMessage = document.querySelector('.toast-message');
-
-const confirmHelperText = document.getElementById("confirm-helperTxt");
-const changeBtn = document.getElementById("change-button");
+const { password, confirmPassword, helperText, toastMessage, confirmHelperText, changeBtn } = {
+    password: document.getElementById("password"),
+    confirmPassword: document.getElementById("password-check"),
+    helperText: document.getElementById("helperTxt"),
+    toastMessage: document.querySelector('.toast-message'),
+    confirmHelperText: document.getElementById("confirm-helperTxt"),
+    changeBtn: document.getElementById("change-button"),
+};
 
 
 // 비밀번호 유효성 검사 함수
@@ -100,6 +100,6 @@ password.addEventListener("input", (event) => {
 
 // 패스워드 확인 입력 이벤트 리스너
 confirmPassword.addEventListener("input", (event) => {
-    confirmPasswordCheck();
+    confirmPasswordCheck(event.target.value);
     updateButtonState(); 
 });

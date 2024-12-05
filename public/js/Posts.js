@@ -1,5 +1,6 @@
 import { loadPosts } from "../api/posts-api.js";
 import { loadUserInfo } from "../api/user-api.js";
+import { convertK } from "../utils/convertUtils.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -42,14 +43,6 @@ window.onload = async () => {
         console.error('게시글 목록 불러오기 오류:', error);
     }
 };
-
-// 숫자 단위 k로 변경
-const convertK = (num) => {
-    if(num >= 1000) {
-      return (num / 1000).toFixed(0) + 'k';
-    }
-    return num.toString();
-}
 
 // 게시글 컨테이너 함수 
 const renderPosts = (post) => {

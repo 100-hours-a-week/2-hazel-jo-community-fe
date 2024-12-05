@@ -1,9 +1,8 @@
-import { loadPost } from "../api/posts-api.js";
+import { loadPost, deletePost, likePost, getPostViews, getCommentCount, updateCommentCount } from "../api/posts-api.js";
 import { loadUserInfo } from "../api/user-api.js";
-import { deletePost } from "../api/posts-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
-import { likePost, getLikeCount, getPostViews, getCommentCount, updateCommentCount} from "../api/posts-api.js";
+import { convertK } from "../utils/convertUtils.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -268,15 +267,7 @@ const modalClose = (ModalOverlay) => {
   ModalOverlay.style.display = 'none';
   document.body.style.overflow = 'auto'; 
 }
-
-  // 숫자 단위 k로 변경
-  const convertK = (num) => {
-    if(num >= 1000) {
-      return (num / 1000).toFixed(0) + 'k';
-    }
-    return num.toString();
-  }
-  
+ 
   const renderPost = (post, userInfo) => {
     const getImage = (imagePath, isProfile = false) => {
         // 프로필 이미지인 경우
