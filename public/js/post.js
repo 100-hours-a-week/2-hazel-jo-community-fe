@@ -32,8 +32,6 @@ const handleCommentAction = async (postId, action) => {
     }
 }
 
-
-
 window.onload = async () => {
 
     // URL에서 게시글 아이디 가져오기  
@@ -64,7 +62,7 @@ window.onload = async () => {
 
     if(post) {
         const postDetailSection = document.querySelector('.post-detail');
-        postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, userInfo));
+        postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, userInfo, currentUserInfo));
     }
 
     // 댓글 데이터 불러오기 
@@ -72,7 +70,7 @@ window.onload = async () => {
         const commentSection = document.querySelector('.comment-list');
         if(comments && comments.length > 0) {
           comments.forEach(comment => {
-            commentSection.insertAdjacentHTML('afterbegin', renderComment(comment));
+            commentSection.insertAdjacentHTML('afterbegin', renderComment(comment, currentUserInfo));
           });
         }
     });
@@ -227,7 +225,7 @@ window.onload = async () => {
             
             // 서버에서 반환된 댓글 데이터로 렌더링
             if (savedComment && savedComment.comment) {
-                commentList.insertAdjacentHTML('afterbegin', renderComment(savedComment.comment));
+                commentList.insertAdjacentHTML('afterbegin', renderComment(savedComment.comment, currentUserInfo));
                 
                 // 입력창 초기화
                 commentTextarea.value = '';
@@ -258,7 +256,7 @@ window.onload = async () => {
 
 };
  
-  const renderPost = (post, userInfo) => {
+  const renderPost = (post, userInfo, currentUserInfo) => {
     const getImage = (imagePath, isProfile = false) => {
         // 프로필 이미지인 경우
         if (isProfile) {
@@ -315,6 +313,9 @@ window.onload = async () => {
     document.removeEventListener('click', handleLikeClick);
     document.addEventListener('click', handleLikeClick);
 
+    // 현재 로그인한 사용자와 게시글 작성자가 일치하는지 확인
+    const isPostAuthor = currentUserInfo && currentUserInfo.user.userId === Number(post.user_id);
+
     return `
     <article class="post-container">
       <div class="post-header">
@@ -325,10 +326,12 @@ window.onload = async () => {
             <span>${userInfo.nickname}</span>
             <span class="post-date">${post.date}</span>
           </div>
+          ${isPostAuthor ? `
           <div class="post-buttons">
             <button class="post-edit" id="editPostBtn" onclick="location.href='/page/edit post.html?post_id=${post.post_id}'">수정</button>
-            <button class="post-delete" id="deletePostBtn">삭제</button>
-          </div>
+              <button class="post-delete" id="deletePostBtn">삭제</button>
+            </div>
+          ` : ''}
         </div>
       </div>
       <!-- 모달 영역 --> 
@@ -359,7 +362,7 @@ window.onload = async () => {
     `;
   }
 
-  const renderComment = (comment) => {
+  const renderComment = (comment, currentUserInfo) => {
 
     // 프로필 이미지 경로 처리
     const getProfileImage = (imagePath) => {
@@ -369,6 +372,9 @@ window.onload = async () => {
       return imagePath.startsWith('/uploads/profiles/') ? `${baseUrl}${imagePath}` : imagePath;
     };
 
+    // 현재 로그인한 사용자와 댓글 작성자가 일치하는지 확인
+    const isCommentAuthor = currentUserInfo && currentUserInfo.user.userId === Number(comment.user_id);
+
     return `
     <div class="comment-item" data-comment-id="${comment.comment_id}">
         <div class="comment-author">
@@ -377,10 +383,12 @@ window.onload = async () => {
                 <span>${comment.user_nickname}</span>
                 <span class="comment-date">${comment.date}</span>
             </div>
+            ${isCommentAuthor ? `
             <div class="comment-buttons">
                 <button class="comment-edit" id="editCommentBtn">수정</button>
                 <button class="comment-delete" id="deleteCommentBtn">삭제</button>
             </div>
+            ` : ''} 
         </div>
         <p class="comment-text">${comment.content}</p>
     </div>
