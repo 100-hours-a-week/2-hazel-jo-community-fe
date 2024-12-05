@@ -3,6 +3,7 @@ import { loadUserInfo } from "../api/user-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
 import { convertK } from "../utils/convertUtils.js";
+import { modalOpen, modalClose } from "../utils/modalUtils.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -256,17 +257,6 @@ window.onload = async () => {
     });
 
 };
-
-// 모달 창 열 때 배경 스크롤 방지 
-const modalOpen = (ModalOverlay) => {
-    ModalOverlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-const modalClose = (ModalOverlay) => {
-  ModalOverlay.style.display = 'none';
-  document.body.style.overflow = 'auto'; 
-}
  
   const renderPost = (post, userInfo) => {
     const getImage = (imagePath, isProfile = false) => {
