@@ -3,28 +3,36 @@ import { resizeImage } from "../utils/imageUtils.js";
 
 // DOM 요소 선택 함수 
 const selectDom = (selector) => document.querySelector(selector);
+const selectAll = (selectors) => 
+    Object.fromEntries(Object.entries(selectors).map(([key, value]) => [key, selectDom(value)]));
 
-const password = selectDom(".password");
-const confirmPassword = selectDom(".password-check");
-const signupButton = selectDom(".signup-button"); 
-
-// 헬퍼 텍스트 
-const profileHelperText = selectDom("#profileHelperTxt");
-const emailHelperText = selectDom("#emailHelperTxt");
-const pwHelperText = selectDom("#passwordHelperTxt");
-const confirmPwHelperText = selectDom("#confirmPasswordHelperTxt");
-const nicknameHelperText = selectDom("#nicknameHelperTxt");
-
-// input 입력 유무 표시 마크 
-const emailMark = selectDom('.email-mark');
-const passwordMark = selectDom('.password-mark');
-const confirmPasswordMark = selectDom('.password-check-mark');
-const nicknameMark = selectDom('.nickname-mark');
-const profileMark = selectDom('.profile-mark');
-
-// 프로필 이미지 
-const profileBtn = selectDom('.profile-image');
-const profileInput = selectDom('#profile-input');
+const elements = {
+    password: selectDom(".password"),
+    confirmPassword: selectDom(".password-check"),
+    signupButton: selectDom(".signup-button"),
+    helperTexts: selectAll({
+        email: "#emailHelperTxt",
+        password: "#passwordHelperTxt",
+        confirmPassword: "#confirmPasswordHelperTxt",
+        nickname: "#nicknameHelperTxt",
+        profile: "#profileHelperTxt",
+    }),
+    marks: selectAll({
+        email: ".email-mark",
+        password: ".password-mark",
+        confirmPassword: ".password-check-mark",
+        nickname: ".nickname-mark",
+        profile: ".profile-mark",
+    }),
+    profile: selectAll({
+        button: ".profile-image",
+        input: "#profile-input",
+    }),
+    inputs: selectAll({
+        email: "#email",
+        nickname: "#nickname",
+    }),
+};
 
 
 
@@ -36,7 +44,7 @@ const emailCheck = (email) => {
     email = email.trim(); 
     
     if (email === "") {
-        emailHelperText.textContent = "*이메일을 입력해주세요.";
+        elements.helperTexts.email.textContent = "*이메일을 입력해주세요.";
         return false; 
     } else if (email.length < 5 || !emailRegex.test(email)) {
         emailFormatCheck();
@@ -44,7 +52,7 @@ const emailCheck = (email) => {
     } else{
         // 이메일 중복 체크 API 호출 추가 예정 
         checkEmail(email);
-        correctFormat("emailHelperTxt");
+        correctFormat(elements.helperTexts.email);
         return true; 
     }
 }
@@ -63,15 +71,15 @@ const passwordCheck = (passWord) => {
 
     // 비밀번호가 유효하지 않음 
     if(passWord === '') {
-        pwHelperText.textContent = "*비밀번호를 입력해주세요";
+        elements.helperTexts.password.textContent = "*비밀번호를 입력해주세요";
         return false; 
     } else if(!passwordRegex.test(passWord)) {
         passwordFormatCheck(); 
         return false; 
     } else {
-        correctFormat("passwordHelperTxt");
-        if(confirmPassword.value !== '') {
-            confirmPasswordCheck(confirmPassword.value);
+        correctFormat(elements.helperTexts.password);
+        if(elements.confirmPassword.value !== '') {
+            confirmPasswordCheck(elements.confirmPassword.value);
             return true; 
         }
     }
@@ -80,13 +88,13 @@ const passwordCheck = (passWord) => {
 // 비밀번호 확인 유효성 검사
 const confirmPasswordCheck = (confirmPw) => {
     if(confirmPw === '') {
-        confirmPwHelperText.textContent = "*비밀번호를 한번더 입력해주세요";
+        elements.helperTexts.confirmPassword.textContent = "*비밀번호를 한번더 입력해주세요";
         return false; 
-    } else if(confirmPw !== password.value.trim()) {
-        confirmPwHelperText.textContent = "*비밀번호가 다릅니다."
+    } else if(confirmPw !== elements.password.value.trim()) {
+        elements.helperTexts.confirmPassword.textContent = "*비밀번호가 다릅니다."
         return false; 
     } else {
-        correctFormat("confirmPasswordHelperTxt");
+        correctFormat(elements.helperTexts.confirmPassword);
         return true; 
     }
 }
@@ -97,18 +105,18 @@ const nicknameCheck = (nickname) => {
     nickname = nickname.trim();
 
     if (nickname === "") {
-        nicknameHelperText.textContent = "*닉네임을 입력해주세요.";
+        elements.helperTexts.nickname.textContent = "*닉네임을 입력해주세요.";
         return false; 
     } else if (nickname.includes(" ")) {
-        nicknameHelperText.textContent = "*띄어쓰기를 없애주세요.";
+        elements.helperTexts.nickname.textContent = "*띄어쓰기를 없애주세요.";
         return false; 
     } else if (nickname.length > 10) {
-        nicknameHelperText.textContent = "*닉네임은 최대 10자까지 작성 가능합니다.";
+        elements.helperTexts.nickname.textContent = "*닉네임은 최대 10자까지 작성 가능합니다.";
         return false; 
     } else {
         // 닉네임 중복 체크 API 호출 추가 예정 
         checkNickname(nickname);
-        correctFormat("nicknameHelperTxt");
+        correctFormat(elements.helperTexts.nickname);
         return true; 
     }
 }
@@ -119,39 +127,41 @@ const checkNickname = (nickname) => {
 
 // 이메일 유효성 검사 통과 못할 시 오류 메시지
 const emailFormatCheck = () => {
-    emailHelperText.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
+    elements.helperTexts.email.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
 }
 
 // 비밀번호 유효성 검사 통과 못할 시 오류 메시지
 const passwordFormatCheck = () => {
-    pwHelperText.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.";
+    elements.helperTexts.password.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.";
 }
 
 // 닉네임 유효성 검사 통과 못할 시 오류 메시지
 const nicknameFormatCheck = () => {
-    nicknameHelperText.textContent = "*닉네임은 2자 이상, 10자 이하의 영문자와 숫자만 가능합니다.";
+    elements.helperTexts.nickname.textContent = "*닉네임은 2자 이상, 10자 이하의 영문자와 숫자만 가능합니다.";
 }
 
 // 유효성 검사 통과 시 헬퍼 텍스트 제거 
-const correctFormat = (elementId) => {
-    document.getElementById(elementId).textContent = "";
+const correctFormat = (element) => {
+    if(element) {
+        element.textContent = "";
+    }
 }
 
 // 프로필 사진 업로드 확인
-profileInput.addEventListener("change", async (e) => {
+elements.profile.input.addEventListener("change", async (e) => {
     const file = e.target.files[0];
     
     if (!file) {
-        profileHelperText.textContent = "*프로필 사진을 추가해주세요.";
+        elements.helperTexts.profile.textContent = "*프로필 사진을 추가해주세요.";
         // 파일 선택 취소 시 이미지 초기화 
-        profileBtn.style.backgroundImage = ''; 
+        elements.profile.button.style.backgroundImage = ''; 
         // input값 초기화
-        profileInput.value = '';
+        elements.profile.input.value = '';
     } else {
         try {
             const resizedImageUrl = await resizeImage(file);
-            profileBtn.style.backgroundImage = `url(${resizedImageUrl})`;
-            profileHelperText.textContent = "";
+            elements.profile.button.style.backgroundImage = `url(${resizedImageUrl})`;
+            elements.helperTexts.profile.textContent = "";
             
         } catch (error) {
             console.error('이미지 리사이징 오류', error);
@@ -170,15 +180,15 @@ const updateButtonState = () => {
 }
 
 // 버튼 클릭시 회원가입 요청 
-signupButton.addEventListener("click", async (e) => {
+elements.signupButton.addEventListener("click", async (e) => {
     e.preventDefault();
     
-    const email = document.getElementById('email').value;
-    const nickname = document.getElementById('nickname').value;
-    const passwordValue = password.value; 
-    const profileImage = profileInput.files[0];
+    const email = elements.inputs.email.value;
+    const nickname = elements.inputs.nickname.value;
+    const passwordValue = elements.password.value; 
+    const profileImage = elements.profile.input.files[0];
 
-    if(emailCheck(email) && passwordCheck(passwordValue) && confirmPasswordCheck(confirmPassword.value) && nicknameCheck(nickname)) {
+    if(emailCheck(email) && passwordCheck(passwordValue) && confirmPasswordCheck(elements.confirmPassword.value) && nicknameCheck(nickname)) {
         try {
             const result = await signupUser(email, nickname, passwordValue, profileImage);
             console.log('회원가입 전체 응답:', result);
@@ -217,63 +227,63 @@ signupButton.addEventListener("click", async (e) => {
 
 // input 유무 체크 마크 
 const markCheck = () => {
-    if(email.value.length > 0) {
-        emailMark.style.display = 'none';
+    if(elements.inputs.email.value.length > 0) {
+        elements.marks.email.style.display = 'none';
     } else {
-        emailMark.style.display = 'inline';
+        elements.marks.email.style.display = 'inline';
     }
 
-    if(password.value.length > 0) {
-        passwordMark.style.display = 'none';
+    if(elements.password.value.length > 0) {
+        elements.marks.password.style.display = 'none';
     } else {
-        passwordMark.style.display = 'inline';
+        elements.marks.password.style.display = 'inline';
     }
 
-    if(confirmPassword.value.length > 0) {
-        confirmPasswordMark.style.display = 'none';
+    if(elements.confirmPassword.value.length > 0) {
+        elements.marks.confirmPassword.style.display = 'none';
     } else {
-        confirmPasswordMark.style.display = 'inline';
+        elements.marks.confirmPassword.style.display = 'inline';
     }
 
-    if(nickname.value.length > 0) {
-        nicknameMark.style.display = 'none';
+    if(elements.inputs.nickname.value.length > 0) {
+        elements.marks.nickname.style.display = 'none';
     } else {
-        nicknameMark.style.display = 'inline'; 
+        elements.marks.nickname.style.display = 'inline'; 
     }
 
-    if(profileInput.files[0]) {
-        profileMark.style.display = 'none';
+    if(elements.profile.input.files[0]) {
+        elements.marks.profile.style.display = 'none';
     } else {
-        profileMark.style.display = 'inline';
+        elements.marks.profile.style.display = 'inline';
     }
 }
 
 // 이메일 이벤트 리스너
-document.getElementById('email').addEventListener("input", (e) => {
+elements.inputs.email.addEventListener("input", (e) => {
     markCheck();
     emailCheck(e.target.value);
     updateButtonState();
 });
 
 // 닉네임 이벤트 리스너 
-document.getElementById('nickname').addEventListener("input", (e) => {
+elements.inputs.nickname.addEventListener("input", (e) => {
     markCheck();
     nicknameCheck(e.target.value);
     updateButtonState();
 });
 
 // 비밀번호 이벤트 리스너 
-password.addEventListener("input", (e) => {
+elements.password.addEventListener("input", (e) => {
     markCheck();
     passwordCheck(e.target.value);
-    if(confirmPassword.value !== '') {
-        confirmPasswordCheck(confirmPassword.value);
+    if(elements.confirmPassword.value !== '') {
+        confirmPasswordCheck(elements.confirmPassword.value);
     }
     updateButtonState(); 
 });
  
 // 비밀번호 확인 이벤트 리스너 
-confirmPassword.addEventListener("input", (e) => {
+elements.confirmPassword.addEventListener("input", (e) => {
     markCheck();
     confirmPasswordCheck(e.target.value);
     updateButtonState(); 
