@@ -1,4 +1,5 @@
 import { createPost } from '../api/posts-api.js';
+import { currentDate } from '../utils/currentDate.js';
 
 const { title, content, submitBtn, submitForm, imageInput, helperText, titleMark, contentMark, uploadGuide} = {
     title: document.querySelector('.title-input'),
@@ -52,22 +53,6 @@ submitForm.addEventListener('submit', async (e) => {
     // 로컬 스토리지에서 사용자 정보 가져오기 
     const userId = localStorage.getItem('userId');
     const profileImage = localStorage.getItem('profileImage');
-    
-    // 현재 날짜 포맷 설정 
-    const currentDate = new Date().toLocaleString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    }).replace(/\. /g, '-').replace('.', '');
-
-    if(title.value === '' || content.value === '') {
-        helperText.textContent = '*제목, 내용을 모두 작성해주세요.';
-        return;
-    }
 
     // 이미지 파일 크기 제한 : 5MB 
     if(imageInput.files[0] && imageInput.files[0].size > 5 * 1024 * 1024) {
