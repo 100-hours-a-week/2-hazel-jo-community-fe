@@ -1,6 +1,6 @@
 import { loadPosts } from "../api/posts-api.js";
 import { loadUserInfo } from "../api/user-api.js";
-import { convertK } from "../utils/convertUtils.js";
+import { renderPosts } from "../utils/renderUtils.js";
 
 const baseUrl = 'http://localhost:5000';
 
@@ -44,32 +44,7 @@ window.onload = async () => {
     }
 };
 
-// 게시글 컨테이너 함수 
-const renderPosts = (post) => {
-    const truncatedTitle = post.title.slice(0, 26);
-    const defaultProfileImage = `${baseUrl}/uploads/profiles/default.png`;
 
-    return `
-        <div class="box" onclick="location.href='/page/post.html?post_id=${post.post_id}'">
-            <h4>${truncatedTitle}</h4>
-            <div class="post-info">
-                <div class="post-stats-container">
-                    <span>좋아요 ${convertK(post.like)}</span>
-                    <span>댓글 ${convertK(post.comment)}</span>
-                    <span>조회수 ${convertK(post.view)}</span>
-                </div>
-                <div class="post-date">
-                    <span>${post.date}</span>
-                </div>
-            </div>
-            <hr class="horizontal-rule"/>
-            <div class="post-author">
-                <img src="${post.profileImage || defaultProfileImage}" alt="프로필">
-                <span>${post.nickname}</span>
-            </div>
-        </div>
-    `;
-}
 
 
 
