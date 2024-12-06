@@ -1,10 +1,9 @@
 import { editPassword } from '../api/user-api.js';
-import { passwordCheck } from '../utils/regexUtils.js';
+import { passwordCheck } from '../utils/validationUtils.js';
 
-const { password, confirmPassword, helperText, toastMessage, confirmHelperText, changeBtn } = {
+const { password, confirmPassword, toastMessage, confirmHelperText, changeBtn } = {
     password: document.getElementById("password"),
     confirmPassword: document.getElementById("password-check"),
-    helperText: document.getElementById("helperTxt"),
     toastMessage: document.querySelector('.toast-message'),
     confirmHelperText: document.getElementById("confirm-helperTxt"),
     changeBtn: document.getElementById("change-button"),

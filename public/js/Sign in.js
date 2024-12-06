@@ -1,5 +1,6 @@
 import { signupUser } from "../api/auth-api.js"; 
 import { resizeImage } from "../utils/imageUtils.js";
+import { validateEmail, validatePassword, validateConfirmPassword, validateNickname } from "../utils/validationUtils.js";
 
 // DOM 요소 선택 함수 
 const selectDom = (selector) => document.querySelector(selector);
@@ -38,23 +39,12 @@ const elements = {
 
 // 이메일 유효성 검사 
 const emailCheck = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    // 입력 받은 이메일 앞 뒤 공백 제거 
-    email = email.trim(); 
-    
-    if (email === "") {
-        elements.helperTexts.email.textContent = "*이메일을 입력해주세요.";
-        return false; 
-    } else if (email.length < 5 || !emailRegex.test(email)) {
-        emailFormatCheck();
-        return false; 
-    } else{
-        // 이메일 중복 체크 API 호출 추가 예정 
+    const result = validateEmail(email);
+    elements.helperTexts.email.textContent = result.message;
+    if (result.isValid) {
         checkEmail(email);
-        correctFormat(elements.helperTexts.email);
-        return true; 
     }
+    return result.isValid;
 }
 
 // 이메일 중복 체크 함수
@@ -63,81 +53,35 @@ const checkEmail = (email) => {
 }
 
 // 비밀번호 유효성 검사
-const passwordCheck = (passWord) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/;
-
-    // 입력 받은 비밀번호 앞 뒤 공백 제거
-    passWord = passWord.trim();
-
-    // 비밀번호가 유효하지 않음 
-    if(passWord === '') {
-        elements.helperTexts.password.textContent = "*비밀번호를 입력해주세요";
-        return false; 
-    } else if(!passwordRegex.test(passWord)) {
-        passwordFormatCheck(); 
-        return false; 
-    } else {
-        correctFormat(elements.helperTexts.password);
-        if(elements.confirmPassword.value !== '') {
-            confirmPasswordCheck(elements.confirmPassword.value);
-            return true; 
-        }
+const passwordCheck = (password) => {
+    const result = validatePassword(password);
+    elements.helperTexts.password.textContent = result.message;
+    
+    if (result.isValid && elements.confirmPassword.value !== '') {
+        confirmPasswordCheck(elements.confirmPassword.value);
     }
+    return result.isValid;
 }
 
 // 비밀번호 확인 유효성 검사
 const confirmPasswordCheck = (confirmPw) => {
-    if(confirmPw === '') {
-        elements.helperTexts.confirmPassword.textContent = "*비밀번호를 한번더 입력해주세요";
-        return false; 
-    } else if(confirmPw !== elements.password.value.trim()) {
-        elements.helperTexts.confirmPassword.textContent = "*비밀번호가 다릅니다."
-        return false; 
-    } else {
-        correctFormat(elements.helperTexts.confirmPassword);
-        return true; 
-    }
+    const result = validateConfirmPassword(elements.password.value, confirmPw);
+    elements.helperTexts.confirmPassword.textContent = result.message;
+    return result.isValid;
 }
 
 // 닉네임 유효성 검사
 const nicknameCheck = (nickname) => {
-    // 입력 받은 닉네임 앞 뒤 공백 제거
-    nickname = nickname.trim();
-
-    if (nickname === "") {
-        elements.helperTexts.nickname.textContent = "*닉네임을 입력해주세요.";
-        return false; 
-    } else if (nickname.includes(" ")) {
-        elements.helperTexts.nickname.textContent = "*띄어쓰기를 없애주세요.";
-        return false; 
-    } else if (nickname.length > 10) {
-        elements.helperTexts.nickname.textContent = "*닉네임은 최대 10자까지 작성 가능합니다.";
-        return false; 
-    } else {
-        // 닉네임 중복 체크 API 호출 추가 예정 
+    const result = validateNickname(nickname);
+    elements.helperTexts.nickname.textContent = result.message;
+    if (result.isValid) {
         checkNickname(nickname);
-        correctFormat(elements.helperTexts.nickname);
-        return true; 
     }
+    return result.isValid;
 }
 
 const checkNickname = (nickname) => {
     // 닉네임 중복 체크 API 호출 추가 예정 
-}
-
-// 이메일 유효성 검사 통과 못할 시 오류 메시지
-const emailFormatCheck = () => {
-    elements.helperTexts.email.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
-}
-
-// 비밀번호 유효성 검사 통과 못할 시 오류 메시지
-const passwordFormatCheck = () => {
-    elements.helperTexts.password.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.";
-}
-
-// 닉네임 유효성 검사 통과 못할 시 오류 메시지
-const nicknameFormatCheck = () => {
-    elements.helperTexts.nickname.textContent = "*닉네임은 2자 이상, 10자 이하의 영문자와 숫자만 가능합니다.";
 }
 
 // 유효성 검사 통과 시 헬퍼 텍스트 제거 

@@ -102,6 +102,7 @@ const nicknameValid = () => {
     }, 1000);
 }
 
+
 // 프로필 수정 
 let changeImage = false; 
 let currentImage = profileBtn.style.backgroundImage;

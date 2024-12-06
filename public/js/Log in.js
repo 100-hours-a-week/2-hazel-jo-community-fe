@@ -1,5 +1,5 @@
-//로그인
 import { loginUser } from '../api/auth-api.js';
+import { regex } from '../utils/validationUtils.js';
 
 // 로그인 버튼 클릭 시
 document.getElementById("loginBtn").addEventListener("click", (e) => {
@@ -15,9 +15,8 @@ document.getElementById("loginBtn").addEventListener("click", (e) => {
 
 // 이메일 유효성 검사
 const emailCheck = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     email = email.trim();
-    if (email.length < 5 || !emailRegex.test(email) || email === "") {
+    if (email.length < 5 || !regex.email.test(email) || email === "") {
         emailFormatCheck();
         return false;
     }
@@ -25,11 +24,11 @@ const emailCheck = (email) => {
     return true;
 }
 
+
 // 비밀번호 유효성 검사
 const passwordCheck = (password) => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,20}$/;
     password = password.trim();
-    if (!passwordRegex.test(password)) {
+    if (!regex.password.test(password)) {
         passwordFormatCheck();
         return false;
     }
