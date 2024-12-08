@@ -1,11 +1,8 @@
 import { signupUser } from "../api/auth-api.js"; 
 import { resizeImage } from "../utils/imageUtils.js";
 import { validateEmail, validatePassword, validateConfirmPassword, validateNickname } from "../utils/validationUtils.js";
-
-// DOM 요소 선택 함수 
-const selectDom = (selector) => document.querySelector(selector);
-const selectAll = (selectors) => 
-    Object.fromEntries(Object.entries(selectors).map(([key, value]) => [key, selectDom(value)]));
+import { markCheck } from "../utils/markCheckUtils.js";
+import { selectDom, selectAll } from "../utils/selectDomUtils.js"; 
 
 const elements = {
     password: selectDom(".password"),
@@ -168,39 +165,6 @@ elements.signupButton.addEventListener("click", async (e) => {
         }
     }
 });
-
-// input 유무 체크 마크 
-const markCheck = () => {
-    if(elements.inputs.email.value.length > 0) {
-        elements.marks.email.style.display = 'none';
-    } else {
-        elements.marks.email.style.display = 'inline';
-    }
-
-    if(elements.password.value.length > 0) {
-        elements.marks.password.style.display = 'none';
-    } else {
-        elements.marks.password.style.display = 'inline';
-    }
-
-    if(elements.confirmPassword.value.length > 0) {
-        elements.marks.confirmPassword.style.display = 'none';
-    } else {
-        elements.marks.confirmPassword.style.display = 'inline';
-    }
-
-    if(elements.inputs.nickname.value.length > 0) {
-        elements.marks.nickname.style.display = 'none';
-    } else {
-        elements.marks.nickname.style.display = 'inline'; 
-    }
-
-    if(elements.profile.input.files[0]) {
-        elements.marks.profile.style.display = 'none';
-    } else {
-        elements.marks.profile.style.display = 'inline';
-    }
-}
 
 // 이메일 이벤트 리스너
 elements.inputs.email.addEventListener("input", (e) => {
