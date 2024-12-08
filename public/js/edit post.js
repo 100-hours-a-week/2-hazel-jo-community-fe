@@ -1,4 +1,5 @@
 import { editPost, loadPost } from "../api/posts-api.js";
+import { selectDom } from "../utils/selectDomUtils.js";
 
 window.onload = () => {
     // URL에서 post_id 파라미터 가져오기
@@ -74,9 +75,6 @@ const renderPost = (post) => {
         </form>
     </div>
     `;
-
-    // DOM 요소 선택 함수 
-    const selectDom = (selector) => document.querySelector(selector);
   
     // 제목, 내용 input 
     const title = selectDom('input[name="title"]');
