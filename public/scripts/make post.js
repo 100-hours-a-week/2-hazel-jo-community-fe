@@ -65,7 +65,7 @@ submitForm.addEventListener('submit', async (e) => {
     const data = {
         title: title.value,
         content: content.value,
-        date: currentDate,
+        date: currentDate(),
         user_id: userId,
         profileImg: profileImage,
     };
