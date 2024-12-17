@@ -110,23 +110,26 @@ const handleEditProfile = async () => {
     try {
         const email = document.querySelector('#userEmail').value;
         const nickname = nicknameInput.value;
-        const userId = localStorage.getItem('userId');
 
         const formData = new FormData();
         formData.append('email', email);
         formData.append('nickname', nickname);
-        formData.append('userId', userId);
-
-        if (changeImage && profileInput.files[0]) {
+        if (changeImage && profileInput.files.length > 0) {
             formData.append('profileImage', profileInput.files[0]);
         }
+
+        console.log('FormData 내용 확인:');
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
 
         const result = await editProfile(formData);
         
         nicknameValid();
         
         // 서버에서 받은 이미지 경로로 업데이트
-        if (result.user.profileImage) {
+        if (result.user && result.user.profileImage) {
             const newImageUrl = `http://localhost:5000${result.user.profileImage}`;
             localStorage.setItem('profileImage', newImageUrl);
             localStorage.setItem('nickname', result.user.nickname);
