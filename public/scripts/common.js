@@ -28,7 +28,7 @@ export const setProfileImage = () => {
     let userProfileImage = localStorage.getItem('profileImage');
     console.log('저장된 프로필 이미지 URL:', userProfileImage);
 
-    if (userProfileImage) {
+    if (userProfileImage && userProfileImage !== 'null' && userProfileImage !== 'undefined') {
         if (!userProfileImage.startsWith('http')) {
             userProfileImage = `http://localhost:5000${userProfileImage}`;
         }
