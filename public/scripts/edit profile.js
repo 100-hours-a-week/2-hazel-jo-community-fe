@@ -123,7 +123,6 @@ const handleEditProfile = async () => {
             console.log(key, value);
         }
 
-
         const result = await editProfile(formData);
         
         nicknameValid();
