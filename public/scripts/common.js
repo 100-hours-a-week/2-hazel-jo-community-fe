@@ -26,21 +26,22 @@ const dropdownMenu = () => {
 export const setProfileImage = () => {
     const profileImage = document.querySelector('.login-icon img');
     let userProfileImage = localStorage.getItem('profileImage');
-
     console.log('저장된 프로필 이미지 URL:', userProfileImage);
 
-    if(userProfileImage && userProfileImage !== 'null') {
-        userProfileImage = userProfileImage.replace('http://localhost:3000', 'http://localhost:5000');
-        
+    if (userProfileImage) {
+        if (!userProfileImage.startsWith('http')) {
+            userProfileImage = `http://localhost:5000${userProfileImage}`;
+        }
+
         profileImage.onerror = () => {
             console.error('이미지 로드 실패:', userProfileImage);
             profileImage.src = '/image/basic.png';
         };
-        
+
         profileImage.onload = () => {
             console.log('이미지 로드 성공');
         };
-        
+
         profileImage.src = userProfileImage;
     } else {
         profileImage.src = '/image/basic.png';
