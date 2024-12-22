@@ -1,9 +1,10 @@
 import { getPostViews, likePost } from "../api/posts-api.js";
 import { convertK } from "./convertUtils.js";
+import { currentDate } from "./currentDate.js";
 
 const baseUrl = 'http://localhost:5000';
 
-export const renderPost = (post, userInfo, currentUserInfo) => {
+export const renderPost = (post, currentUserInfo) => {
     const getImage = (imagePath, isProfile = false) => {
         // 프로필 이미지인 경우
         if (isProfile) {
@@ -61,17 +62,20 @@ export const renderPost = (post, userInfo, currentUserInfo) => {
     document.addEventListener('click', handleLikeClick);
 
     // 현재 로그인한 사용자와 게시글 작성자가 일치하는지 확인
-    const isPostAuthor = currentUserInfo && currentUserInfo.user.userId === Number(post.user_id);
+    const isPostAuthor = currentUserInfo && currentUserInfo.user.userId === Number(post.author.user_id);
+
+    const likeCount = post.comment_count;
+
+    const formattedDatte = currentDate(post.created_at);
 
     return `
     <article class="post-container">
-      <div class="post-header">
         <h1 class="post-title">${post.title}</h1>
         <div class="post-meta">
           <div class="post-author">
-            <img src="${getImage(userInfo.profileImage)}" alt="프로필">
-            <span>${userInfo.nickname}</span>
-            <span class="post-date">${post.date}</span>
+            <img src="${getImage(post.author.profileImg, true)}" alt="프로필">
+            <span>${post.author.nickname}</span>
+            <span class="post-date">${formattedDatte}</span>
           </div>
           ${isPostAuthor ? `
           <div class="post-buttons">
@@ -101,7 +105,7 @@ export const renderPost = (post, userInfo, currentUserInfo) => {
           <span>조회수</span>
         </div>
         <div class="stat-item">          
-          <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(post.comment)}</span>
+          <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(likeCount)}</span>
           <span>댓글</span>
         </div>
       </div>
@@ -110,6 +114,8 @@ export const renderPost = (post, userInfo, currentUserInfo) => {
   }
 
 export const renderComment = (comment, currentUserInfo) => {
+
+    const formattedDatte = currentDate(comment.created_at);
 
     // 프로필 이미지 경로 처리
     const getProfileImage = (imagePath) => {
@@ -128,7 +134,7 @@ export const renderComment = (comment, currentUserInfo) => {
             <div class="author-info">
                 <img src="${getProfileImage(comment.profile_image)}" alt="프로필">
                 <span>${comment.user_nickname}</span>
-                <span class="comment-date">${comment.date}</span>
+                <span class="comment-date">${formattedDatte}</span>
             </div>
             ${isCommentAuthor ? `
             <div class="comment-buttons">
@@ -146,6 +152,16 @@ export const renderComment = (comment, currentUserInfo) => {
 export const renderPosts = (post) => {
   const truncatedTitle = post.title.slice(0, 26);
   const defaultProfileImage = `${baseUrl}/uploads/profiles/default.png`;
+  
+  const formattedDatte = currentDate(post.created_at);
+
+  // 이미지 경로 처리 함수
+  const getProfileImage = () => {
+    if (!post.profileImage) return defaultProfileImage;
+    return post.profileImage.startsWith('/uploads/') 
+        ? `${baseUrl}${post.profileImage}` 
+        : post.profileImage;
+};
 
   return `
       <div class="box" onclick="location.href='/page/post.html?post_id=${post.post_id}'">
@@ -157,13 +173,13 @@ export const renderPosts = (post) => {
                   <span>조회수 ${convertK(post.view)}</span>
               </div>
               <div class="post-date">
-                  <span>${post.date}</span>
+                  <span>${formattedDatte}</span>
               </div>
           </div>
           <hr class="horizontal-rule"/>
           <div class="post-author">
-              <img src="${post.profileImage || defaultProfileImage}" alt="프로필">
-              <span>${post.nickname}</span>
+              <img src="${getProfileImage()}" alt="프로필">
+              <span>${post.nickname || 'void'}</span>
           </div>
       </div>
   `;
