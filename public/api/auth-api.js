@@ -19,9 +19,7 @@ export const signupUser = async (email, nickname, password, profileImage) => {
         });
         
         const responseData = await response.json();
-        console.log('서버 응답 전체 데이터:', responseData);
-        console.log('서버 응답 user 객체:', responseData.user);
-
+        
         if (!response.ok) {
             throw new Error(responseData.message || '회원가입 실패');
         }
