@@ -1,11 +1,11 @@
-import { loadPost, deletePost, getCommentCount, updateCommentCount } from "../api/posts-api.js";
-import { loadUserInfo } from "../api/user-api.js";
+import { loadPost, deletePost, getCommentCount } from "../api/posts-api.js";
 import { loadComments, createComment, deleteComment, updateComment } from "../api/comments-api.js";
 import { getCurrentUser } from "../api/auth-api.js";
 import { modalOpen, modalClose } from "../utils/modalUtils.js";
 import { renderComment, renderPost } from "../utils/renderUtils.js";
 
-// 게시글 댓글 수 로드 함수 
+
+// 게시글 댓글 수 로드 및 DOM 업데이트 함수 
 const loadCommentCount = async (postId) => {
     try {
         const { commentCount } = await getCommentCount(postId);
@@ -16,22 +16,7 @@ const loadCommentCount = async (postId) => {
     }
 }
 
-const handleCommentAction = async (postId, action) => {
-    try {
-        const updatedCommentCount = await updateCommentCount(postId, action);
-
-        // DOM 조작을 통한 댓글 수 업데이트 
-        const commentCountElement = document.getElementById('commentCount');
-        if(commentCountElement) {
-            commentCountElement.textContent = updatedCommentCount;
-        }
-    } catch (error) {
-        console.error('댓글 수 업데이트 오류:', error);
-    }
-}
-
 window.onload = async () => {
-
     // URL에서 게시글 아이디 가져오기  
     const urlParams = new URLSearchParams(window.location.search);
     const postId = parseInt(urlParams.get('post_id'));
@@ -41,13 +26,6 @@ window.onload = async () => {
         console.error('유효하지 않은 게시글 ID');
         return;
     }
-    
-    // 게시글 데이터 가져오기
-    const post = await loadPost(postId);
-    const userInfo = await loadUserInfo(post.user_id);
-
-    // 댓글 수 업데이트 함수 호출
-    loadCommentCount(postId);
 
     // 현재 로그인한 사용자 정보 가져오기
     let currentUserInfo;
@@ -57,10 +35,17 @@ window.onload = async () => {
         console.error('현재 사용자 정보 로드 실패:', error);
         currentUserInfo = null;
     }
+    
+    // 게시글 데이터 가져오기
+    const post = await loadPost(postId);
 
+    // post 렌더링
     if(post) {
         const postDetailSection = document.querySelector('.post-detail');
-        postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, userInfo, currentUserInfo));
+        postDetailSection.insertAdjacentHTML('afterbegin', renderPost(post, currentUserInfo));
+        
+        // 댓글 수 업데이트
+        await loadCommentCount(postId);
     }
 
     // 댓글 데이터 불러오기 
@@ -117,10 +102,13 @@ window.onload = async () => {
         // 댓글 삭제 모달창 확인 버튼
         if (e.target.id === 'confirmCommentBtn') {
             try {
-              await deleteComment(selectedCommentId);
+              await deleteComment(postId, selectedCommentId);
+              // 댓글 수 업데이트 함수 호출 
+              await loadCommentCount(postId);
+
               const commentModalOverlay = document.getElementById('commentModalOverlay');
               modalClose(commentModalOverlay);
-              handleCommentAction(postId, 'delete');
+              
               window.location.reload();
             } catch (error) {
               console.error('댓글 삭제 오류: ', error);
@@ -212,13 +200,11 @@ window.onload = async () => {
                 throw new Error('로그인이 필요합니다.');
             }
 
-            // 새로운 댓글 객체 생성 
-            const newComment = {
-                content: commentText,
-                profile_image: currentUserInfo.profileImage 
-            };
-
-            const savedComment = await createComment(postId, newComment);
+            const savedComment = await createComment(postId, { content: commentText });
+            // 댓글 수 업데이트 함수 호출 
+            await loadCommentCount(postId);
+            window.location.reload(); 
+            
             const commentList = document.querySelector('.comment-list');
             
             // 서버에서 반환된 댓글 데이터로 렌더링
@@ -229,8 +215,6 @@ window.onload = async () => {
                 commentTextarea.value = '';
                 commentSubmitBtn.style.backgroundColor = '#ACA0EB';
 
-                // 댓글 수 업데이트 함수 호출
-                handleCommentAction(postId, 'add');
             } else {
                 throw new Error('댓글 데이터가 올바르지 않습니다.');
             }
