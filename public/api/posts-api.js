@@ -17,6 +17,7 @@ export const loadPosts = async () => {
         }
 
         const posts = await response.json();
+
         return posts; 
     } catch (error) {
         console.error('Fetch 오류: ', error);
@@ -92,10 +93,7 @@ export const deletePost = async (postId) => {
 
 // 게시글 수정 
 export const editPost = async (postId, formData) => {
-    try {
-        // 세션 쿠키가 있는지 확인
-        console.log('쿠키:', document.cookie);
-        
+    try {        
         const response = await fetch(`${postsUrl}/${postId}`, {
             method: 'PUT',
             credentials: 'include', 
@@ -159,7 +157,6 @@ export const getLikeCount = async (postId) => {
         }
 
         const data = await response.json();
-        
         return data.like;
     } catch (error) {
         console.error('게시글 좋아요 수 오류: ', error);
@@ -181,7 +178,7 @@ export const getCommentCount = async (postId) => {
             throw new Error(errorData.message || '게시글 댓글 수 불러오기 실패');
         }
 
-        const commentCount = await response.json();
+        const { commentCount } = await response.json();
         return commentCount;
     } catch (error) {
         console.error('게시글 댓글 수 오류: ', error);
@@ -189,33 +186,7 @@ export const getCommentCount = async (postId) => {
     }   
 }
 
-
-// 게시글 댓글 수 증가/감소 
-export const updateCommentCount = async (postId, action) => {
-    try {
-        const response = await fetch(`${postsUrl}/${postId}/comment`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ action }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || '댓글 추가/삭제 실패');
-        }
-
-        const result = await response.json();
-        return result.commentCount; 
-    } catch (error) {
-        console.error('댓글 추가/삭제 오류: ', error);
-        throw error;
-    }
-}
-
-
+/*
 // 게시글 조회수 
 export const getPostViews = async (postId) => {
     try {
@@ -236,3 +207,4 @@ export const getPostViews = async (postId) => {
         throw error;
     }
 }
+*/
