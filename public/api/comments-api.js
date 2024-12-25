@@ -54,9 +54,9 @@ export const createComment = async (postId, commentData) => {
 }
 
 // 댓글 삭제 
-export const deleteComment = async (commentId) => {
+export const deleteComment = async (postId, commentId) => {
     try {
-        const response = await fetch(`${baseUrl}/${commentId}`, {
+        const response = await fetch(`${baseUrl}/${postId}/comments/${commentId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -92,7 +92,7 @@ export const updateComment = async (commentId, commentData) => {
 
         if(!response.ok) {
             const errorData = await response.json();
-    
+
             // 세션 만료 시 로그인 페이지로 리다이렉트
             if(response.status === 401) {
                 alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
