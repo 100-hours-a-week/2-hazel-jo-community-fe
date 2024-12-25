@@ -7,8 +7,6 @@ window.onload = () => {
     const postId = urlParams.get('post_id');
     const userId = localStorage.getItem('userId');
 
-    console.log('클라이언트 userId:', userId);
-
     if (!postId) {
         console.error('postId가 설정되지 않았습니다.');
         window.location.href = '/page/posts.html'; 
@@ -18,11 +16,7 @@ window.onload = () => {
     // 게시글 불러오기 로직 
     loadPost(postId).then(post => {
         if (post) {
-            console.log('게시글 정보:', post);
-            console.log('게시글 작성자 ID:', post.user_id);
-            console.log('현재 로그인한 사용자 ID:', Number(userId));
-
-            if (Number(post.user_id) !== Number(userId)) {
+            if (Number(post.author.user_id) !== Number(userId)) {
                 alert('게시글 수정 권한이 없습니다.');
                 window.location.href = `/page/post.html?post_id=${postId}`;
                 return;
@@ -140,8 +134,6 @@ const renderPost = (post) => {
                 formData.append('image', imageFile);
             }
 
-            console.log('수정 요청 데이터:', formData);
-
             try {
                 // editPost 함수 불러와 게시글 수정
                 await editPost(post.post_id, formData);
@@ -149,7 +141,6 @@ const renderPost = (post) => {
                 window.location.href = `/page/post.html?post_id=${post.post_id}`;
             } catch (error) {
                 console.error('게시글 수정 중 오류 발생:', error);
-                console.log('에러 메시지:', error.message);
                 if (error.message.includes('권한이 없습니다')) {
                     alert('게시글 수정 권한이 없습니다.');
                     window.location.href = `/page/post.html?post_id=${post.post_id}`;
