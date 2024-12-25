@@ -10,27 +10,27 @@ window.onload = async () => {
     
     try {
         const response = await loadPosts();
-        
         const posts = response.posts || response;
         
-        // 각 게시글에 대해 사용자 정보를 가져와서 합치기
+        // 각 게시글에 대한 사용자 정보를 가져와서 합치기
         const postsWithUserInfo = await Promise.all(posts.map(async (post) => {
             try {
-                // user_id를 숫자로 변환
-                const numericUserId = parseInt(post.user_id);
-                const userInfo = await loadUserInfo(numericUserId);
-                return {
-                    ...post,
-                    nickname: userInfo.nickname,
-                    profileImage: userInfo.profileImage ? `${baseUrl}${userInfo.profileImage}` : null
-                };
+                // user_id 예외 처리 
+                if(!post.user_id || isNaN(parseInt(post.user_id))) {
+                return post;                 
+            }
+            const numericUserId = parseInt(post.user_id);
+            const userInfo = await loadUserInfo(numericUserId);
+            return {
+                ...post,
+                nickname: userInfo.nickname || post.nickname,
+                profileImage: userInfo.profileImage 
+                        ? `${baseUrl}${userInfo.profileImage}` 
+                        : post.profileImage
+            };
             } catch (error) {
                 console.error(`사용자 정보 로드 실패 (ID: ${post.user_id}):`, error);
-                return {
-                    ...post,
-                    nickname: 'void',
-                    profileImage: null
-                };
+                return post; 
             }
         }));
 
