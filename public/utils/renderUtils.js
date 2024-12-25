@@ -1,4 +1,4 @@
-import { getPostViews, likePost } from "../api/posts-api.js";
+import { getLikeCount, likePost } from "../api/posts-api.js";
 import { convertK } from "./convertUtils.js";
 import { currentDate } from "./currentDate.js";
 
@@ -27,9 +27,6 @@ export const renderPost = (post, currentUserInfo) => {
         return imagePath;
     };
 
-    // 게시글 상세 조회 페이지 진입 시 조회수 업데이트
-    getPostViews(post.post_id);
-
     // 좋아요 수 업데이트 함수
     const handleLikeClick = async (e) => {
         if(e.target.closest('.like-post')) {
@@ -38,16 +35,22 @@ export const renderPost = (post, currentUserInfo) => {
                 const postId = likeButton.dataset.postId;
 
                 const response = await likePost(postId);
+                const likeCount = await getLikeCount(postId);
                 
                 // 좋아요 버튼 상태 업데이트
                 const countElement = likeButton.querySelector('.count');
                 if(countElement) {
-                    countElement.textContent = convertK(response.likeCount);
-                    countElement.dataset.likeCount = response.likeCount;
+                  countElement.textContent = convertK(likeCount);
+                  countElement.dataset.likeCount = likeCount;
+                    
+                  if(response.details.action === 'added') {
+                        likeButton.classList.add('liked');
+                    } else if(response.details.action === 'removed') {
+                        likeButton.classList.remove('liked');
+                    }
                 }
 
             } catch (error) {
-                console.error('좋아요 업데이트 실패:', error);
                 if (error.message.includes('로그인')) {
                     alert('좋아요를 누르려면 로그인이 필요합니다.');
                 } else {
@@ -64,8 +67,7 @@ export const renderPost = (post, currentUserInfo) => {
     // 현재 로그인한 사용자와 게시글 작성자가 일치하는지 확인
     const isPostAuthor = currentUserInfo && currentUserInfo.user.userId === Number(post.author.user_id);
 
-    const likeCount = post.comment_count;
-
+    const commentCnt = post.commentCount;
     const formattedDatte = currentDate(post.created_at);
 
     return `
@@ -105,7 +107,7 @@ export const renderPost = (post, currentUserInfo) => {
           <span>조회수</span>
         </div>
         <div class="stat-item">          
-          <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(likeCount)}</span>
+          <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(commentCnt)}</span>
           <span>댓글</span>
         </div>
       </div>
