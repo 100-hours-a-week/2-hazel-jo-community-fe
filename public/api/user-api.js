@@ -1,3 +1,4 @@
+import { redirectLogin } from '../utils/redirectLogin.js';
 const userUrl = 'http://localhost:5000/users'; 
 
 // 프로필 수정
@@ -10,6 +11,10 @@ export const editProfile = async (formData) => {
             credentials: 'include',
             body: formData
         });
+
+        if (response.status === 401) {
+            redirectLogin();
+        }
         
         if (!response.ok) {
             const contentType = response.headers.get('content-type');
@@ -42,13 +47,12 @@ export const editPassword = async (newPassword) => {
             credentials: 'include',
             body: JSON.stringify({ password: newPassword })
         });
-        alert('비밀번호 수정에 성공했습니다.');
 
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || '비밀번호 수정에 실패했습니다.');
         }
-
+        alert('비밀번호 수정에 성공했습니다.');
         return await response.json();
     } catch (error) {
         console.error('비밀번호 수정 에러:', error);
@@ -103,6 +107,10 @@ export const loadUserInfo = async (userId) => {
             method: 'GET',
             credentials: 'include',
         });
+
+        if (response.status === 401) {
+            redirectLogin();
+        }
 
         if (!response.ok) {
             const errorData = await response.json();

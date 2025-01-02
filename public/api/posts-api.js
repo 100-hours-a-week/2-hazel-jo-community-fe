@@ -1,3 +1,4 @@
+import { redirectLogin } from '../utils/redirectLogin.js';
 const postsUrl = 'http://localhost:5000/posts';
 const baseUrl = 'http://localhost:5000';
 
@@ -10,6 +11,9 @@ export const loadPosts = async () => {
             credentials: 'include',
         });
         
+        if (response.status === 401) {
+            redirectLogin();
+        }
 
         if(!response.ok) {
             const errorData = await response.json();
@@ -34,6 +38,10 @@ export const createPost = async (formData) => {
             body: formData
         });
 
+        if (response.status === 401) {
+            redirectLogin();
+        }
+
         if(!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || '게시글 생성 실패');
@@ -54,6 +62,16 @@ export const loadPost = async (postId) => {
             method: 'GET',
             credentials: 'include',
         });
+
+        if (response.status === 401) {
+            redirectLogin();
+        }
+
+        if (response.status === 404) {
+            alert('유효하지 않은 게시글입니다.');
+            window.location.href = '/page/error.html'; 
+            return;
+        }
         
         if(!response.ok) {
             const errorData = await response.json();
@@ -99,6 +117,10 @@ export const editPost = async (postId, formData) => {
             credentials: 'include', 
             body: formData 
         });
+
+        if (response.status === 401) {
+            redirectLogin();
+        }
 
         if(!response.ok) {
             const errorData = await response.json();
@@ -185,26 +207,3 @@ export const getCommentCount = async (postId) => {
         throw error;
     }   
 }
-
-/*
-// 게시글 조회수 
-export const getPostViews = async (postId) => {
-    try {
-        const response = await fetch(`${postsUrl}/${postId}/view`, {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        if(!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || '게시글 조회수 불러오기 실패');
-        }
-
-        const postViews = await response.json();
-        return postViews;
-    } catch (error) {
-        console.error('게시글 조회수 오류: ', error);
-        throw error;
-    }
-}
-*/

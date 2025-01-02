@@ -1,3 +1,4 @@
+import { redirectLogin } from '../utils/redirectLogin.js';
 const baseUrl = 'http://localhost:5000/comments';
 
 // 댓글 불러오기 
@@ -11,7 +12,10 @@ export const loadComments = async (postId) => {
                 'Content-Type': 'application/json'
             }
         });
-        
+
+        if (response.status === 401) {
+            redirectLogin();
+        }
         
         if(!response.ok) {
             const errorData = await response.json();
