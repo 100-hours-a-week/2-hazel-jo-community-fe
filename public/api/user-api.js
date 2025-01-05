@@ -1,5 +1,6 @@
 import { redirectLogin } from '../utils/redirectLogin.js';
-const userUrl = 'http://localhost:5000/users'; 
+import { API_URLS } from '../utils/config.js';
+const userUrl = API_URLS.users;
 
 // 프로필 수정
 export const editProfile = async (formData) => {

@@ -1,8 +1,8 @@
 import { loadPosts } from "../api/posts-api.js";
 import { loadUserInfo } from "../api/user-api.js";
 import { renderPosts } from "../utils/renderUtils.js";
-
-const baseUrl = 'http://localhost:5000';
+import { API_URLS } from "../utils/config.js";
+const baseUrl = API_URLS.base; 
 
 // 페이지 로드 시 게시글 목록 표시 
 window.onload = async () => {

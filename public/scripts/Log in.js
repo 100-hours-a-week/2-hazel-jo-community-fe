@@ -1,5 +1,7 @@
 import { loginUser } from '../api/auth-api.js';
 import { regex } from '../utils/validationUtils.js';
+import { API_URLS } from '../utils/config.js';
+const baseUrl = API_URLS.base;
 
 // 로그인 버튼 클릭 시
 document.getElementById("loginBtn").addEventListener("click", (e) => {
@@ -90,7 +92,6 @@ const login = async (e) => {
             
             if (response) {
                 const userData = response.user;
-                const BACKEND_URL = 'http://localhost:5000';
                 
                 // userId 저장
                 localStorage.setItem('userId', Number(userData.userId));
@@ -102,7 +103,7 @@ const login = async (e) => {
                     // 파일명에서 공백과 특수문자 처리
                     const fileName = userData.profileImage.split('/uploads/')[1];
                     const encodedFileName = encodeURIComponent(fileName);
-                    const imageUrl = `${BACKEND_URL}/uploads/${encodedFileName}`;
+                    const imageUrl = `${baseUrl}/uploads/${encodedFileName}`;
                     console.log('최종 이미지 URL:', imageUrl);
                     
                     localStorage.setItem('profileImage', imageUrl);

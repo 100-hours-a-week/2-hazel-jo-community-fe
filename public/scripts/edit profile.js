@@ -2,6 +2,8 @@ import { editProfile } from '../api/user-api.js';
 import { withdrawUser } from '../api/user-api.js';
 import { setProfileImage } from './common.js';
 import { resizeImage, centerImage } from '../utils/imageUtils.js';
+import { API_URLS } from '../utils/config.js';
+const baseUrl = API_URLS.base;
 
 const { profileBtn, profileInput, imgTag, profileMark, editBtn, nicknameInput, helperText, toastMessage, confirmBtn, withdrawBtn, modalOverlay, cancelBtn } = {
     profileBtn: document.querySelector('.profile-image'),
@@ -129,7 +131,7 @@ const handleEditProfile = async () => {
         
         // 서버에서 받은 이미지 경로로 업데이트
         if (result.user && result.user.profileImage) {
-            const newImageUrl = `http://localhost:5000${result.user.profileImage}`;
+            const newImageUrl = `${baseUrl}${result.user.profileImage}`;
             localStorage.setItem('profileImage', newImageUrl);
             localStorage.setItem('nickname', result.user.nickname);
             
@@ -207,10 +209,9 @@ const loadUserInfo = async () => {
             window.location.href = '/page/Log in.html';
             return;
         }
-
-        const BACKEND_URL = 'http://localhost:5000'; 
+ 
         // userId를 그대로 사용
-        const url = `${BACKEND_URL}/users/profile/${userId}`; 
+        const url = `${baseUrl}/users/profile/${userId}`; 
         
         console.log('API 요청 URL:', url);
 
@@ -239,7 +240,7 @@ const loadUserInfo = async () => {
         const previewImage = document.getElementById('preview-image');
         if (userData.profileImage || storedProfileImage) {
             const imageUrl = userData.profileImage ? 
-                `${BACKEND_URL}${userData.profileImage}` : 
+                `${baseUrl}${userData.profileImage}` : 
                 storedProfileImage;
             
             if (previewImage) {

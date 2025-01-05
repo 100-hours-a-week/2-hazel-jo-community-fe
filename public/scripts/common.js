@@ -1,4 +1,6 @@
 import { logoutUser } from '../api/user-api.js';
+import { API_URLS } from '../utils/config.js';
+const baseUrl = API_URLS.base;
 
 const { optionEditProfile, optionEditPassword, optionLogout } = {
     optionEditProfile: document.querySelector('#editProfile'),
@@ -30,7 +32,7 @@ export const setProfileImage = () => {
 
     if (userProfileImage && userProfileImage !== 'null' && userProfileImage !== 'undefined') {
         if (!userProfileImage.startsWith('http')) {
-            userProfileImage = `http://localhost:5000${userProfileImage}`;
+            userProfileImage = `${baseUrl}${userProfileImage}`;
         }
 
         profileImage.onerror = () => {

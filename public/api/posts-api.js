@@ -1,6 +1,7 @@
 import { redirectLogin } from '../utils/redirectLogin.js';
-const postsUrl = 'http://localhost:5000/posts';
-const baseUrl = 'http://localhost:5000';
+import { API_URLS } from '../utils/config.js';
+const postsUrl = API_URLS.posts;
+const baseUrl = API_URLS.base;
 
 
 // 게시글 목록 불러오기 

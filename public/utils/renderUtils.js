@@ -1,8 +1,8 @@
 import { getLikeCount, likePost } from "../api/posts-api.js";
 import { convertK } from "./convertUtils.js";
 import { currentDate } from "./currentDate.js";
-
-const baseUrl = 'http://localhost:5000';
+import { API_URLS } from "../utils/config.js";
+const baseUrl = API_URLS.base;
 
 export const renderPost = (post, currentUserInfo) => {
     const getImage = (imagePath, isProfile = false) => {

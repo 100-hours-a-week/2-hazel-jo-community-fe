@@ -1,4 +1,5 @@
-const authUrl = 'http://localhost:5000/auth';
+import { API_URLS } from '../utils/config.js';
+const authUrl = API_URLS.auth;
 
 // 회원가입 
 export const signupUser = async (email, nickname, password, profileImage) => {

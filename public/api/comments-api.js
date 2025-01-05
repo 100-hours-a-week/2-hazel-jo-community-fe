@@ -1,10 +1,11 @@
 import { redirectLogin } from '../utils/redirectLogin.js';
-const baseUrl = 'http://localhost:5000/comments';
+import { API_URLS } from '../utils/config.js';
+const commentUrl = API_URLS.comments;
 
 // 댓글 불러오기 
 export const loadComments = async (postId) => {
   try {
-        const response = await fetch(`${baseUrl}/${postId}`, {
+        const response = await fetch(`${commentUrl}/${postId}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -34,7 +35,7 @@ export const loadComments = async (postId) => {
 // 댓글 생성 
 export const createComment = async (postId, commentData) => {
     try {
-        const response = await fetch(`${baseUrl}/${postId}`, {
+        const response = await fetch(`${commentUrl}/${postId}`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -60,7 +61,7 @@ export const createComment = async (postId, commentData) => {
 // 댓글 삭제 
 export const deleteComment = async (postId, commentId) => {
     try {
-        const response = await fetch(`${baseUrl}/${postId}/comments/${commentId}`, {
+        const response = await fetch(`${commentUrl}/${postId}/comments/${commentId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -84,7 +85,7 @@ export const deleteComment = async (postId, commentId) => {
 // 댓글 수정 
 export const updateComment = async (commentId, commentData) => {
     try {
-        const response = await fetch(`${baseUrl}/${commentId}`, {
+        const response = await fetch(`${commentUrl}/${commentId}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: {

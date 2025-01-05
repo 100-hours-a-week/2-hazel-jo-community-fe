@@ -2,7 +2,9 @@ import { signupUser } from "../api/auth-api.js";
 import { resizeImage } from "../utils/imageUtils.js";
 import { validateEmail, validatePassword, validateConfirmPassword, validateNickname } from "../utils/validationUtils.js";
 import { markCheck } from "../utils/markCheckUtils.js";
-import { selectDom, selectAll } from "../utils/selectDomUtils.js"; 
+import { selectDom, selectAll } from "../utils/selectDomUtils.js";
+import { API_URLS } from "../utils/config.js";
+const baseUrl = API_URLS.base;
 
 const elements = {
     password: selectDom(".password"),
@@ -144,8 +146,7 @@ elements.signupButton.addEventListener("click", async (e) => {
                     localStorage.setItem('nickname', result.user.nickname);
                     
                     if (result.user.profileImage) {
-                        const BACKEND_URL = 'http://localhost:5000';
-                        const imageUrl = `${BACKEND_URL}${result.user.profileImage}`;
+                        const imageUrl = `${baseUrl}${result.user.profileImage}`;
                         localStorage.setItem('profileImage', imageUrl);
                     }
 
