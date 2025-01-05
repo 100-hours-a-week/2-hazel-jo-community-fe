@@ -2,7 +2,7 @@ function getApiUrl() {
     if(window.location.hostname === 'localhost') {
         return 'http://localhost:5001';
     } else {
-        return 'http://54.180.86.12';
+        return 'http://54.180.86.12:5001';
     }
 }
 
