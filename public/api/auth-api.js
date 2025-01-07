@@ -40,6 +40,7 @@ export const signupUser = async (email, nickname, password, profileImage) => {
 // 로그인 
 export const loginUser = async (email, password) => {
     try {
+        console.log('Login API 호출 : ', { email, password });  
         const response = await fetch(`${authUrl}/login`, {
             method: 'POST',
             headers: {
@@ -52,12 +53,14 @@ export const loginUser = async (email, password) => {
             })
         });
 
+        console.log('response status:', response.status);
         const data = await response.json();
+        console.log('response data:', data);
         
         if (!response.ok) {
             throw new Error(data.message || '로그인 실패');
         }
-
+        
         return data;
     } catch (error) {
         console.error('로그인 에러:', error);

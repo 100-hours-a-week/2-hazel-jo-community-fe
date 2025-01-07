@@ -1,7 +1,9 @@
 function getApiUrl() {
     if(window.location.hostname === 'localhost') {
+        console.log('Using local API URL');
         return 'http://localhost:5001';
     } else {
+        console.log('Using deployed API URL');
         return 'http://54.180.86.12:5001';
     }
 }
