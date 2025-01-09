@@ -4,18 +4,16 @@ import { currentDate } from "./currentDate.js";
 import { API_URLS } from "../utils/config.js";
 const baseUrl = API_URLS.base;
 
+// 프로필 이미지 경로 처리 함수
+export const getProfileImage = (imagePath) => {
+  if (!imagePath || imagePath === 'null') {
+      return '/image/basic.png'; 
+  }
+  return imagePath.startsWith('/uploads/profiles/') ? `${baseUrl}${imagePath}` : imagePath;
+};
+
 export const renderPost = (post, currentUserInfo) => {
-    const getImage = (imagePath, isProfile = false) => {
-        // 프로필 이미지인 경우
-        if (isProfile) {
-            if (!imagePath || imagePath === '') {
-                return '/public/image/basic.png';
-            }
-            if (imagePath.startsWith('/uploads/profiles/')) {
-                return `${baseUrl}${imagePath}`;
-            }
-            return imagePath;
-        }
+    const getImage = (imagePath = false) => {        
         
         // 게시글 이미지인 경우
         if (!imagePath || imagePath === 'null' || imagePath === '') {            
@@ -75,7 +73,7 @@ export const renderPost = (post, currentUserInfo) => {
         <h1 class="post-title">${post.title}</h1>
         <div class="post-meta">
           <div class="post-author">
-            <img src="${getImage(post.author.profileImg, true)}" alt="프로필">
+            <img src="${getProfileImage(post.author.profileImg)}" alt="프로필">
             <span>${post.author.nickname}</span>
             <span class="post-date">${formattedDatte}</span>
           </div>
@@ -90,7 +88,7 @@ export const renderPost = (post, currentUserInfo) => {
       <!-- 모달 영역 --> 
       <div class="post-content">
         <div class="image-container">
-          ${post.image ? `<img src="${getImage(post.image, false)}" alt="게시글 이미지">` 
+          ${post.image ? `<img src="${getImage(post.image)}" alt="게시글 이미지">` 
             : `<img src="/image/default.jpeg" alt="기본 이미지">`}
         </div>
         <p class="post-text">${post.content}</p>
@@ -119,14 +117,6 @@ export const renderComment = (comment, currentUserInfo) => {
 
     const formattedDatte = currentDate(comment.created_at);
 
-    // 프로필 이미지 경로 처리
-    const getProfileImage = (imagePath) => {
-      if (!imagePath || imagePath === 'null') {
-          return '/image/basic.png'; 
-      }
-      return imagePath.startsWith('/uploads/profiles/') ? `${baseUrl}${imagePath}` : imagePath;
-    };
-
     // 현재 로그인한 사용자와 댓글 작성자가 일치하는지 확인
     const isCommentAuthor = currentUserInfo && currentUserInfo.user.userId === Number(comment.user_id);
 
@@ -153,17 +143,8 @@ export const renderComment = (comment, currentUserInfo) => {
 // 게시글 컨테이너 함수 
 export const renderPosts = (post) => {
   const truncatedTitle = post.title.slice(0, 26);
-  const defaultProfileImage = `${baseUrl}/uploads/profiles/default.png`;
   
   const formattedDatte = currentDate(post.created_at);
-
-  // 이미지 경로 처리 함수
-  const getProfileImage = () => {
-    if (!post.profileImage) return defaultProfileImage;
-    return post.profileImage.startsWith('/uploads/') 
-        ? `${baseUrl}${post.profileImage}` 
-        : post.profileImage;
-};
 
   return `
       <div class="box" onclick="location.href='/page/post.html?post_id=${post.post_id}'">
@@ -180,7 +161,7 @@ export const renderPosts = (post) => {
           </div>
           <hr class="horizontal-rule"/>
           <div class="post-author">
-              <img src="${getProfileImage()}" alt="프로필">
+              <img src="${getProfileImage(post.profileImage)}" alt="프로필">
               <span>${post.nickname || 'void'}</span>
           </div>
       </div>

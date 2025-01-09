@@ -50,15 +50,15 @@ const renderPost = (post) => {
         <h2>게시글 수정</h2>
         <form id="edit-post-form">
             <div class="input-group">
-                <label>제목<span class="title-mark">*</span></label>
+                <label>Titile<span class="title-mark">*</span></label>
                 <input type="text" name="title" value="${post.title}" maxlength="26">
             </div>
             <div class="input-group">
-                <label>내용<span class="content-mark">*</span></label>
+                <label>Content<span class="content-mark">*</span></label>
                 <textarea name="content">${post.content}</textarea>
             </div>
             <div class="input-group">
-                <label>이미지</label>
+                <label>Content Image</label>
                 <div class="image-upload-container">
                     <button type="button" class="image-upload" onclick="document.getElementById('image-upload').click();">파일 선택</button>
                     <input type="file" id="image-upload" accept="image/*" style="display: none;">
@@ -100,9 +100,9 @@ const renderPost = (post) => {
 
         // 버튼 상태 업데이트
         if (title.value.length === 0 || content.value.length === 0) {
-            submitBtn.style.backgroundColor = '#ACA0EB';
+            submitBtn.style.backgroundColor = '#A9BACA';
         } else {
-            submitBtn.style.backgroundColor = '#7F6AEE';
+            submitBtn.style.backgroundColor = '#355B8C';
         }
     }
 

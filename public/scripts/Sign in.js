@@ -119,7 +119,7 @@ const updateButtonState = () => {
     const helperValid = Object.values(elements.helperTexts).every(
         (helperText) => helperText.textContent.trim() === ""
     );
-    elements.signupButton.style.backgroundColor = helperValid ? "#7F6AEE" : "#ACA0EB";
+    elements.signupButton.style.backgroundColor = helperValid ? "#355B8C" : "#A9BACA";
 }
 
 // 버튼 클릭시 회원가입 요청 

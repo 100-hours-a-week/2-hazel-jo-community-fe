@@ -1,24 +1,30 @@
 /* 페이지 배경 */
 body {
-    background-color: #F4F5F7;
+    background-color: #F2D1C9;
     margin: 0;
     padding: 0;
 }
 
 .post-form {
     max-width: 570px;
-    margin: 40px auto;
-    padding: 0 20px;
+    height: 630px;
+    margin: 60px auto;
+    padding: 50px 40px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .post-form h2 {
     height: 31px;
     top: 128px;
     text-align: center;
-    margin-bottom: 40px;
-    font-weight: 700;
-    font-size: 24px;
+    margin-bottom: 60px;
+    margin-top: 60px;
+    font-weight: bold;
+    font-size: 32px;
     line-height: 31.2px;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group {
@@ -27,52 +33,63 @@ body {
 
 .input-group label {
     display: block;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 17.9px;
+    margin-left: 18px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group input[type="text"] {
     width: 100%;
     padding: 12px;
-    border: none;
+    border: #A9BACA 1px solid;
     border-radius: 4px;
     border-top: 1px solid rgba(0, 0, 0, 0.16);
     border-bottom: 1px solid rgba(0, 0, 0, 0.16);
-    background-color: transparent;
+    background-color: white;
     margin-left: 10px;
+    color: #355B8C;
+    font-weight: bold;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group textarea {
     width: 100%;
     height: 200px;
     padding: 12px;
-    border: none;
+    border: #A9BACA 1px solid;
     border-radius: 4px;
     border-top: 1px solid rgba(0, 0, 0, 0.16);
     border-bottom: 1px solid rgba(0, 0, 0, 0.16);
     resize: none;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 16px;
     line-height: 22.56px;
-    color: #000000;
-    background-color: transparent;
+    color: #355B8C;
+    background-color: white;
     margin-left: 10px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .image-upload {
     padding: 8px 16px;
-    background-color: #D9D9D9;
-    border: 1px solid #000000;
+    background-color: #A9BACA;
+    border: 1px solid #F2ECE4;
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 16.71px;
     margin-left: 12px;
+    color: white;
+    font-family: 'BinggraeMelona-Bold';
+}
+
+.image-upload:hover {
+    background-color: #355B8C;
 }
 
 .submit-btn {
@@ -80,14 +97,15 @@ body {
     width: 355px;
     margin: 40px auto 0;
     padding: 12px;
-    background-color: #7F6AEE;  
+    background-color: #A9BACA;  
     color: white;
-    border: none;
-    border-radius: 4px;
+    border: 1px solid #F2ECE4;
+    border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 700;
     line-height: 16.71px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .image-upload-container {
@@ -98,14 +116,17 @@ body {
 }
 
 .upload-guide {
-    color: #000000;
+    color: #355B8C;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 16.71px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .title-mark, .content-mark {
-    color: #FF0000;
+    margin-left: 5px;
+    color: #BF463B;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 

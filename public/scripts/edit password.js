@@ -58,9 +58,9 @@ changeBtn.addEventListener('click', async (e) => {
 // 버튼 상태 업데이트 함수
 const updateButtonState = () => {
     if(passwordCheck(password.value) && confirmPasswordCheck()) {
-        changeBtn.style.backgroundColor = '#7F6AEE';
+        changeBtn.style.backgroundColor = '#355B8C';
     } else {
-        changeBtn.style.backgroundColor = '#ACA0EB';   
+        changeBtn.style.backgroundColor = '#A9BACA';   
     }
 }
 

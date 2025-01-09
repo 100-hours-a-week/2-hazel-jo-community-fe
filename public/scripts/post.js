@@ -131,10 +131,23 @@ window.onload = async () => {
             
             // 댓글 등록 버튼 숨기고 수정 버튼 표시
             commentSubmitBtn.style.display = 'none';
-            document.querySelector('.comment-edit-submit').style.display = 'block';
+            const editSubmitBtn = document.querySelector('.comment-edit-submit');
+            editSubmitBtn.style.display = 'block';
+
+            // 댓글 입력 시 색깔
+            editSubmitBtn.style.backgroundColor = '#355B8C';
             
             // 수정 중인 댓글 ID 저장
             selectedCommentId = commentId;
+
+            // 댓글 수정 버튼 이벤트 리스너 
+            commentTextarea.addEventListener('input', () => {
+                if(commentTextarea.value.trim() !== '') {
+                    editSubmitBtn.style.backgroundColor = '#355B8C';  
+                } else {
+                    editSubmitBtn.style.backgroundColor = '#A9BACA';
+                }
+            });
         }
 
         // 댓글 수정 완료 버튼 클릭 시
@@ -175,14 +188,14 @@ window.onload = async () => {
     const commentSubmitBtn = commentForm.querySelector('.comment-submit');
     
     // 댓글 작성 버튼 기본 배경 색깔 
-    commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+    commentSubmitBtn.style.backgroundColor = '#A9BACA';
 
     // 댓글 입력 시 : 댓글 등록 버튼 활성화
     commentTextarea.addEventListener('input', () => {
         if(commentTextarea.value.trim() !== '') {
-            commentSubmitBtn.style.backgroundColor = '#7F6AEE';  
+            commentSubmitBtn.style.backgroundColor = '#355B8C';  
         } else {
-            commentSubmitBtn.style.backgroundColor = '#ACA0EB';  
+            commentSubmitBtn.style.backgroundColor = '#A9BACA';  
         }
     });
 
@@ -213,7 +226,7 @@ window.onload = async () => {
                 
                 // 입력창 초기화
                 commentTextarea.value = '';
-                commentSubmitBtn.style.backgroundColor = '#ACA0EB';
+                commentSubmitBtn.style.backgroundColor = '#A9BACA';
 
             } else {
                 throw new Error('댓글 데이터가 올바르지 않습니다.');

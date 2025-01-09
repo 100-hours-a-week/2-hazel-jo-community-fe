@@ -1,6 +1,6 @@
 /* 페이지 배경 */
 body {
-    background-color: #F4F5F7;
+    background-color: #F2D1C9;
     margin: 0;
     padding: 0;
 }
@@ -8,16 +8,22 @@ body {
 /* 메인 컨텐츠 */
 .edit-profile-container {
     max-width: 400px;
-    margin: 40px auto;
+    margin: 60px auto;
     padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    border: #A9BACA 1px solid;
 }
 
 .edit-profile-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     font-size: 32px;
     line-height: 38.19px;
-    font-weight: 700;
+    font-weight: bold;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
+    
 }
 
 .profile-upload {
@@ -28,13 +34,18 @@ body {
 /* 프로필 이미지 */
 .profile-image {
     position: relative;
-    width: 149px;
-    height: 149px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto;
-    cursor: pointer;
-    background-color: #c4c4c4;     
+    cursor: pointer;   
     border-radius: 50%;
     overflow: hidden;
+    border: #355B8C 3px solid;
+    background-color: #E1E1E1;
+    background-image: url('/image/basic.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .profile-image img {
@@ -52,12 +63,13 @@ body {
     height: 27px;
     background: rgba(0, 0, 0, 0.35);
     color: #ffffff;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 25px;
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
     cursor: pointer;
     line-height: 25px;
+    font-family: 'BinggraeMelona-Bold';
     /* 텍스트 가운데 정렬 */
     display: flex;
     align-items: center;
@@ -77,25 +89,30 @@ body {
 .input-group label {
     display: block;
     margin-bottom: 8px;
+    margin-top: 5px;
     line-height: 17.9px;
     font-size: 15px;
-    font-weight: 700;
-    color: #000000;
+    font-weight: bold;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #000000;
+    border: 1px solid #A9BACA;
     border-radius: 4px;
     font-size: 14px;
     background-color: transparent;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .helper-text {
-    color: #ff0000;
+    color: #355B8C;
     font-size: 12px;
     margin-top: 5px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .button-group {
@@ -111,7 +128,7 @@ body {
     width: 355px;
     height: 33px;
     padding: 12px;
-    background-color: #ACA0EB;
+    background-color: #A9BACA;
     color: white;
     border: none;
     border-radius: 4px;
@@ -120,10 +137,15 @@ body {
     line-height: 16.71px;
     text-align: center;
     cursor: pointer;
+    font-family: 'BinggraeMelona-Bold';
     /* 텍스트 가운데 정렬 */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.edit-btn:hover {
+    background-color: #355B8C;
 }
 
 /* 수정완료 토스트 메시지 */
@@ -131,7 +153,7 @@ body {
     width: fit-content;
     height: fit-content;
     padding: 12px 24px;
-    background-color: #ACA0EB;
+    background-color: #A9BACA;
     color: white;
     border: none;
     border-radius: 30px;
@@ -141,6 +163,7 @@ body {
     letter-spacing: -0.01em;
     cursor: default;
     visibility: hidden;
+    font-family: 'BinggraeMelona-Bold';
     /* 텍스트 가운데 정렬 */
     display: flex;
     align-items: center;
@@ -152,35 +175,45 @@ body {
     width: 100%;
     padding: 12px;
     background-color: transparent;
-    color: #000000;
-    font-weight: 400;
+    color: #355B8C;
+    font-weight: bold;
     line-height: 16.71px;
     border: none;
     font-size: 14px;
     cursor: pointer;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .withdraw-btn:hover {
-    color: #333;
+    color: #A9BACA;
+    text-decoration: underline;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 
 .input-group .email {
-    border: none;
+    border: 1px solid #A9BACA;
     background-color: transparent;
     padding-left: 0;  
+    padding: 10px;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .guide-text {
     font-size: 15px;
     line-height: 17.9px;
     margin-bottom: 10px;
-    font-weight: 700;
+    font-weight: bold;
     margin-left: 20px;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .profile-mark {
-    color: #ff0000;
+    color: #BF463B;
+    margin-left: 5px;
     font-size: 15px;
+    font-family: 'BinggraeMelona-Bold';
 }
 

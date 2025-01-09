@@ -1,6 +1,6 @@
 /* 페이지 배경 */
 body {
-    background-color: #F4F5F7;
+    background-color: #F2D1C9;
     margin: 0;
     padding: 0;
 }
@@ -19,8 +19,11 @@ body {
 .signin-form h2 {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 24px;
+    font-size: 40px;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
+
 
 .edit-profile-container {
     max-width: 400px;
@@ -44,13 +47,15 @@ body {
 /* 프로필 이미지 */
 .profile-image {
     position: relative;
-    width: 149px;
-    height: 149px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto;
-    cursor: pointer;
-    background-color: #c4c4c4;     
+    cursor: pointer;   
     border-radius: 50%;
     overflow: hidden;
+    border: #355B8C 3px solid;
+    background-color: #E1E1E1;
+    background-image: url('/image/basic.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -60,6 +65,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-image .change-text {
@@ -71,63 +77,101 @@ body {
     height: 27px;
     background: rgba(0, 0, 0, 0.35);
     color: #ffffff;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 25px;
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
     cursor: pointer;
     line-height: 25px;
+    font-family: 'BinggraeMelona-Bold';
     /* 텍스트 가운데 정렬 */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
 #profile-input {
     display: none;
 }
 
 .input-group .helper-text,
-.signin-form .helper-text,
-.profile-mark {
-    color: #ff0000;
+.signin-form .helper-text {
+    color: #355B8C;
     font-size: 12px;
     margin-top: 4px;
     font-weight: 400;
     line-height: 14.52px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group {
     margin-bottom: 20px;
 }
 
-.input-group label {
+.input-group label, .profile-title {
     display: block;
     margin-bottom: 8px;
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: bold;
     line-height: 17.9px;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #000000;
+    border: 2px solid #A9BACA;
     border-radius: 4px;
     font-size: 14px;
-    background-color: transparent;
+    background-color: white;
 }
+
+/* input 그룹 icon */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.icon img {
+    margin-bottom: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: 2px solid #A9BACA;
+    border-radius: 4px;
+    font-size: 14px;   
+    background-color: white;
+    box-sizing: border-box;
+}
+/* -------------------------  */
+
 
 .signup-button {
     width: 100%;
     padding: 12px;
-    background-color: #ACA0EB;
+    background-color: #355B8C;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
     margin-top: 20px;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 
@@ -135,13 +179,17 @@ body {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #000000;
+    color: #355B8C;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .login-link:hover {
-    color: #131313;
+    text-decoration: underline;
+    color: #A9BACA;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .profile-title {
@@ -153,6 +201,24 @@ body {
 
 .email-mark, .password-mark, 
 .password-check-mark, 
-.nickname-mark {
-    color: #ff0000;
+.nickname-mark, .profile-mark {
+    margin-left: 2px;
+    color: #BF463B;
+    font-family: 'BinggraeMelona-Bold';
 }
+
+/* input 자동완성 스타일 */
+input:-webkit-autofill {
+    background-color: transparent !important;
+    color: inherit !important;
+    -webkit-text-fill-color: #355B8C !important;
+    border: 2px solid #355B8C !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+    font-family: 'BinggraeMelona-Bold';
+  }
+  
+  /* iput 포커스 스타일 */
+  input:focus {
+    outline: none; 
+    border: 3px solid #355B8C;
+  }

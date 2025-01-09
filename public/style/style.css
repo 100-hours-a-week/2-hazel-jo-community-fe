@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'BinggraeMelona-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/BinggraeMelona-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /*네비게이션 바*/
 .navbar {
     position: relative;
@@ -5,10 +12,10 @@
     justify-content: center;
     align-items: center;
     padding: 32px 60px;
-    background-color: #F4F5F7;
-    border-bottom: 1px solid #000000;
+    background-color: #F2D1C9;
+    border-bottom: 5px solid #355B8C;
     max-width: 1920px;
-    height: 104px;
+    height: 150px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -27,34 +34,42 @@
 
 
 .navigate_before {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigate_before img {
+    margin-top: 8px;
+    width: 60px;
+    height: 60px;
 }
 
 /*제목*/
 .title {
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 32px;
+    font-size: 50px;
+    font-weight: bold;
     text-align: center;
-    color: #000000;
+    color: #355B8C;
     margin: 0 auto;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 /* 로그인 아이콘 */
 .login-icon {
     position: relative;
-    
 }
 
 .login-icon img {
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    border: #355B8C 2px solid;
     object-fit: cover;
 }
 
@@ -115,34 +130,53 @@
     margin-right: auto;
 }
 
+/* 드롭다운 컨테이너 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
 /* 드롭다운 메뉴 */
 .dropdown-menu {
     display: none;
     position: absolute;
     right: 0;
-    background: #D9D9D9;
+    background-color: #A9BACA;
     width: fit-content;
-    height: fit-content;
-    min-width: 115px;
+    min-width: 130px; 
     gap: 8px;
+    border: none; 
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); 
+    transform: translateY(10px); /* 초기 위치 조정 */
+    opacity: 0; /* 기본 상태: 투명 */
+    transition: all 0.3s ease-in-out; 
+    z-index: 1000;
 }
 
+/* 드롭다운 활성화 시 표시 */
 .dropdown:hover .dropdown-menu {
     display: block;
+    transform: translateY(0); /* 드롭다운 내려오기 */
+    opacity: 1; /* 불투명하게 전환 */
 }
 
+/* 드롭다운 메뉴 항목 */
 .dropdown-menu a {
     display: block;
     text-decoration: none;
-    color: #000000;
-    font-size: 12px;
-    text-align: center;
-    line-height: 14.52px;
-    font-weight: 400;
+    color: #FFFFFF; 
+    font-size: 14px; 
+    font-weight: 500; 
     padding: 12px 16px;
-    cursor: pointer;
+    text-align: center;
+    border-radius: 8px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    font-family: 'BinggraeMelona-Bold';
 }
 
 .dropdown-menu a:hover {
-    background-color: #E9E9E9;
+    background-color: #F2ECE4;
+    color: #333333; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
 }

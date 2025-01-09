@@ -1,6 +1,6 @@
 /* 페이지 배경 */
 body {
-  background-color: #F4F5F7;
+  background-color: #F2D1C9;
   margin: 0;
   padding: 0;
 }
@@ -8,10 +8,12 @@ body {
 /*로그인 텍스트*/
 .content h3 {
     margin : 30px;
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 40px;
+    font-weight: bold;
     line-height: 38.19px;
     text-align: center;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
 }
 
 /*이메일 및 비밀번호 텍스트*/
@@ -22,6 +24,7 @@ body {
     font-weight: bold;
     margin-right: 320px;
 }
+
 
 /*회원가입 텍스트*/
 .content p {
@@ -54,15 +57,19 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #000000;
+    border: 2px solid #A9BACA;
     border-radius: 4px;
     margin-top: 10px;
-    background-color: transparent;
+    background-color: white;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
   }
 
   /*라벨*/
   .form-group label {
     font-weight: bold;
+    color: #355B8C;
+    font-family: 'BinggraeMelona-Bold';
   }
   
   /*로그인 버튼*/
@@ -70,36 +77,76 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    background-color: #ACA0EB;
-    color: #fff;
+    background-color: #A9BACA;
+    color: #F2ECE4;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 20px;
+    font-family: 'BinggraeMelona-Bold';
   }
   
   /* 회원가입 링크 스타일 */
   .signup-link {
+    font-size: 16px;
     margin-top: 20px;
     text-align: center;
   }
   
   .signup-link a {
-    color: black;
+    color: #355B8C;
     text-decoration: none;
+    font-family: 'BinggraeMelona-Bold';
   }
   
   .signup-link a:hover {
+    color: #A9BACA;
     text-decoration: underline;
+    font-family: 'BinggraeMelona-Bold';
   }
 
   /*헬퍼 텍스트*/
   .form-group .helptxt {
     text-align: left;
-    color: red;
+    color: #355B8C;
     font-size: 12px; 
     margin-top: 5px; 
     font-weight: normal;
     font-weight: 400;
     line-height: 14.52px;
+    font-family: 'BinggraeMelona-Bold';
+}
+
+/* 로그인 섹션 스타일 */
+.loginSection {
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    background-color: #f5dbd6;
+    padding: 70px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(242, 192, 203, 0.3);
+    width: 600px;
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid #d8c7c2;
+}
+
+/* input 자동완성 스타일 */
+input:-webkit-autofill {
+  background-color: transparent !important;
+  color: inherit !important;
+  -webkit-text-fill-color: #355B8C !important;
+  border: 2px solid #355B8C !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  font-family: 'BinggraeMelona-Bold';
+}
+
+/* iput 포커스 스타일 */
+input:focus {
+  outline: none; 
+  border: 3px solid #355B8C;
 }

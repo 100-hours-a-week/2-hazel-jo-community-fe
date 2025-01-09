@@ -45,6 +45,7 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 23.87px;
+    font-family: 'BinggraeMelona-Bold';
 }
   
   /* 모달 푸터 */
@@ -57,28 +58,38 @@
   .confirm-btn {
     width: 127px;
     height: 44px;
-    background-color: #000000;
+    background-color: #355B8C;
     color: white;
     text-align: center;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: bold;
     line-height: 23.87px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-family: 'BinggraeMelona-Bold';
+}
+
+.confirm-btn:hover {
+  opacity: 0.8;
 }
 
   .cancel-btn {
     width: 127px;
     height: 44px;
-    background: #C4A5FA;
-    color: #000000;
+    background: #F2D1C9;
+    color: #355B8C;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: bold;
     line-height: 23.87px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-family: 'BinggraeMelona-Bold';
+}
+
+.cancel-btn:hover {
+  opacity: 0.6;
 }
 
 /* 모달 백그라운드 */

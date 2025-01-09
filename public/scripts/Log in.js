@@ -11,7 +11,7 @@ document.getElementById("loginBtn").addEventListener("click", (e) => {
     const password = document.getElementById("password").value;
 
     if (emailCheck(email) && passwordCheck(password)) {
-        e.target.style.backgroundColor = "#7F6AEE";
+        e.target.style.backgroundColor = "#46658f";
     }
 });
 
@@ -72,9 +72,9 @@ const validateInputs = () => {
     const loginBtn = document.getElementById("loginBtn");
 
     if (emailCheck(email) && passwordCheck(password)) {
-        loginBtn.style.backgroundColor = "#7F6AEE";
+        loginBtn.style.backgroundColor = "#46658f";
     } else {
-        loginBtn.style.backgroundColor = "#ACA0EB";
+        loginBtn.style.backgroundColor = "#A9BACA";
     }
 }
 

@@ -33,10 +33,10 @@ const updateSubmitBtn = () => {
 
 
     if(title.value.length > 0 && content.value.length > 0) {
-        submitBtn.style.backgroundColor = '#7F6AEE'; 
+        submitBtn.style.backgroundColor = '#355B8C'; 
         helperText.textContent = '';
     } else {
-        submitBtn.style.backgroundColor = '#ACA0EB';
+        submitBtn.style.backgroundColor = '#A9BACA';
     }
 }
 
