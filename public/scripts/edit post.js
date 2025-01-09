@@ -55,7 +55,7 @@ const renderPost = (post) => {
             </div>
             <div class="input-group">
                 <label>Content<span class="content-mark">*</span></label>
-                <textarea name="content">${post.content}</textarea>
+                <textarea name="content" maxlength="3000">${post.content}</textarea>
             </div>
             <div class="input-group">
                 <label>Content Image</label>
