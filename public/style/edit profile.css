@@ -33,6 +33,7 @@ body {
 
 /* 프로필 이미지 */
 .profile-image {
+    background-color: transparent;
     position: relative;
     width: 150px;
     height: 150px;
@@ -41,11 +42,6 @@ body {
     border-radius: 50%;
     overflow: hidden;
     border: #355B8C 3px solid;
-    background-color: #E1E1E1;
-    background-image: url('/image/basic.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .profile-image img {

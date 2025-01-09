@@ -199,7 +199,7 @@ const loadUserInfo = async () => {
         const userEmail = localStorage.getItem('email');
         const userId = localStorage.getItem('userId');
         const storedNickname = localStorage.getItem('nickname');
-        const storedProfileImage = localStorage.getItem('profileImage');
+        //const storedProfileImage = localStorage.getItem('profileImage');
         
         console.log('로드된 사용자 정보:', { userEmail, userId }); 
         
@@ -238,24 +238,26 @@ const loadUserInfo = async () => {
         
         // 프로필 이미지 설정
         const previewImage = document.getElementById('preview-image');
-        if (userData.profileImage || storedProfileImage) {
-            const imageUrl = userData.profileImage ? 
-                `${baseUrl}${userData.profileImage}` : 
-                storedProfileImage;
-            
-            if (previewImage) {
-                previewImage.src = imageUrl;
-            }
-            profileBtn.style.backgroundImage = `url(${imageUrl})`;
-            currentImage = imageUrl;
-            isValid.image = true;
+        let imageUrl;
+
+        // 프로필 이미지 확인
+        if (userData.user.profileImage) {
+            imageUrl = `${baseUrl}${userData.user.profileImage}`;
         } else {
-            if (previewImage) {
-                previewImage.src = '/image/basic.png';
-            }
-            profileBtn.style.backgroundImage = 'url("/image/basic.png")';
-            isValid.image = true;
+            imageUrl = '/image/basic.png';
         }
+
+        // 미리보기 이미지 설정
+        if (previewImage) {
+            previewImage.src = imageUrl;
+        }
+
+        // 버튼 배경 이미지 설정
+        profileBtn.style.backgroundImage = `url(${imageUrl})`;
+
+        // 현재 이미지와 유효성 플래그 갱신
+        currentImage = imageUrl;
+        isValid.image = true;
         
         // 닉네임 설정
         if (userData.nickname || storedNickname) {
