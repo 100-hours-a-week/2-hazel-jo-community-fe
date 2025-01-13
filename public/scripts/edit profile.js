@@ -1,11 +1,24 @@
 import { editProfile } from '../api/user-api.js';
 import { withdrawUser } from '../api/user-api.js';
-import { setProfileImage } from './common.js';
 import { resizeImage, centerImage } from '../utils/imageUtils.js';
 import { API_URLS } from '../utils/config.js';
 const baseUrl = API_URLS.base;
 
-const { profileBtn, profileInput, imgTag, profileMark, editBtn, nicknameInput, helperText, toastMessage, confirmBtn, withdrawBtn, modalOverlay, cancelBtn } = {
+const { 
+    profileBtn, 
+    profileInput, 
+    imgTag, 
+    profileMark, 
+    editBtn, 
+    nicknameInput, 
+    helperText, 
+    toastMessage, 
+    confirmBtn, 
+    withdrawBtn, 
+    modalOverlay, 
+    cancelBtn,
+    emailInput 
+} = {
     profileBtn: document.querySelector('.profile-image'),
     profileInput: document.querySelector('#profile-input'),
     imgTag: document.querySelector('.profile-image img'),
@@ -18,12 +31,14 @@ const { profileBtn, profileInput, imgTag, profileMark, editBtn, nicknameInput, h
     withdrawBtn: document.querySelector('#withdrawBtn'),
     modalOverlay: document.querySelector('#modalOverlay'),
     cancelBtn: document.querySelector('#cancelBtn'),
+    emailInput: document.querySelector('#userEmail'),
 }
 
 // 유효성 검사 여부 확인
 let isValid = {
     image: false,
-    nickname: false
+    nickname: false,
+    email: false
 };
 
 // 모든 유효성 검사 통과 여부 확인
@@ -104,14 +119,25 @@ const nicknameValid = () => {
     }, 1000);
 }
 
+// 이메일 입력 검사 
+emailInput.addEventListener('input', () => {
+    const emailValue = emailInput.value.trim(); 
+    if(emailValue === '') {
+        isValid.email = false; 
+    } else {
+        isValid.email = true; 
+    }
+    check_all(); 
+});
+
 
 // 프로필 수정 
 let changeImage = false; 
 let currentImage = profileBtn.style.backgroundImage;
 const handleEditProfile = async () => {
     try {
-        const email = document.querySelector('#userEmail').value;
-        const nickname = nicknameInput.value;
+        const email = emailInput.value.trim();
+        const nickname = nicknameInput.value.trim();
 
         const formData = new FormData();
         formData.append('email', email);
@@ -119,33 +145,36 @@ const handleEditProfile = async () => {
         if (changeImage && profileInput.files.length > 0) {
             formData.append('profileImage', profileInput.files[0]);
         }
+        const result = await editProfile(formData); 
 
-        console.log('FormData 내용 확인:');
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
-
-        const result = await editProfile(formData);
-        
-        nicknameValid();
-        
         // 서버에서 받은 이미지 경로로 업데이트
-        if (result.user && result.user.profileImage) {
-            const newImageUrl = `${baseUrl}${result.user.profileImage}`;
-            localStorage.setItem('profileImage', newImageUrl);
-            localStorage.setItem('nickname', result.user.nickname);
+        if (result && result.user) {  
+            const { profileImage, nickname, email } = result.user; 
             
-            // 네비게이션 바의 프로필 이미지 업데이트
-            const navProfileImage = document.querySelector('.login-icon img');
-            if (navProfileImage) {
-                navProfileImage.src = newImageUrl;
+            if (profileImage) {
+                const newImageUrl = `${baseUrl}${profileImage}`;
+                localStorage.setItem('profileImage', newImageUrl);
+                profileBtn.style.backgroundImage = `url(${newImageUrl})`;
+                currentImage = newImageUrl; 
+
+                // 네비게이션 바의 프로필 이미지 업데이트
+                const navProfileImage = document.querySelector('.login-icon img');
+                if (navProfileImage) {
+                    navProfileImage.src = newImageUrl;
+                } 
             }
             
-            // 현재 프로필 이미지 업데이트
-            currentImage = newImageUrl;
-            profileBtn.style.backgroundImage = `url(${newImageUrl})`;
+            if(nickname) {
+                localStorage.setItem('nickname', nickname);
+                nicknameInput.value = nickname;
+            }
+
+            if(email) {
+                localStorage.setItem('email', email);
+                emailInput.value = email; 
+            }
         }
-        
+        nicknameValid();
         console.log('프로필 수정 성공:', result);
         
     } catch (error) {
@@ -199,9 +228,6 @@ const loadUserInfo = async () => {
         const userEmail = localStorage.getItem('email');
         const userId = localStorage.getItem('userId');
         const storedNickname = localStorage.getItem('nickname');
-        //const storedProfileImage = localStorage.getItem('profileImage');
-        
-        console.log('로드된 사용자 정보:', { userEmail, userId }); 
         
         if (!userEmail || !userId) {
             console.log('기본 정보 누락:', { userEmail, userId });
@@ -209,11 +235,8 @@ const loadUserInfo = async () => {
             window.location.href = '/page/Log in.html';
             return;
         }
- 
-        // userId를 그대로 사용
+
         const url = `${baseUrl}/users/profile/${userId}`; 
-        
-        console.log('API 요청 URL:', url);
 
         const response = await fetch(url, {
             method: 'GET',
@@ -230,10 +253,9 @@ const loadUserInfo = async () => {
 
         const userData = await response.json();
         
-        // 이메일 설정
-        const emailInput = document.querySelector('#userEmail');
-        if (emailInput) {
-            emailInput.value = userEmail;
+        if(emailInput) {
+            emailInput.value = userEmail || '';
+            isValid.email = !!userEmail; 
         }
         
         // 프로필 이미지 설정
@@ -269,11 +291,6 @@ const loadUserInfo = async () => {
         
     } catch (error) {
         console.error('사용자 정보 로드 실패:', error);
-        console.log('localStorage 내용:', {
-            email: localStorage.getItem('email'),
-            userId: localStorage.getItem('userId'),
-            nickname: localStorage.getItem('nickname')
-        }); // 디버깅용 로그
         alert('사용자 정보를 불러오는데 실패했습니다.');
         window.location.href = '/page/Log in.html';
     }
