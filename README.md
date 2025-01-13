@@ -65,17 +65,6 @@
 📁 data
    ├── comments.json
    └── posts.json
-📁 image
-   ├── back.png
-   ├── basic.png
-   ├── contentImg.jpg
-   ├── contentImg2.jpg
-   ├── default.jpeg
-   ├── email.png
-   ├── password.png
-   ├── profileImg.png
-   ├── profileImg2.png
-   └── user.png
 📁 page
    ├── Log in.html
    ├── Posts.html
