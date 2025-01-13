@@ -1,25 +1,130 @@
-# 커뮤니티 
+## 커뮤니티 : The Hazel Grove 
+### 💁 Introduce
+`The Hazel Grove`는 사용자가 게시글을 작성하고 댓글을 달며 소통할 수 있는 커뮤니티 웹 애플리케이션입니다. 
 
-## Stacks
-![HTML](https://img.shields.io/badge/HTML-5-orange)
-![CSS](https://img.shields.io/badge/CSS-3-blue)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+<br>
 
-## 회고
-### 👍 좋았던 점
-- 과제를 진행하며 무엇을 알고 모르는지 정확하게 파악할 수 있었다.
-- 매일매일 하루에 최소 12시간에서 15시간 넘게 까지 온전히 집중하고 몰입하는 시간이었다.
-- 책임을 다하는 사람, 노력하는 사람이라는 표어를 장점으로 내세울 때 증명할 방법이 없었는데 이번 기회에 증명할 수 있었다.
-- 가이드가 주어진 상태에서 프로젝트를 진행하는 건 처음이라 색다르고 즐거웠다.
+## 📚 Stacks
+#### 🖥️ Frontend
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
+<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 
-### 📖 배운 점
-- 요구 사항을 정확하게 파악하는 것이 중요하다는 것을 배웠다. 요구 사항을 제대로 파악 하지 못하면 시간이 배로 들게 된다.
-- 어려움을 마주할 때마다 혼자 해결해보며 자기 주도적인 문제 해결 방법을 배웠다.
+#### ⚙️ Backend 
+<img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
 
-### 😔 아쉬운 점
-- 기간 안에 완벽하게 끝내고 싶었는데 끝내지 못한 점이 매우 아쉽다.
-- 같은 과제가 주어졌을 때 각자 진도가 다른 법인데 이를 신경 쓴 점이 아쉽다.
-- 스스로의 부족한 점을 다시 통감하고 배우러 온 것이지만 처음부터 완벽하게 해내고 싶다는 생각이 크다.
 
-### 🔥 개선할 점
-- 이번 과제를 진행하며 질문을 남기지 않았는데 앞으로 진행할 과제에선 혼자 해결하는 것도 좋지만 필요할 땐 질문하는 습관이 필요하다.
+<br>
+
+
+## ✨ Main features
+### 📝 게시글 관리 
+- 게시글 작성, 수정, 삭제
+- 게시글 상세 페이지: 좋아요, 댓글 확인, 조회수 집계
+### 👤 유저 관리 
+- 회원가입 및 로그인
+- 사용자 정보 수정
+- 비밀번호 변경
+- 회원 탈퇴
+### 💬 댓글 관리 
+- 댓글 작성, 수정, 삭제
+
+<br>
+
+## 🚀 Starting Guide
+### ⚙️ 의존성 설치
+`npm install`
+### 🖥️ 프론트엔드 
+`node server.js`
+### 🛠️ 백엔드 
+`node index.js`
+### 🔗 접속 링크
+`http://localhost:3000`
+
+<br>
+
+## 📂 Short Directory
+- api/: API 라우트
+- data/: JSON 더미 데이터 
+- scripts/: 프론트엔드 JavaScript 로직
+- style/: CSS 스타일
+- utils/: 유틸리티 함수 
+
+<br>
+
+
+## 📁 Directory
+```Shell
+📁 api
+   ├── auth-api.js
+   ├── comments-api.js
+   ├── posts-api.js
+   └── user-api.js
+📁 data
+   ├── comments.json
+   └── posts.json
+📁 image
+   ├── back.png
+   ├── basic.png
+   ├── contentImg.jpg
+   ├── contentImg2.jpg
+   ├── default.jpeg
+   ├── email.png
+   ├── password.png
+   ├── profileImg.png
+   ├── profileImg2.png
+   └── user.png
+📁 page
+   ├── Log in.html
+   ├── Posts.html
+   ├── Sign in.html
+   ├── data.html
+   ├── edit password.html
+   ├── edit post.html
+   ├── edit profile.html
+   ├── make post.html
+   └── post.html
+📁 scripts
+   ├── Log in.js
+   ├── Posts.js
+   ├── Sign in.js
+   ├── common.js
+   ├── edit password.js
+   ├── edit post.js
+   ├── edit profile.js
+   ├── infinityScroll.js
+   ├── make post.js
+   └── post.js
+📁 style
+   ├── Log in.css
+   ├── Posts.css
+   ├── Sign in.css
+   ├── edit password.css
+   ├── edit post.css
+   ├── edit profile.css
+   ├── make post.css
+   ├── modal.css
+   ├── post.css
+   └── style.css
+📁 utils
+   ├── config.js
+   ├── convertUtils.js
+   ├── currentDate.js
+   ├── imageUtils.js
+   ├── markCheckUtils.js
+   ├── modalUtils.js
+   ├── redirectLogin.js
+   ├── renderUtils.js
+   ├── selectDomUtils.js
+   └── validationUtils.js
+```
+
+
+<br>
+
+
+## ✉️ Contributing 
+- 이슈 등록 : 버그 리포트나 새로운 아이디어는 Issue에 등록해주세요. 
+- `https://github.com/100-hours-a-week/2-hazel--jo-community-issue`
