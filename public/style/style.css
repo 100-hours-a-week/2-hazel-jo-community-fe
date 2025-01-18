@@ -180,3 +180,30 @@
     color: #333333; 
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
 }
+
+
+/* TOP 버튼 */
+#scrollTop {
+    display: none;
+    position: fixed;
+    bottom: 110px; /* 브라우저 아래쪽 끝에서부터의 거리 */
+    right: 100px; /* 브라우저 오른쪽 끝에서부터의 거리 */
+    cursor: pointer;
+    z-index: 99;
+}
+
+/* DOWN 버튼 */
+#scrollDown {
+    display: none;
+    position: fixed;
+    bottom: 30px; /* 브라우저 아래쪽 끝에서부터의 거리 */
+    right: 100px; /* 브라우저 오른쪽 끝에서부터의 거리 */
+    cursor: pointer;
+    z-index: 99;
+}
+
+#doz_footer {
+    position: relative;
+    margin-top: 50px;
+    clear: both; /* 플로팅된 요소가 있으면 해제 */
+}

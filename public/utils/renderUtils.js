@@ -166,4 +166,5 @@ export const renderPosts = (post) => {
           </div>
       </div>
   `;
+
 }
