@@ -10,7 +10,6 @@ import { convertK } from "../utils/convertUtils.js";
 const loadCommentCount = async (postId) => {
     try {
         const { comment_count } = await getCommentCount(postId);
-        console.log('comment_count 로드:', comment_count);
         return comment_count;    
     } catch (error) {
         console.error('댓글 수 로드 오류:', error);
@@ -252,9 +251,8 @@ window.onload = async () => {
             const savedComment = await createComment(postId, { content: commentText });
             
             if (savedComment && savedComment.comment) {
-
                 await updateCommentCountDom(postId); 
-                console.log('댓글 작성 후 댓글 수 업데이트 완료');
+                
                 // 댓글 렌더링 
                 const commentList = document.querySelector('.comment-list');
 
