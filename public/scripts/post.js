@@ -3,16 +3,39 @@ import { loadComments, createComment, deleteComment, updateComment } from "../ap
 import { getCurrentUser } from "../api/auth-api.js";
 import { modalOpen, modalClose } from "../utils/modalUtils.js";
 import { renderComment, renderPost } from "../utils/renderUtils.js";
+import { convertK } from "../utils/convertUtils.js";
 
 
-// 게시글 댓글 수 로드 및 DOM 업데이트 함수 
+// 게시글 댓글 수 로드 함수 
 const loadCommentCount = async (postId) => {
     try {
-        const { commentCount } = await getCommentCount(postId);
-        return commentCount;    
+        const { comment_count } = await getCommentCount(postId);
+        console.log('comment_count 로드:', comment_count);
+        return comment_count;    
     } catch (error) {
-        console.error('댓글 개수 로드 오류:', error);
+        console.error('댓글 수 로드 오류:', error);
         return null;
+    }
+}
+
+// 댓글 수 업데이트 함수 
+const updateCommentCount = (count) => {
+    const commentCountElement = document.getElementById('commentCount');
+    if(commentCountElement) {
+        commentCountElement.textContent = convertK(count);
+        commentCountElement.dataset.commentCount = count; 
+    }
+};
+
+// 게시글 댓글 수 DOM 업데이트 함수 
+const updateCommentCountDom = async (postId) => {
+    try {
+        const commentCount = await loadCommentCount(postId);
+        if(commentCount !== null) {
+            updateCommentCount(commentCount);
+        }
+    } catch (error) {
+        console.error('댓글 수 업데이트 오류:', error);
     }
 }
 
@@ -86,6 +109,7 @@ window.onload = async () => {
                 }
             }
         }
+
         // 댓글 삭제 버튼
         if (e.target.classList.contains('comment-delete')) {
             // 클릭된 삭제 버튼의 댓글 아이디 불러옴 
@@ -103,13 +127,18 @@ window.onload = async () => {
         if (e.target.id === 'confirmCommentBtn') {
             try {
               await deleteComment(postId, selectedCommentId);
-              // 댓글 수 업데이트 함수 호출 
-              await loadCommentCount(postId);
+              await updateCommentCountDom(postId);
+              const commentCount = await loadCommentCount(postId);
+              updateCommentCount(commentCount); 
 
               const commentModalOverlay = document.getElementById('commentModalOverlay');
               modalClose(commentModalOverlay);
-              
-              window.location.reload();
+
+              // 댓글 요소 제거 
+              const commentElement = document.querySelector(`[data-comment-id="${selectedCommentId}"]`);
+              if(commentElement) {
+                commentElement.remove(); 
+              }
             } catch (error) {
               console.error('댓글 삭제 오류: ', error);
               if (error.message.includes('권한이 없습니다')) {
@@ -161,15 +190,22 @@ window.onload = async () => {
                 }
                 
                 await updateComment(selectedCommentId, { content: updatedContent });
+
+                // 댓글 내용 업데이트 
+                const commentElement = document.querySelector(`[data-comment-id="${selectedCommentId}"]`);
+                if(commentElement) {
+                    const commentTextElement = commentElement.querySelector('.comment-text');
+                    if(commentTextElement) {
+                        commentTextElement.textContent = updatedContent;
+                    }
+                }
                 
                 // UI 초기화
                 commentTextarea.value = '';
                 commentSubmitBtn.style.display = 'block';
                 document.querySelector('.comment-edit-submit').style.display = 'none';
                 selectedCommentId = null;
-                
-                // 페이지 새로고침
-                window.location.reload();
+
                 
             } catch (error) {
                 console.error('댓글 수정 오류:', error);
@@ -212,17 +248,25 @@ window.onload = async () => {
             if (!currentUserInfo) {
                 throw new Error('로그인이 필요합니다.');
             }
-
+            // 댓글 생성 API 호출 
             const savedComment = await createComment(postId, { content: commentText });
-            // 댓글 수 업데이트 함수 호출 
-            await loadCommentCount(postId);
-            window.location.reload(); 
             
-            const commentList = document.querySelector('.comment-list');
-            
-            // 서버에서 반환된 댓글 데이터로 렌더링
             if (savedComment && savedComment.comment) {
-                commentList.insertAdjacentHTML('afterbegin', renderComment(savedComment.comment, currentUserInfo));
+
+                await updateCommentCountDom(postId); 
+                console.log('댓글 작성 후 댓글 수 업데이트 완료');
+                // 댓글 렌더링 
+                const commentList = document.querySelector('.comment-list');
+
+                // 댓글 렌더링 
+                const renderCommentUserData = {
+                    ...savedComment.comment,
+                    user_id: currentUserInfo.user.userId,
+                    user_nickname: currentUserInfo.user.nickname,
+                    profile_image: currentUserInfo.user.profileImage,
+                };
+
+                commentList.insertAdjacentHTML('afterbegin', renderComment(renderCommentUserData, currentUserInfo));
                 
                 // 입력창 초기화
                 commentTextarea.value = '';
