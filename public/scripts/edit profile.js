@@ -2,6 +2,7 @@ import { editProfile } from '../api/user-api.js';
 import { withdrawUser } from '../api/user-api.js';
 import { resizeImage, centerImage } from '../utils/imageUtils.js';
 import { API_URLS } from '../utils/config.js';
+import { redirectLogin } from '../utils/redirectLogin.js';
 const baseUrl = API_URLS.base;
 
 const { 
@@ -193,11 +194,6 @@ const successWithdraw = async () => {
         await withdrawUser();
         modalOverlay.style.display = 'none';  
         
-        // 로컬 스토리지 클리어
-        localStorage.clear();
-        
-        // API 호출이 성공한 후에 페이지 이동
-        window.location.href = '/page/Log in.html';
     } catch (error) {
         console.error('회원 탈퇴 실패:', error);
         alert('회원 탈퇴에 실패했습니다.');
@@ -228,12 +224,10 @@ const loadUserInfo = async () => {
         const userEmail = localStorage.getItem('email');
         const userId = localStorage.getItem('userId');
         const storedNickname = localStorage.getItem('nickname');
-        
-        if (!userEmail || !userId) {
-            console.log('기본 정보 누락:', { userEmail, userId });
-            alert('로그인이 필요합니다.');
-            window.location.href = '/page/Log in.html';
-            return;
+
+        if(!userId) {
+            redirectLogin(); 
+            return; 
         }
 
         const url = `${baseUrl}/users/profile/${userId}`; 
@@ -248,7 +242,11 @@ const loadUserInfo = async () => {
         });
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if(response.status === 401 || response.status === 404) {
+                window.location.href = '/page/Log in.html';
+                return; 
+            } 
+            throw new Error(`HTTP error! status: ${response.status}`);    
         }
 
         const userData = await response.json();
@@ -291,8 +289,7 @@ const loadUserInfo = async () => {
         
     } catch (error) {
         console.error('사용자 정보 로드 실패:', error);
-        alert('사용자 정보를 불러오는데 실패했습니다.');
-        window.location.href = '/page/Log in.html';
+        redirectLogin(); 
     }
 } 
 

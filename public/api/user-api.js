@@ -81,25 +81,34 @@ export const logoutUser = async () => {
 export const withdrawUser = async () => {
     try {
         const userId = localStorage.getItem('userId');
+        console.log('회원 탈퇴 요청 userId:', userId);
         const response = await fetch(`${userUrl}/${userId}`, {
             method: 'DELETE',
-            credentials: 'include'
+            credentials: 'include',
         });
 
+        // 응답 상태 코드 확인 
         if (!response.ok) {
-            throw new Error('회원 탈퇴에 실패했습니다.');
+            const errorData = await response.json(); 
+            throw new Error(errorData.message || '회원 탈퇴에 실패했습니다.');
         }
 
-        const data = await response.json();
-        console.log('회원 탈퇴 응답:', data);
-        alert('회원 탈퇴가 완료되었습니다.');
+        const data = await response.json(); 
+        console.log('data: ', data);
 
-        return data;
+        alert(data.message || '회원 탈퇴가 완료되었습니다.');
+        localStorage.clear(); 
+
+        // 탈퇴 성공 후 추가 로드 방지 
+        if(data.sessionCleared) {
+            redirectLogin();
+        }
     } catch (error) {
         console.error('회원 탈퇴 에러:', error);
+        alert(error.message);
         throw error;
     }
-}
+};
 
 // 사용자 정보 불러오기 
 export const loadUserInfo = async (userId) => {
@@ -109,8 +118,12 @@ export const loadUserInfo = async (userId) => {
             credentials: 'include',
         });
 
+        console.log('응답 상태 코드:', response.status);
+
         if (response.status === 401) {
+            console.warn('세션이 만료되었습니다.');
             redirectLogin();
+            return;
         }
 
         if (!response.ok) {
@@ -124,4 +137,4 @@ export const loadUserInfo = async (userId) => {
         console.error('사용자 정보 불러오기 오류:', error);
         throw error;
     }
-}
+};
