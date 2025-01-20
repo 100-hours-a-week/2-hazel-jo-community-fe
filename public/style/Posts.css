@@ -97,11 +97,21 @@ body {
     font-family: 'BinggraeMelona-Bold';
 }
 
-.post-stats {
+.post-stats-container {
     display: flex;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18.2px;
+    flex-direction: row;  
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 15px;
+}
+
+.stat-icon {
+    margin-right: 8px;
 }
 
 /*게시글 작성자*/

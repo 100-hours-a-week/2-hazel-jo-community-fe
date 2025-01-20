@@ -96,17 +96,17 @@ export const renderPost = (post, currentUserInfo) => {
       <div class="post-stats">
         <div class="stat-item">
           <button class="like-post" data-post-id="${post.post_id}">
+            <img src="/image/like3.png" height=20px width=20px class="stat-icon">
             <span class="count" data-like-count="${post.post_id}">${convertK(post.like)}</span>
-            <span>좋아요</span>
           </button>
         </div>
         <div class="stat-item">
+          <img src="/image/view.png" height=20px width=20px class="stat-icon">
           <span class="count" data-view-count="${post.post_id}">${convertK(post.view)}</span>
-          <span>조회수</span>
         </div>
         <div class="stat-item">          
+          <img src="/image/comment.png" height=20px width=20px class="stat-icon">  
           <span class="count" id="commentCount" data-comment-count="${post.post_id}">${convertK(commentCnt)}</span>
-          <span>댓글</span>
         </div>
       </div>
     </article>
@@ -151,9 +151,18 @@ export const renderPosts = (post) => {
           <h4>${truncatedTitle}</h4>
           <div class="post-info">
               <div class="post-stats-container">
-                  <span>좋아요 ${convertK(post.like)}</span>
-                  <span>댓글 ${convertK(post.comment)}</span>
-                  <span>조회수 ${convertK(post.view)}</span>
+                  <div class="stat-item">
+                    <img src="/image/like3.png" height=20px width=20px alt="좋아요" class="stat-icon">
+                    <span class="count">${convertK(post.like)}</span>
+                </div>
+                <div class="stat-item">
+                    <img src="/image/comment.png" height=20px width=20px alt="댓글" class="stat-icon">
+                    <span class="count">${convertK(post.comment)}</span>
+                </div>
+                <div class="stat-item">
+                    <img src="/image/view.png" height=20px width=20px alt="조회수" class="stat-icon">
+                    <span class="count">${convertK(post.view)}</span>
+                </div>
               </div>
               <div class="post-date">
                   <span>${formattedDatte}</span>
