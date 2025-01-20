@@ -69,7 +69,6 @@ export const logoutUser = async () => {
             method: 'POST',
             credentials: 'include'
         });
-        console.log('로그아웃 응답:', response);
         alert('로그아웃에 성공했습니다.');
 
     } catch (error) {
@@ -81,7 +80,7 @@ export const logoutUser = async () => {
 export const withdrawUser = async () => {
     try {
         const userId = localStorage.getItem('userId');
-        console.log('회원 탈퇴 요청 userId:', userId);
+        
         const response = await fetch(`${userUrl}/${userId}`, {
             method: 'DELETE',
             credentials: 'include',
@@ -94,7 +93,6 @@ export const withdrawUser = async () => {
         }
 
         const data = await response.json(); 
-        console.log('data: ', data);
 
         alert(data.message || '회원 탈퇴가 완료되었습니다.');
         localStorage.clear(); 
@@ -117,8 +115,6 @@ export const loadUserInfo = async (userId) => {
             method: 'GET',
             credentials: 'include',
         });
-
-        console.log('응답 상태 코드:', response.status);
 
         if (response.status === 401) {
             console.warn('세션이 만료되었습니다.');

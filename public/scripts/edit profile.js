@@ -176,7 +176,6 @@ const handleEditProfile = async () => {
             }
         }
         nicknameValid();
-        console.log('프로필 수정 성공:', result);
         
     } catch (error) {
         console.error('프로필 수정 실패:', error);

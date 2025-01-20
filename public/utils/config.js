@@ -4,7 +4,7 @@ function getApiUrl() {
         return 'http://localhost:5001';
     } else {
         console.log('Using deployed API URL');
-        return 'http://43.203.172.138:5001';
+        return 'http://43.203.225.133:5001';
     }
 }
 
