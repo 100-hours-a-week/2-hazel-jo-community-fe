@@ -4,7 +4,8 @@ function getApiUrl() {
         return 'http://localhost:5001';
     } else {
         console.log('Using deployed API URL');
-        return 'http://43.203.225.133:5001';
+        //return 'http://43.203.225.133:5001';
+        return 'http://hazel-grove-nut.kro.kr:5001'; 
     }
 }
 
