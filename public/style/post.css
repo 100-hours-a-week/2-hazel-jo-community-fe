@@ -149,7 +149,7 @@ body {
   border-radius: 16px;
   gap: 8px;
   border: none;
-  background-color: white;
+  background-color: transparent;
 }
 
 .like-post:hover .stat-icon {
