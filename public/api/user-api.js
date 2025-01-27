@@ -94,7 +94,7 @@ export const withdrawUser = async () => {
 
         const data = await response.json(); 
 
-        alert(data.message || '회원 탈퇴가 완료되었습니다.');
+        //alert(data.message || '회원 탈퇴가 완료되었습니다.');
         localStorage.clear(); 
 
         // 탈퇴 성공 후 추가 로드 방지 
@@ -103,7 +103,7 @@ export const withdrawUser = async () => {
         }
     } catch (error) {
         console.error('회원 탈퇴 에러:', error);
-        alert(error.message);
+        //alert(error.message);
         throw error;
     }
 };
