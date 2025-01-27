@@ -119,9 +119,8 @@ export const renderComment = (comment, currentUserInfo) => {
 
     // 현재 로그인한 사용자와 댓글 작성자가 일치하는지 확인
     const isCommentAuthor = currentUserInfo && currentUserInfo.user.userId === Number(comment.user_id);
-
     return `
-    <div class="comment-item" data-comment-id="${comment.comment_id}">
+    <div class="comment-item" data-comment-id="${String(comment.comment_id)}">
         <div class="comment-author">
             <div class="author-info">
                 <img src="${getProfileImage(comment.profile_image)}" alt="프로필">

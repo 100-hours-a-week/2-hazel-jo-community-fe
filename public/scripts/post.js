@@ -133,8 +133,10 @@ window.onload = async () => {
               const commentModalOverlay = document.getElementById('commentModalOverlay');
               modalClose(commentModalOverlay);
 
+              const commentId = typeof selectedCommentId === 'object' ? selectedCommentId.insertId : selectedCommentId;
+
               // 댓글 요소 제거 
-              const commentElement = document.querySelector(`[data-comment-id="${selectedCommentId}"]`);
+              const commentElement = document.querySelector(`[data-comment-id="${String(commentId)}"]`);
               if(commentElement) {
                 commentElement.remove(); 
               }
@@ -151,7 +153,9 @@ window.onload = async () => {
         // 댓글 수정 버튼 클릭 시
         if(e.target.classList.contains('comment-edit')) {
             const commentItem = e.target.closest('.comment-item');
-            const commentId = commentItem.dataset.commentId;
+            const commentId = parseInt(commentItem.dataset.commentId);
+            selectedCommentId = commentId;            
+            
             const commentText = commentItem.querySelector('.comment-text').textContent;
             
             // 댓글 입력창에 기존 내용 표시
@@ -187,11 +191,13 @@ window.onload = async () => {
                     alert('댓글 내용을 입력해주세요.');
                     return;
                 }
+
+                const commentId = parseInt(selectedCommentId);
                 
-                await updateComment(selectedCommentId, { content: updatedContent });
+                await updateComment(commentId, { content: updatedContent });
 
                 // 댓글 내용 업데이트 
-                const commentElement = document.querySelector(`[data-comment-id="${selectedCommentId}"]`);
+                const commentElement = document.querySelector(`[data-comment-id="${String(commentId)}"]`);
                 if(commentElement) {
                     const commentTextElement = commentElement.querySelector('.comment-text');
                     if(commentTextElement) {
@@ -243,27 +249,24 @@ window.onload = async () => {
         }
         
         try {
-            // 현재 로그인 한 사용자 정보가 없으면 에러 처리
-            if (!currentUserInfo) {
-                throw new Error('로그인이 필요합니다.');
-            }
             // 댓글 생성 API 호출 
             const savedComment = await createComment(postId, { content: commentText });
             
             if (savedComment && savedComment.comment) {
                 await updateCommentCountDom(postId); 
-                
-                // 댓글 렌더링 
-                const commentList = document.querySelector('.comment-list');
 
-                // 댓글 렌더링 
+                const commentId = String(savedComment.comment.comment_id);
+                
                 const renderCommentUserData = {
-                    ...savedComment.comment,
+                    content: commentText,
+                    comment_id: commentId,
                     user_id: currentUserInfo.user.userId,
                     user_nickname: currentUserInfo.user.nickname,
                     profile_image: currentUserInfo.user.profileImage,
                 };
-
+                
+                // 댓글 렌더링 
+                const commentList = document.querySelector('.comment-list');
                 commentList.insertAdjacentHTML('afterbegin', renderComment(renderCommentUserData, currentUserInfo));
                 
                 // 입력창 초기화
